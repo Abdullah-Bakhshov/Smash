@@ -23,8 +23,6 @@ struct ContentView: View {
     }
 }
 
-
-
 struct LoginOverlay: View {
     
     @State private var Username: String = ""
