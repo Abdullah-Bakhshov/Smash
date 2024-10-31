@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B9A2C7802CD4333D004378EF /* AnimateText */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B9BD40A42CD15C66000C0885 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B9A2C77F2CD4333D004378EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B9BD408A2CD15C64000C0885 = {
 			isa = PBXGroup;
 			children = (
 				B9BD40952CD15C64000C0885 /* Smash */,
 				B9BD40A62CD15C66000C0885 /* SmashTests */,
 				B9BD40B02CD15C66000C0885 /* SmashUITests */,
+				B9A2C77F2CD4333D004378EF /* Frameworks */,
 				B9BD40942CD15C64000C0885 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +125,7 @@
 			);
 			name = Smash;
 			packageProductDependencies = (
+				B9A2C7802CD4333D004378EF /* AnimateText */,
 			);
 			productName = Smash;
 			productReference = B9BD40932CD15C64000C0885 /* Smash.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = B9BD408A2CD15C64000C0885;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9BD40942CD15C64000C0885 /* Products */;
 			projectDirPath = "";
@@ -558,6 +575,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jasudev/AnimateText.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B9A2C7802CD4333D004378EF /* AnimateText */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */;
+			productName = AnimateText;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B9BD408B2CD15C64000C0885 /* Project object */;
 }

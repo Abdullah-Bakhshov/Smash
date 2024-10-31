@@ -16,7 +16,7 @@ struct ContentView: View {
                 BackgroundVideoPlayerView(login: 1,showloginpage: $showloginlayer)
                     .edgesIgnoringSafeArea(.all) // Make it full-screen, this is where they dynamic island is
                 if showloginlayer {
-                    LoginOverlay()
+                    LoginOverlay(animationforstringset: showloginlayer)
                 }
             }
         }
@@ -24,6 +24,9 @@ struct ContentView: View {
 }
 
 struct LoginOverlay: View {
+    
+    // For the login animation
+    @State var animationforstringset: Bool
     
     @State private var Username: String = ""
     @State private var WrongUsername: Int = 0
@@ -36,6 +39,13 @@ struct LoginOverlay: View {
     
     @State private var isHomePage: Bool = false
     @State private var isRagistationPage: Bool = false
+    
+    // Animation of the text
+
+    @State private var title_text: String = ""
+    @State var type: ATUnitType = .letters
+//     sets the delay
+    @State var userInfo: Double? = 0
     
     
     func login() {
@@ -64,12 +74,11 @@ struct LoginOverlay: View {
     var body: some View {
         VStack {
             
-            
-            Text("Get Ready, Smash")
-                .font(.largeTitle)
-                .foregroundColor(.black)
-                .padding()
 
+            //title animation
+            AnimateText<ATCurtainEffect>($title_text, type: type, userInfo: userInfo)
+                .font(.largeTitle)
+                .foregroundColor(.yellow)
             
             TextField("Username", text: $Username)
                 .padding()
@@ -77,27 +86,28 @@ struct LoginOverlay: View {
                 .cornerRadius(8)
                 .frame(width:200 , height: 50)
             
-            SecureField("Password", text: $Password)
-                .padding()
-                .background(Color.white.opacity(0.8))
-                .cornerRadius(8)
-                .frame(width:200 , height: 50)
-            
-            HStack{
-                Button(isLoggedIn ? "Logged in" : "Login") {
-                    authentication(Username: Username, Password: Password)
+            if Username == "123" {
+                HStack{
+                    SecureField("Password", text: $Password)
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(8)
+                        .frame(width: 130, height: 50)
+                    
+                    Button(isLoggedIn ? "🐼" : "✅") {
+                        authentication(Username: Username, Password: Password)
+                    }
+                    .padding()
+                    .cornerRadius(4)
                 }
-                .padding()
-                .cornerRadius(4)
-                .foregroundColor(.black)
-
+            } else {
                 Button(isRegistered ? "Registered" : "Make an Account!") {
                     register()
                 }
                 .padding()
                 .cornerRadius(4)
-                .foregroundColor(.black)
-                .frame(width:200 , height: 50)
+                .foregroundColor(.yellow)
+                .frame(width: 200, height: 50)
             }
         }
         // goes to home page if true
@@ -107,6 +117,17 @@ struct LoginOverlay: View {
         // goes to registration page if true
         .navigationDestination(isPresented: $isRagistationPage){
             RegistrationPage()
+        }
+        
+        .onAppear {
+            // Initial delay to trigger animation
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                title_text = "Get Ready"
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                title_text = "Smash"
+            }
+            
         }
     }
 }
