@@ -8,17 +8,18 @@ struct ContentView: View {
     
     @State private var showloginlayer: Bool = false
     
-    
     var body: some View {
         NavigationStack{
             ZStack {
                 // Background video view
                 BackgroundVideoPlayerView(login: 1,showloginpage: $showloginlayer)
                     .edgesIgnoringSafeArea(.all) // Make it full-screen, this is where they dynamic island is
+
                 if showloginlayer {
                     LoginOverlay(animationforstringset: showloginlayer)
                 }
             }
+            
         }
     }
 }
@@ -41,11 +42,18 @@ struct LoginOverlay: View {
     @State private var isRagistationPage: Bool = false
     
     // Animation of the text
-
+    
     @State private var title_text: String = ""
     @State var type: ATUnitType = .letters
-//     sets the delay
+    //sets the delay
     @State var userInfo: Double? = 0
+    
+    
+    @State private var vStackOpacity: Double = 0
+    
+    
+    @State private var showPasswordField: Bool = false
+    
     
     
     func login() {
@@ -56,9 +64,9 @@ struct LoginOverlay: View {
         isRegistered = true // Set to true to simulate registration success
         isRagistationPage = true
     }
-
+    
     func authentication (Username: String, Password: String){
-    //this is a tester piece of code just to get it working want to add websock and everything else later. Something good for scalling. ---- Can implement a hashmap with username as key and the value is the password, password we can use another algo called sha for encryption and then store it as the key value pair
+        //this is a tester piece of code just to get it working want to add websock and everything else later. Something good for scalling. ---- Can implement a hashmap with username as key and the value is the password, password we can use another algo called sha for encryption and then store it as the key value pair
         if Username == "123"{
             WrongUsername = 0
             if Password == "123"{
@@ -68,38 +76,52 @@ struct LoginOverlay: View {
             }
         }
     }
-
-    // got to make the text look alot nicer with animations
     
     var body: some View {
         VStack {
-            
-
             //title animation
             AnimateText<ATCurtainEffect>($title_text, type: type, userInfo: userInfo)
                 .font(.largeTitle)
-                .foregroundColor(.yellow)
-            
+                .foregroundColor(.white)
+                .bold()
             TextField("Username", text: $Username)
                 .padding()
-                .background(Color.white.opacity(0.8))
                 .cornerRadius(8)
                 .frame(width:200 , height: 50)
+                .foregroundColor(.white)
+                .onChange(of: Username) { perform:
+                    if Username == "123" {
+                        withAnimation(.easeInOut(duration: 1)) {
+                            showPasswordField = true
+                        }
+                    } else {
+                        showPasswordField = false
+                    }
+                }
             
-            if Username == "123" {
+            
+            if showPasswordField {
                 HStack{
                     SecureField("Password", text: $Password)
                         .padding()
-                        .background(Color.white.opacity(0.8))
                         .cornerRadius(8)
                         .frame(width: 130, height: 50)
-                    
-                    Button(isLoggedIn ? "🐼" : "✅") {
+                        .foregroundColor(.white)
+                        .opacity(showPasswordField ? 1 : 0) // Fade in opacity
+                        .animation(.easeInOut(duration: 1), value: showPasswordField)
+
+                    Button(isLoggedIn ? "🐼" : "💯") {
                         authentication(Username: Username, Password: Password)
                     }
+                    .font(.system(size: 30))
                     .padding()
                     .cornerRadius(4)
-                }
+                    .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 0)
+                    .opacity(showPasswordField ? 1 : 0) // Fade in opacity
+                    .animation(.easeInOut(duration: 1), value: showPasswordField)
+                    
+                    
+                }.transition(.opacity)
             } else {
                 Button(isRegistered ? "Registered" : "Make an Account!") {
                     register()
@@ -110,7 +132,9 @@ struct LoginOverlay: View {
                 .frame(width: 200, height: 50)
             }
         }
-        // goes to home page if true
+        .frame(width:1200, height:800)
+        .background(LinearGradient(colors: [.orange, .red], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
+        .opacity(vStackOpacity) // Bind opacity to state
         .navigationDestination(isPresented: $isHomePage) {
             HomePage().navigationBarBackButtonHidden(true)
         }
@@ -118,7 +142,7 @@ struct LoginOverlay: View {
         .navigationDestination(isPresented: $isRagistationPage){
             RegistrationPage()
         }
-        
+        //this happens at real time and you wanna add anything dynamic into this
         .onAppear {
             // Initial delay to trigger animation
             DispatchQueue.main.asyncAfter(deadline: .now()) {
@@ -127,11 +151,12 @@ struct LoginOverlay: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 title_text = "Smash"
             }
-            
+            withAnimation(.easeOut(duration: 2)) {
+                vStackOpacity = 1 // Fade in
+            }
         }
     }
 }
-
 
 
 struct HomePage: View {
@@ -160,12 +185,19 @@ struct HomePage: View {
 }
 
 
-
 struct ClipsPage: View {
     var body: some View {
-        Text("clips page")
+        VStack{
+            Text("clips page")
+                .foregroundColor(.white)
+                .font(.largeTitle)
+                .bold()
+        }
+        .frame(width:1200, height:800)
+        .background(LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
     }
 }
+
 
 
 
@@ -175,24 +207,45 @@ struct MatchHistoryPage: View {
         ZStack{
             BackgroundVideoPlayerView(login: 3, showloginpage: $showloginlayer)
                 .edgesIgnoringSafeArea(.all)
-            Text("match history")
+            Text("Match History")
                 .foregroundColor(.white)
                 .bold()
+                .font(.system(size:20))
         }
-        
     }
 }
 
+
+
 struct AccountSettingsPage: View {
+    @State var logout: Bool = false
+    
     var body: some View {
-        ZStack{
-            Color.black
-                .ignoresSafeArea()
-            Text("account settings")
-                .foregroundColor(.white)
+        NavigationStack{
+            ZStack{
+                Color.black
+                    .ignoresSafeArea()
+                VStack{
+                    Text("Account Settings")
+                        .foregroundColor(.white)
+                        .bold()
+                        .font(.system(size:20))
+                    
+                    Button("Logout"){
+                        logout.toggle()
+
+                    }
+                    .foregroundStyle(.white)
+                    .padding()
+                }
+            }
+            .navigationDestination(isPresented: $logout) {
+                ContentView().navigationBarBackButtonHidden(true)
+            }
         }
     }
 }
+
 
 struct StartSessionPage: View {
     @State var isAccountSettingsPage: Bool = false
