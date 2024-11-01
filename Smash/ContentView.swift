@@ -117,10 +117,8 @@ struct LoginOverlay: View {
                     .padding()
                     .cornerRadius(4)
                     .shadow(color: .black.opacity(0.3), radius: 5, x: 0, y: 0)
-                    .opacity(showPasswordField ? 1 : 0) // Fade in opacity
+                    .opacity(showPasswordField ? 1 : 0)
                     .animation(.easeInOut(duration: 1), value: showPasswordField)
-                    
-                    
                 }.transition(.opacity)
             } else {
                 Button(isRegistered ? "Registered" : "Make an Account!") {
