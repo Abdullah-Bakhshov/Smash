@@ -130,7 +130,7 @@ struct LoginOverlay: View {
                 .frame(width: 200, height: 50)
             }
         }
-        .frame(width:1200, height:800)
+        .frame(width:1800, height:1000)
         .background(LinearGradient(colors: [.orange, .red], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
         .opacity(vStackOpacity) // Bind opacity to state
         .navigationDestination(isPresented: $isHomePage) {
@@ -191,7 +191,7 @@ struct ClipsPage: View {
                 .font(.largeTitle)
                 .bold()
         }
-        .frame(width:1200, height:800)
+        .frame(width:1800, height:1000)
         .background(LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
     }
 }
