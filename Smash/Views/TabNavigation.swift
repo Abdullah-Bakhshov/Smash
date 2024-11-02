@@ -76,8 +76,6 @@ struct HomePage: View {
         selectedTab = index
     }
 }
-
-// Preview setup
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
