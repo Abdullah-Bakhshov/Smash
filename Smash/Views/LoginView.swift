@@ -15,17 +15,6 @@ struct LoginView: View {
     @State private var showPasswordField: Bool = false
     @State private var animateGradient = false
     
-    func register() {
-        isRegistered = true
-        viewingStatesModel.states.logintoregistration = true
-    }
-    
-    func authentication (username: String, password: String) {
-        if username == "123" && password == "123" {
-            viewingStatesModel.toggleLogintohome()
-        }
-    }
-    
     var body: some View {
         ZStack {
             LinearGradient(
@@ -72,7 +61,9 @@ struct LoginView: View {
                                 .animation(.easeInOut(duration: 1), value: showPasswordField)
                             
                             Button("💯") {
-                                authentication(username: username, password: password)
+                                if Authentication(UserName: username, Password: password).check() {
+                                    viewingStatesModel.toggleLogintohome()
+                                }
                             }
                             .font(.system(size: 30))
                             .padding()
@@ -83,7 +74,8 @@ struct LoginView: View {
                         }.transition(.opacity)
                     } else {
                         Button(isRegistered ? "Registered" : "Make an Account!") {
-                            register()
+                            isRegistered = true
+                            viewingStatesModel.states.logintoregistration = true
                         }
                         .padding()
                         .cornerRadius(4)

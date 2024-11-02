@@ -32,7 +32,7 @@ struct StartSessionPage: View {
                         .foregroundColor(.white)
                     
                     Button("Start a Session") {
-            
+
                     }.foregroundColor(.white)
             }
         }
