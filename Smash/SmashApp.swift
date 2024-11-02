@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct SmashApp: App {
+    @StateObject var state = ViewingStatesModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Base()
+                .environmentObject(state) // Injecting the environment object here
         }
     }
 }

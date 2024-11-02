@@ -36,7 +36,9 @@ final class NavigationCoordinator {
     func destination(for destination: NavigationDestination) -> some View {
         switch destination {
         case .login: LoginView()
-        case .home: Home()
+        case .home: HomePage()
+        case .register: RegistrationPage()
+        case .account: AccountSettingsPage()
         }
     }
 }
@@ -44,4 +46,6 @@ final class NavigationCoordinator {
 enum NavigationDestination: Hashable {
     case login
     case home
+    case register
+    case account
 }
