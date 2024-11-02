@@ -51,7 +51,6 @@ struct Base: View {
                     coordinator.destination(for: destination)
                         .navigationBarBackButtonHidden(true)
                 }
-            
                 .onChange(of: viewingStatesModel.states.showLoginLayer) { _ in
                     coordinator.push(accountLoggedIn ? .login : .home)
                 }

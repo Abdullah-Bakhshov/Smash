@@ -32,12 +32,11 @@ struct AccountSettingsPage: View {
                     .foregroundStyle(.white)
                     .padding()
                     
-                    Button("back"){
+                    Button("Back"){
                         viewingStatesModel.states.accounttostartsession = true
 
                     }
                     .foregroundStyle(.white)
-                    .padding()
                 }
             }
     }

@@ -13,20 +13,14 @@ struct LoginView: View {
     @State var userInfo: Double? = 0
     @State private var vStackOpacity: Double = 0
     @State private var showPasswordField: Bool = false
-    @State private var animateGradient = false
     
     var body: some View {
         ZStack {
             LinearGradient(
                 gradient: Gradient(colors: [.purple, .blue, .green]),
-                startPoint: animateGradient ? .topLeading : .bottomTrailing,
-                endPoint: animateGradient ? .bottomTrailing : .topLeading
-            )
-            .animation(.easeInOut(duration: 5).repeatForever(autoreverses: true), value: animateGradient)
-            .onAppear {
-                animateGradient.toggle()
-            }
-            .ignoresSafeArea()
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing)
+            .ignoresSafeArea(.all)
             ScrollView {
                 VStack {
                     Spacer(minLength: 250)
@@ -55,7 +49,7 @@ struct LoginView: View {
                                 .cornerRadius(8)
                                 .frame(width: 130, height: 50)
                                 .foregroundColor(.white)
-                                .fixedSize()  // Prevents resizing
+                                .fixedSize()
                                 .background(Color.white.opacity(0.1).cornerRadius(8))
                                 .opacity(showPasswordField ? 1 : 0)
                                 .animation(.easeInOut(duration: 1), value: showPasswordField)
@@ -79,7 +73,7 @@ struct LoginView: View {
                         }
                         .padding()
                         .cornerRadius(4)
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.white)
                         .frame(width: 200, height: 50)
                     }
                 }
