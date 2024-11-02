@@ -8,19 +8,12 @@ struct LoginView: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var isRegistered: Bool = false
-    
-    // Animation of the text
     @State private var title_text: String = ""
     @State var type: ATUnitType = .letters
     @State var userInfo: Double? = 0
-    
     @State private var vStackOpacity: Double = 0
     @State private var showPasswordField: Bool = false
-    
-    // For adjusting the view when keyboard appears
     @State private var keyboardOffset: CGFloat = 0
-    
-    // Background animation
     @State private var animateGradient = false
     
     func register() {
@@ -46,7 +39,6 @@ struct LoginView: View {
                 animateGradient.toggle()
             }
             .ignoresSafeArea()
-
             ScrollView {
                 VStack {
                     Spacer(minLength: 250)
@@ -55,7 +47,6 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .bold()
                         .fixedSize()
-                    
                     TextField("Username", text: $username)
                         .padding()
                         .cornerRadius(8)
@@ -105,7 +96,6 @@ struct LoginView: View {
                 .opacity(vStackOpacity)
                 .onAppear {
                     title_text = "Get Ready"
-                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         title_text = "Smash"
                     }
@@ -122,7 +112,6 @@ struct LoginView: View {
             }
         }
     }
-    
     private func adjustForKeyboard(notification: NotificationCenter.Publisher.Output) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
             withAnimation {

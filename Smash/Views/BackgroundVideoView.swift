@@ -30,15 +30,12 @@ struct BackgroundVideoView: UIViewRepresentable {
         guard let path = Bundle.main.path(forResource: statecheck(), ofType: "mp4") else {
             return view
         }
-
         let player = AVPlayer(url: URL(fileURLWithPath: path))
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
         player.play()
-
-        // this function keeps on refreshing
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
             if login > 1 {
                 player.seek(to: .zero)
@@ -54,10 +51,10 @@ struct BackgroundVideoView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
-        // Handle updates if necessary
+
     }
 }
 
 #Preview {
-//    BackgroundVideoView(login: 1)
+    BackgroundVideoView(login: 1)
 }
