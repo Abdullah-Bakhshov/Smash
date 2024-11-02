@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Setting up global variables
 
 struct ViewingStates {
     var showLoginLayer: Bool
@@ -53,7 +54,8 @@ struct Base: View {
     
     private var accountLoggedIn: Bool = true
 
-
+// State changes are handled within Viwqa
+    
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             BackgroundVideoView(login: 1)
@@ -66,22 +68,22 @@ struct Base: View {
                 .onChange(of: viewingStatesModel.states.showLoginLayer) { _ in
                     coordinator.push(accountLoggedIn ? .login : .home)
                 }
-                .onChange(of: viewingStatesModel.states.logintohome) { newValue in
+                .onChange(of: viewingStatesModel.states.logintohome) { _ in
                         coordinator.popToRoot()
                         coordinator.push(.home)
                 }
-                .onChange(of: viewingStatesModel.states.logintoregistration) { newValue in
+                .onChange(of: viewingStatesModel.states.logintoregistration) { _ in
                     coordinator.push(.register)
                 }
                 .onChange(of: viewingStatesModel.states.madeaccount) {
                     coordinator.pop()
                 }
-                .onChange(of: viewingStatesModel.states.startsessiontoaccount ) { newValue in
+                .onChange(of: viewingStatesModel.states.startsessiontoaccount ) { _ in
                     if viewingStatesModel.states.startsessiontoaccount == true {
                         coordinator.push(.account)
                     }
                 }
-                .onChange(of: viewingStatesModel.states.logout) { newValue in
+                .onChange(of: viewingStatesModel.states.logout) { _ in
                     coordinator.popToRoot()
                     coordinator.push(.login)
                     viewingStatesModel.states.logout = false

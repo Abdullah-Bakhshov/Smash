@@ -12,6 +12,8 @@ struct BackgroundVideoView: UIViewRepresentable {
     let login: Int
     @EnvironmentObject var viewingStatesModel: ViewingStatesModel
 
+    
+    // refactor and make this more general
     func statecheck() -> String {
         switch login {
         case 1:
@@ -36,6 +38,11 @@ struct BackgroundVideoView: UIViewRepresentable {
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
         player.play()
+        
+        
+        
+        
+        //Video Loop
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
             if login > 1 {
                 player.seek(to: .zero)

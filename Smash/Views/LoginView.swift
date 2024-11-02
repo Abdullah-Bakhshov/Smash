@@ -13,7 +13,7 @@ struct LoginView: View {
     @State var userInfo: Double? = 0
     @State private var vStackOpacity: Double = 0
     @State private var showPasswordField: Bool = false
-    @State private var keyboardOffset: CGFloat = 0
+//    @State private var keyboardOffset: CGFloat = 0
     @State private var animateGradient = false
     
     func register() {
@@ -34,7 +34,7 @@ struct LoginView: View {
                 startPoint: animateGradient ? .topLeading : .bottomTrailing,
                 endPoint: animateGradient ? .bottomTrailing : .topLeading
             )
-            .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: animateGradient)
+            .animation(.easeInOut(duration: 5).repeatForever(autoreverses: true), value: animateGradient)
             .onAppear {
                 animateGradient.toggle()
             }
@@ -92,7 +92,6 @@ struct LoginView: View {
                         .frame(width: 200, height: 50)
                     }
                 }
-                .padding(.bottom, keyboardOffset)
                 .opacity(vStackOpacity)
                 .onAppear {
                     title_text = "Get Ready"
@@ -103,19 +102,6 @@ struct LoginView: View {
                         vStackOpacity = 1
                     }
                 }
-                .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { notification in
-                    adjustForKeyboard(notification: notification)
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
-                    keyboardOffset = 0
-                }
-            }
-        }
-    }
-    private func adjustForKeyboard(notification: NotificationCenter.Publisher.Output) {
-        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            withAnimation {
-                keyboardOffset = keyboardFrame.height / 2
             }
         }
     }
