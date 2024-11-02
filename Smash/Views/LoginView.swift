@@ -13,7 +13,6 @@ struct LoginView: View {
     @State var userInfo: Double? = 0
     @State private var vStackOpacity: Double = 0
     @State private var showPasswordField: Bool = false
-//    @State private var keyboardOffset: CGFloat = 0
     @State private var animateGradient = false
     
     func register() {
