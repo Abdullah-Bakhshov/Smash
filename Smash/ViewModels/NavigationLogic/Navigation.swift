@@ -32,17 +32,6 @@ class ViewingStatesModel: ObservableObject {
                                 logout: false,
                                 madeaccount: false)
     }
-    
-    // Method to toggle the login layer state
-    func toggleLoginLayer() {
-        states.showLoginLayer.toggle()
-    }
-    
-    func toggleLogintohome() {
-        states.logintohome.toggle()
-    }
-    
-    
 }
 
 struct Base: View {
@@ -50,12 +39,10 @@ struct Base: View {
     @Bindable private var coordinator = NavigationCoordinator.shared
     @EnvironmentObject var viewingStatesModel: ViewingStatesModel
     
-    //If user is logged in previously or not
-    
+    // If user is logged in previously or not
     private var accountLoggedIn: Bool = true
 
-// State changes are handled within Viwqa
-    
+    // State changes are handled within Views
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             BackgroundVideoView(login: 1)
@@ -93,15 +80,14 @@ struct Base: View {
                         coordinator.pop()
                         viewingStatesModel.states.startsessiontoaccount = false
                         viewingStatesModel.states.accounttostartsession = false
-                    }
                 }
+            }
         }
     }
 }
 
 #Preview {
-    let mockState = ViewingStatesModel()
-    
+    let mockState = ViewingStatesModel() // we do this in smashapp and environment object needs to call on a object
     Base()
         .environmentObject(mockState)
 }

@@ -28,6 +28,7 @@ struct BackgroundVideoView: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> UIView {
+        
         let view = UIView(frame: .zero)
         guard let path = Bundle.main.path(forResource: statecheck(), ofType: "mp4") else {
             return view
@@ -38,8 +39,6 @@ struct BackgroundVideoView: UIViewRepresentable {
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
         player.play()
-        
-        
         
         
         //Video Loop
@@ -53,12 +52,10 @@ struct BackgroundVideoView: UIViewRepresentable {
                 }
             }
         }
-
         return view
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
-
     }
 }
 

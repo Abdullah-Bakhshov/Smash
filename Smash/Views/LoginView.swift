@@ -57,12 +57,12 @@ struct LoginView: View {
                                 .foregroundColor(.white)
                                 .fixedSize()  // Prevents resizing
                                 .background(Color.white.opacity(0.1).cornerRadius(8))
-                                .opacity(showPasswordField ? 1 : 0) // Fade in opacity
+                                .opacity(showPasswordField ? 1 : 0)
                                 .animation(.easeInOut(duration: 1), value: showPasswordField)
                             
                             Button("💯") {
                                 if Authentication(UserName: username, Password: password).check() {
-                                    viewingStatesModel.toggleLogintohome()
+                                    viewingStatesModel.states.logintohome = true
                                 }
                             }
                             .font(.system(size: 30))
