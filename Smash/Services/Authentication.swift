@@ -18,7 +18,7 @@ class Authentication {
     }
     
     func check() -> Bool {
-        if password == "123" && username == "123"{  // using wht we have set
+        if password == "123" && username == "123"{  // using what we have set
             return true
         }
         return false
