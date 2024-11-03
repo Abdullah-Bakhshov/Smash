@@ -51,30 +51,30 @@ struct Base: View {
                     coordinator.destination(for: destination)
                         .navigationBarBackButtonHidden(true)
                 }
-                .onChange(of: viewingStatesModel.states.showLoginLayer) { _ in
+                .onChange(of: viewingStatesModel.states.showLoginLayer) { _, _ in
                     coordinator.push(accountLoggedIn ? .login : .home)
                 }
-                .onChange(of: viewingStatesModel.states.logintohome) { _ in
+                .onChange(of: viewingStatesModel.states.logintohome) { _, _ in
                         coordinator.popToRoot()
                         coordinator.push(.home)
                 }
-                .onChange(of: viewingStatesModel.states.logintoregistration) { _ in
+                .onChange(of: viewingStatesModel.states.logintoregistration) { _, _ in
                     coordinator.push(.register)
                 }
                 .onChange(of: viewingStatesModel.states.madeaccount) {
                     coordinator.pop()
                 }
-                .onChange(of: viewingStatesModel.states.startsessiontoaccount ) { _ in
+                .onChange(of: viewingStatesModel.states.startsessiontoaccount ) { _, _ in
                     if viewingStatesModel.states.startsessiontoaccount == true {
                         coordinator.push(.account)
                     }
                 }
-                .onChange(of: viewingStatesModel.states.logout) { _ in
+                .onChange(of: viewingStatesModel.states.logout) { _, _ in
                     coordinator.popToRoot()
                     coordinator.push(.login)
                     viewingStatesModel.states.logout = false
                 }
-                .onChange(of: viewingStatesModel.states.accounttostartsession) { _ in
+                .onChange(of: viewingStatesModel.states.accounttostartsession) { _, _ in
                     if viewingStatesModel.states.accounttostartsession == true {
                         coordinator.pop()
                         viewingStatesModel.states.startsessiontoaccount = false
