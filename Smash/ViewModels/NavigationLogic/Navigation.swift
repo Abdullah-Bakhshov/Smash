@@ -6,43 +6,58 @@
 //
 
 import SwiftUI
+import Observation
 
 // Setting up global variables
 
-struct ViewingStates {
-    var showLoginLayer: Bool
-    var logintohome: Bool
-    var logintoregistration : Bool
-    var startsessiontoaccount : Bool
-    var accounttostartsession : Bool
-    var logout : Bool
-    var madeaccount : Bool
-}
+//struct ViewingStates {
+//    var showLoginLayer: Bool
+//    var logintohome: Bool
+//    var logintoregistration : Bool
+//    var startsessiontoaccount : Bool
+//    var accounttostartsession : Bool
+//    var logout : Bool
+//    var madeaccount : Bool
+//}
+//
+//class ViewingStatesModel: ObservableObject {
+//    @Published var states: ViewingStates
+//
+//    init() {
+//        self.states = ViewingStates(
+//                                showLoginLayer: false,
+//                                logintohome: false,
+//                                logintoregistration: false,
+//                                startsessiontoaccount: false,
+//                                accounttostartsession: false,
+//                                logout: false,
+//                                madeaccount: false)
+//    }
+//}
 
-class ViewingStatesModel: ObservableObject {
-    @Published var states: ViewingStates
+//@Observable class ViewingStatesModel {
+//    
+//    var showLoginLayer: Bool = false
+//    var logintohome: Bool = false
+//    var logintoregistration : Bool = false
+//    var startsessiontoaccount : Bool = false
+//    var accounttostartsession : Bool = false
+//    var logout : Bool = false
+//    var madeaccount : Bool = false
+//    
+//    init(){
+//    }
+//}
 
-    init() {
-        self.states = ViewingStates(
-                                showLoginLayer: false,
-                                logintohome: false,
-                                logintoregistration: false,
-                                startsessiontoaccount: false,
-                                accounttostartsession: false,
-                                logout: false,
-                                madeaccount: false)
-    }
-}
 
 struct Base: View {
     
     @Bindable private var coordinator = NavigationCoordinator.shared
-    @EnvironmentObject var viewingStatesModel: ViewingStatesModel
-    
+    @Bindable var states = ViewingStatesModel.shared
+
     // If user is logged in previously or not
     private var accountLoggedIn: Bool = true
 
-    // State changes are handled within Views
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             BackgroundVideoView(login: 1)
@@ -51,34 +66,34 @@ struct Base: View {
                     coordinator.destination(for: destination)
                         .navigationBarBackButtonHidden(true)
                 }
-                .onChange(of: viewingStatesModel.states.showLoginLayer) { _, _ in
+                .onChange(of: states.showloginLayer) { _, _ in
                     coordinator.push(accountLoggedIn ? .login : .home)
                 }
-                .onChange(of: viewingStatesModel.states.logintohome) { _, _ in
+                .onChange(of: states.logintohome) { _, _ in
                         coordinator.popToRoot()
                         coordinator.push(.home)
                 }
-                .onChange(of: viewingStatesModel.states.logintoregistration) { _, _ in
+                .onChange(of: states.logintoregistration) { _, _ in
                     coordinator.push(.register)
                 }
-                .onChange(of: viewingStatesModel.states.madeaccount) {
+                .onChange(of: states.madeaccount) {
                     coordinator.pop()
                 }
-                .onChange(of: viewingStatesModel.states.startsessiontoaccount ) { _, _ in
-                    if viewingStatesModel.states.startsessiontoaccount == true {
+                .onChange(of: states.startsessiontoaccount ) { _, _ in
+                    if states.startsessiontoaccount {
                         coordinator.push(.account)
                     }
                 }
-                .onChange(of: viewingStatesModel.states.logout) { _, _ in
+                .onChange(of: states.logout) { _, _ in
                     coordinator.popToRoot()
                     coordinator.push(.login)
-                    viewingStatesModel.states.logout = false
+                    states.LogoutToggle()
                 }
-                .onChange(of: viewingStatesModel.states.accounttostartsession) { _, _ in
-                    if viewingStatesModel.states.accounttostartsession == true {
+                .onChange(of: states.accounttostartsession) { _, _ in
+                    if states.accounttostartsession {
                         coordinator.pop()
-                        viewingStatesModel.states.startsessiontoaccount = false
-                        viewingStatesModel.states.accounttostartsession = false
+                        states.AccountsettingToggle()
+                        states.AccountBackToHomeToggle(back: 0)
                 }
             }
         }
@@ -86,7 +101,5 @@ struct Base: View {
 }
 
 #Preview {
-    let mockState = ViewingStatesModel() // we do this in smashapp and environment object needs to call on a object
     Base()
-        .environmentObject(mockState)
 }

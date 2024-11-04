@@ -3,8 +3,8 @@ import AnimateText
 
 struct LoginView: View {
     
-    @EnvironmentObject var viewingStatesModel: ViewingStatesModel
-    
+    @Bindable var states = ViewingStatesModel.shared
+
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var isRegistered: Bool = false
@@ -56,7 +56,7 @@ struct LoginView: View {
                             
                             Button("💯") {
                                 if Authentication(UserName: username, Password: password).check() {
-                                    viewingStatesModel.states.logintohome = true
+                                    states.LoginToHomeToggle()
                                 }
                             }
                             .font(.system(size: 30))
@@ -69,7 +69,7 @@ struct LoginView: View {
                     } else {
                         Button(isRegistered ? "Registered" : "Make an Account!") {
                             isRegistered = true
-                            viewingStatesModel.states.logintoregistration = true
+                            states.ToRegistrationToggle()
                         }
                         .padding()
                         .cornerRadius(4)

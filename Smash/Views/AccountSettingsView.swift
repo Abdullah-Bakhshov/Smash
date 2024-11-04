@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct AccountSettingsPage: View {
-    @EnvironmentObject var viewingStatesModel: ViewingStatesModel
     
+    @Bindable var states = ViewingStatesModel.shared
+
     var body: some View {
             ZStack{
                 Color.black
@@ -21,19 +22,14 @@ struct AccountSettingsPage: View {
                         .font(.system(size:20))
                     
                     Button("Logout"){
-                        viewingStatesModel.states.logout = true
-                        viewingStatesModel.states.logintohome = false
-                        viewingStatesModel.states.logintoregistration = false
-                        viewingStatesModel.states.startsessiontoaccount = false
-                        viewingStatesModel.states.accounttostartsession = false
-                        viewingStatesModel.states.madeaccount = false
+                        states.reset()
 
                     }
                     .foregroundStyle(.white)
                     .padding()
                     
                     Button("Back"){
-                        viewingStatesModel.states.accounttostartsession = true
+                        states.AccountBackToHomeToggle(back: 1)
 
                     }
                     .foregroundStyle(.white)

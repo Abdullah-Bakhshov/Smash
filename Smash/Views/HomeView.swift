@@ -10,15 +10,15 @@ import SwiftUI
 
 struct StartSessionPage: View {
     
-    @EnvironmentObject var viewingStatesModel: ViewingStatesModel
-    
+    @Bindable var states = ViewingStatesModel.shared
+
     var body: some View {
         ZStack{
             BackgroundVideoView(login: 2)
                 .edgesIgnoringSafeArea(.all)
             VStack{
                     Button("🐼"){
-                        viewingStatesModel.states.startsessiontoaccount = true
+                        states.AccountsettingToggle()
                     }
                     .font(.system(size:30))
                     .clipShape(Circle())
@@ -41,5 +41,5 @@ struct StartSessionPage: View {
 
 
 #Preview {
-    StartSessionPage()
+//    StartSessionPage()
 }

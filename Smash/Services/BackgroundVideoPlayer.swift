@@ -7,10 +7,12 @@
 
 import SwiftUI
 import AVFoundation
+import Observation
 
 struct BackgroundVideoView: UIViewRepresentable {
     let login: Int
-    @EnvironmentObject var viewingStatesModel: ViewingStatesModel
+    
+    @Bindable var states = ViewingStatesModel.shared
 
     
     // refactor and make this more general
@@ -48,7 +50,10 @@ struct BackgroundVideoView: UIViewRepresentable {
                 player.play()
             } else {
                 DispatchQueue.main.async {
-                    viewingStatesModel.states.showLoginLayer = true
+                    print("this is accessed")
+                    print(states.showloginLayer)
+                    states.LoggedInToggle()
+                    print(states.showloginLayer)
                 }
             }
         }

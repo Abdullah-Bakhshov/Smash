@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct RegistrationPage: View {
-    @EnvironmentObject var viewingStatesModel: ViewingStatesModel
-
     
+    @Bindable var states = ViewingStatesModel.shared
+
     var body: some View {
         VStack{
             Text("Register")
@@ -18,7 +18,7 @@ struct RegistrationPage: View {
                 .foregroundStyle(.white)
                 .padding()
             Button("Make Account !"){
-                viewingStatesModel.states.madeaccount = true
+                states.MadeAccountToggle()
             }
             .foregroundStyle(.white)
         }
