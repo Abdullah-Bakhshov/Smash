@@ -6,49 +6,6 @@
 //
 
 import SwiftUI
-import Observation
-
-// Setting up global variables
-
-//struct ViewingStates {
-//    var showLoginLayer: Bool
-//    var logintohome: Bool
-//    var logintoregistration : Bool
-//    var startsessiontoaccount : Bool
-//    var accounttostartsession : Bool
-//    var logout : Bool
-//    var madeaccount : Bool
-//}
-//
-//class ViewingStatesModel: ObservableObject {
-//    @Published var states: ViewingStates
-//
-//    init() {
-//        self.states = ViewingStates(
-//                                showLoginLayer: false,
-//                                logintohome: false,
-//                                logintoregistration: false,
-//                                startsessiontoaccount: false,
-//                                accounttostartsession: false,
-//                                logout: false,
-//                                madeaccount: false)
-//    }
-//}
-
-//@Observable class ViewingStatesModel {
-//    
-//    var showLoginLayer: Bool = false
-//    var logintohome: Bool = false
-//    var logintoregistration : Bool = false
-//    var startsessiontoaccount : Bool = false
-//    var accounttostartsession : Bool = false
-//    var logout : Bool = false
-//    var madeaccount : Bool = false
-//    
-//    init(){
-//    }
-//}
-
 
 struct Base: View {
     
@@ -60,35 +17,47 @@ struct Base: View {
 
     var body: some View {
         NavigationStack(path: $coordinator.path) {
+            
+            // Intro Video is played
             BackgroundVideoView(login: 1)
                 .ignoresSafeArea(.all)
+            
+            // Setting up the Navigation Destination
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     coordinator.destination(for: destination)
                         .navigationBarBackButtonHidden(true)
                 }
+                
+            // We check if we are going to home page from previous login or if we need to login
                 .onChange(of: states.showloginLayer) { _, _ in
                     coordinator.push(accountLoggedIn ? .login : .home)
                 }
+            // From Login page to home page, Login Successful
                 .onChange(of: states.logintohome) { _, _ in
                         coordinator.popToRoot()
                         coordinator.push(.home)
                 }
+            // We go from Login page to Registeration page to make a account
                 .onChange(of: states.logintoregistration) { _, _ in
                     coordinator.push(.register)
                 }
+            // From Registration page to Login page, Registration Successful
                 .onChange(of: states.madeaccount) {
                     coordinator.pop()
                 }
+            // Go to Account Settings
                 .onChange(of: states.startsessiontoaccount ) { _, _ in
                     if states.startsessiontoaccount {
                         coordinator.push(.account)
                     }
                 }
+            // Logout out of Account
                 .onChange(of: states.logout) { _, _ in
                     coordinator.popToRoot()
                     coordinator.push(.login)
                     states.LogoutToggle()
                 }
+            // Going back from Account page to Home page
                 .onChange(of: states.accounttostartsession) { _, _ in
                     if states.accounttostartsession {
                         coordinator.pop()
