@@ -15,11 +15,13 @@ Bugs and errors that need fixing:
 
 Bigger Implementations:
 
-- Add video to start session and be able to record video and save video, going to do this now.
+- Add video to start session and be able to record video and save video, going to do this now. DONE✅
+
+
+- Implement a timer and a way to add a point on the timer and make the video better and a way to open and see it on the app.
 - Add the watch OS -> UI and WCSession implementation shouldnt be too dificult, add heart sensor idk how yet
 - Store Highlights in clips -> Serialisation to store it onto disk (locally for the time being then maybe to the cloud)
 - Save previous match history and show it in history tab
-- Add the watch OS
 
 
 Further down the line stuff:
