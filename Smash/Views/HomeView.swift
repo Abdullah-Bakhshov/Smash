@@ -13,7 +13,6 @@ struct StartSessionPage: View {
     @Bindable var states = ViewingStatesModel.shared
     var permissionManager = PermissionManager()
     
-
     var body: some View {
         ZStack{
             BackgroundVideoView(login: 2)
@@ -34,7 +33,7 @@ struct StartSessionPage: View {
                         .foregroundColor(.white)
                     
                     Button("Start a Session") {
-                        // gets permision
+                    // gets permision
                         Task {
                             if await permissionManager.permisionforvideo{
                                 states.StartingGameToggle()

@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct SmashApp: App {
-
     var body: some Scene {
         WindowGroup {
             Base()

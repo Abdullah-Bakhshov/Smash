@@ -40,6 +40,7 @@ final class NavigationCoordinator {
         case .register: RegistrationPage()
         case .account: AccountSettingsPage()
         case .startsession: VideoSystem()
+        case .previewview: PreviewView()
         }
     }
 }
@@ -50,4 +51,5 @@ enum NavigationDestination: Hashable {
     case register
     case account
     case startsession
+    case previewview
 }

@@ -9,7 +9,7 @@ import SwiftUI
 import Aespa
 
 struct VideoSystem: View {
-    private var viewModel = VideoContentViewModel()
+    private var viewModel = VideoContentViewModel.shared
     private var permissionManager = PermissionManager()
     @Bindable var states = ViewingStatesModel.shared
     
@@ -24,6 +24,13 @@ struct VideoSystem: View {
             Button(action: {
                 viewModel.start.toggle()
                 viewModel.StartandStopRecording()
+                // This can cause erros if it takes longer to append a video to the array
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    if !viewModel.start {
+                        states.PreviewingGameToggle()
+                    }
+                }
+
             }) {
                 Image(systemName: viewModel.start ? "stop.circle" : "record.circle")
                     .resizable()

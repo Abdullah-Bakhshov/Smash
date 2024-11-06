@@ -10,17 +10,21 @@ import Aespa
 import Observation
 
 @Observable
-class VideoContentViewModel {
+final class VideoContentViewModel {
+    
+    static let shared = VideoContentViewModel()
+    
+    public var storage : [URL] = []
+    public var history : [Date : URL] = [ : ]
     let aespaSession: AespaSession
     var start: Bool = false
     var preview: some View {
         aespaSession.interactivePreview()
     }
 
-    init() {
+    private init() {
         let option = AespaOption(albumName: "Badminton clips")
         self.aespaSession = Aespa.session(with: option)
-        
         SetUp()
     }
 
@@ -32,7 +36,6 @@ class VideoContentViewModel {
             .common(.quality(preset: .high))
     }
     
-    
     func StartandStopRecording() {
         if start {
             aespaSession.startRecording()
@@ -42,11 +45,19 @@ class VideoContentViewModel {
                 switch result {
                 case .success(let file):
                     print(file.path!)
+                    self.storage.append(file.path!)
+                    self.history[file.creationDate] = file.path!
+                    print(self.storage)
                 case .failure(let error):
                     print(error)
                 }
             }
         }
+    }
+    
+    func URLReturn () -> URL {
+        let url = storage.last
+        return url!
     }
 }
 

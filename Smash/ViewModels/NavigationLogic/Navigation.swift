@@ -12,7 +12,6 @@ struct Base: View {
     @Bindable private var coordinator = NavigationCoordinator.shared
     @Bindable var states = ViewingStatesModel.shared
 
-
     // If user is logged in previously or not
     private var accountLoggedIn: Bool = true
 
@@ -74,6 +73,14 @@ struct Base: View {
                         coordinator.pop()
                     }
                 }
+            
+                .onChange(of: states.previewinggame){_, _ in
+                    if states.previewinggame{
+                        coordinator.push(.previewview)
+                    } else {
+                        coordinator.pop()
+                    }
+            }
         }
     }
 }
