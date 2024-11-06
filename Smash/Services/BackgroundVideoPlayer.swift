@@ -7,7 +7,6 @@
 
 import SwiftUI
 import AVFoundation
-import Observation
 
 struct BackgroundVideoView: UIViewRepresentable {
     let login: Int
@@ -50,10 +49,7 @@ struct BackgroundVideoView: UIViewRepresentable {
                 player.play()
             } else {
                 DispatchQueue.main.async {
-                    print("this is accessed")
-                    print(states.showloginLayer)
                     states.LoggedInToggle()
-                    print(states.showloginLayer)
                 }
             }
         }
@@ -63,6 +59,10 @@ struct BackgroundVideoView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: Context) {
     }
 }
+
+
+
+
 
 #Preview {
     BackgroundVideoView(login: 1)

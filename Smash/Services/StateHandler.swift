@@ -19,6 +19,7 @@ import Observation
     private(set) var accounttostartsession : Bool = false
     private(set) var logout : Bool = false
     private(set) var madeaccount : Bool = false
+    private(set) var startingagame : Bool = false
     
     private init(){}
     
@@ -57,6 +58,10 @@ import Observation
     
     func MadeAccountToggle(){
         madeaccount.toggle()
+    }
+    
+    func StartingGameToggle(){
+        startingagame.toggle()
     }
     
 }

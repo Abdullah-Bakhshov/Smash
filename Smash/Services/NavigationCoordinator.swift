@@ -39,6 +39,7 @@ final class NavigationCoordinator {
         case .home: HomePage()
         case .register: RegistrationPage()
         case .account: AccountSettingsPage()
+        case .startsession: VideoSystem()
         }
     }
 }
@@ -48,4 +49,5 @@ enum NavigationDestination: Hashable {
     case home
     case register
     case account
+    case startsession
 }

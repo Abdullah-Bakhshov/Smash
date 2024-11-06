@@ -11,6 +11,8 @@ import SwiftUI
 struct StartSessionPage: View {
     
     @Bindable var states = ViewingStatesModel.shared
+    var permissionManager = PermissionManager()
+    
 
     var body: some View {
         ZStack{
@@ -32,7 +34,13 @@ struct StartSessionPage: View {
                         .foregroundColor(.white)
                     
                     Button("Start a Session") {
-
+                        // gets permision
+                        Task {
+                            if await permissionManager.permisionforvideo{
+                                states.StartingGameToggle()
+                            }
+                        }
+                        
                     }.foregroundColor(.white)
             }
         }
@@ -41,5 +49,5 @@ struct StartSessionPage: View {
 
 
 #Preview {
-//    StartSessionPage()
+    StartSessionPage()
 }

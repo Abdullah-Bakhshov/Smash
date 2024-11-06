@@ -12,6 +12,7 @@ struct Base: View {
     @Bindable private var coordinator = NavigationCoordinator.shared
     @Bindable var states = ViewingStatesModel.shared
 
+
     // If user is logged in previously or not
     private var accountLoggedIn: Bool = true
 
@@ -63,8 +64,16 @@ struct Base: View {
                         coordinator.pop()
                         states.AccountsettingToggle()
                         states.AccountBackToHomeToggle(back: 0)
+                    }
                 }
-            }
+            // Going back and forth from home to start session
+                .onChange(of: states.startingagame) {_, _ in
+                    if states.startingagame{
+                        coordinator.push(.startsession)
+                    } else {
+                        coordinator.pop()
+                    }
+                }
         }
     }
 }

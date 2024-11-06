@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B91576232CDADEE0005F712C /* Aespa in Frameworks */ = {isa = PBXBuildFile; productRef = B91576222CDADEE0005F712C /* Aespa */; };
 		B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B9A2C7802CD4333D004378EF /* AnimateText */; };
 /* End PBXBuildFile section */
 
@@ -47,9 +48,22 @@
 		B9BD40AD2CD15C66000C0885 /* SmashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B9F511B12CDAB838006C8273 /* Exceptions for "Smash" folder in "Smash" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B9BD40922CD15C64000C0885 /* Smash */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B9BD40952CD15C64000C0885 /* Smash */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B9F511B12CDAB838006C8273 /* Exceptions for "Smash" folder in "Smash" target */,
+			);
 			path = Smash;
 			sourceTree = "<group>";
 		};
@@ -71,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */,
+				B91576232CDADEE0005F712C /* Aespa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +157,7 @@
 			name = Smash;
 			packageProductDependencies = (
 				B9A2C7802CD4333D004378EF /* AnimateText */,
+				B91576222CDADEE0005F712C /* Aespa */,
 			);
 			productName = Smash;
 			productReference = B9BD40932CD15C64000C0885 /* Smash.app */;
@@ -227,6 +243,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */,
+				B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9BD40942CD15C64000C0885 /* Products */;
@@ -426,13 +443,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Smash/Smash.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Smash/Preview Content\"";
 				DEVELOPMENT_TEAM = 379ZMR9CCF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Smash/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow us to record your badminton session for the best experience!";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow us to use your microphone to record the special moments in your badminton match!";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Let us add our stuff here";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Let us take a look at previous highlights in your photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -456,13 +479,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Smash/SmashRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Smash/Preview Content\"";
 				DEVELOPMENT_TEAM = 379ZMR9CCF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Smash/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow us to record your badminton session for the best experience!";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow us to use your microphone to record the special moments in your badminton match!";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Let us add our stuff here";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Let us take a look at previous highlights in your photos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -595,6 +624,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/enebin/Aespa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.3;
+			};
+		};
 		B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jasudev/AnimateText.git";
@@ -606,6 +643,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B91576222CDADEE0005F712C /* Aespa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */;
+			productName = Aespa;
+		};
 		B9A2C7802CD4333D004378EF /* AnimateText */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */;
