@@ -21,13 +21,14 @@ struct MatchHistoryPage: View {
         ZStack{
             BackgroundVideoView(login: 3)
                 .edgesIgnoringSafeArea(.all)
-            Spacer(minLength: 100)
             ScrollView{
                 VStack{
+                    Spacer(minLength: 250)
                     Text("Match History")
                         .foregroundColor(.white)
                         .bold()
                         .font(.system(size:20))
+                        .padding()
                     if waiter{
                         ForEach(historydata.historyarray.indices, id: \.self) { count in
                             let videodata = historydata.historyarray[count]
@@ -45,11 +46,11 @@ struct MatchHistoryPage: View {
                                 }
                                 .padding()
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.white.opacity(0.8))
+                                .background(Color.white.opacity(0.3))
                                 .cornerRadius(10)
                                 .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                             }
-                            .opacity(0.9)
+                            .opacity(0.8)
                             .padding(.horizontal)
                         }
                     }
@@ -62,7 +63,7 @@ struct MatchHistoryPage: View {
     }
     
     func returnpath()->URL{
-        let h = historydata.historycheck()
+        _ = historydata.historycheck()
         return historydata.historyarray[index.idx].path
     }
 }
