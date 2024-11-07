@@ -21,6 +21,7 @@ import Observation
     private(set) var madeaccount : Bool = false
     private(set) var startingagame : Bool = false
     private(set) var previewinggame : Bool = false
+    private(set) var watchhisorygame : Bool = false
     
     private init(){}
     
@@ -33,6 +34,8 @@ import Observation
         madeaccount = false
         startingagame = false
         previewinggame = false
+        watchhisorygame = false
+
     }
     
     func LoggedInToggle(){
@@ -71,4 +74,7 @@ import Observation
         previewinggame.toggle()
     }
     
+    func WatchHistoryGameToggle(){
+        watchhisorygame.toggle()
+    }
 }

@@ -13,10 +13,9 @@ import Observation
 final class VideoContentViewModel {
     
     static let shared = VideoContentViewModel()
-//    @Bindable var pointstimer = CustomTimer.shared
-
     public var storage : [URL] = []
-    public var history : [Date : URL] = [ : ]
+    public var datehistory : [URL : Date] = [ : ]
+    public var thumbnailhistory : [URL : Image] = [ : ]
     let aespaSession: AespaSession
     var start: Bool = false
     var preview: some View {
@@ -47,7 +46,8 @@ final class VideoContentViewModel {
                 case .success(let file):
                     print(file.path!)
                     self.storage.append(file.path!)
-                    self.history[file.creationDate] = file.path!
+                    self.datehistory[file.path!] = file.creationDate
+                    self.thumbnailhistory[file.path!] = file.thumbnailImage
                     print(self.storage)
                 case .failure(let error):
                     print(error)
@@ -57,6 +57,7 @@ final class VideoContentViewModel {
     }
     
     func URLReturn () -> URL {
+        sleep(1)
         let url = storage.last
         return url!
     }

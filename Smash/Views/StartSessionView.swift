@@ -49,6 +49,9 @@ struct VideoSystem: View {
             Button(viewModel.start ? "point" : ""){
                 pointstimer.recordpoint = true
             }
+            .bold()
+            .font(.system(size:20))
+            .foregroundColor(.white)
             
             Button("🤞") {
                 states.StartingGameToggle()

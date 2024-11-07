@@ -80,6 +80,14 @@ struct Base: View {
                     } else {
                         coordinator.pop()
                     }
+                }
+        
+                .onChange(of: states.watchhisorygame){_, _ in
+                    if states.watchhisorygame{
+                        coordinator.push(.watchhistorygame)
+                    } else {
+                        coordinator.pop()
+                    }
             }
         }
     }

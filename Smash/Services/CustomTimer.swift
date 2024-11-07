@@ -13,6 +13,8 @@ import SwiftUI
 @Observable
 final class CustomTimer {
     
+    var historytime: [[Int]] = []
+    var historyduration: [Int] = []
     var duration: Int = 0
     var pointstime: [Int] = []
     var recordpoint: Bool = false
@@ -44,7 +46,10 @@ final class CustomTimer {
     }
     
     func initialisetimer(){
+        historytime.append(pointstime)
+        historyduration.append(duration)
         pointstime.removeAll()
+        duration = 0
     }
     
     func pointsarray() -> [Int] {

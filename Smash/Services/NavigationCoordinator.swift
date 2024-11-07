@@ -11,6 +11,7 @@ import Observation
 
 @Observable
 final class NavigationCoordinator {
+        
     // MARK: - Properties
     static let shared = NavigationCoordinator()
     
@@ -41,6 +42,7 @@ final class NavigationCoordinator {
         case .account: AccountSettingsPage()
         case .startsession: VideoSystem()
         case .previewview: PreviewView()
+        case .watchhistorygame: MatchHistoryVideoView()
         }
     }
 }
@@ -52,4 +54,5 @@ enum NavigationDestination: Hashable {
     case account
     case startsession
     case previewview
+    case watchhistorygame
 }

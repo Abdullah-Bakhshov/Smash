@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-struct VideoMetaObject {
+struct VideoMetaObject: Hashable {
     let path: URL
     let date: Date
     let duration: Int
     let timearray: [Int]
-    let videothumbnail: Image
+//    let videothumbnail: Image
 }
