@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MatchHistoryPage: View {
+    
+    // use the history in this to get all the history data
+    @Bindable var viewmodel = VideoContentViewModel.shared
     @State private var showloginlayer: Bool = false
     var body: some View {
         ZStack{
@@ -17,6 +20,9 @@ struct MatchHistoryPage: View {
                 .foregroundColor(.white)
                 .bold()
                 .font(.system(size:20))
+            
+            
+            
         }
     }
 }

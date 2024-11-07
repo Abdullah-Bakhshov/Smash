@@ -4,11 +4,12 @@
 //
 //  Created by Abdullah B on 06/11/2024.
 //
-
+import Foundation
 import SwiftUI
 
 struct PreviewView: View {
     
+    @Bindable var pointstimer = CustomTimer.shared
     @Bindable var states = ViewingStatesModel.shared
     var path: URL = VideoContentViewModel.shared.URLReturn()
     
@@ -19,8 +20,24 @@ struct PreviewView: View {
             Text("Preview")
                 .foregroundColor(.white)
                 .font(.title)
+            HStack {
+                Text("total points \(pointstimer.pointsarray().count)")
+                    .foregroundColor(.white)
+                    .font(.title)
+//                    .offset(x:0,y:350)
+                VStack {
+                    ForEach(pointstimer.pointstime, id: \.self) { point in
+                        Text("point was scored : \(point)s")
+                            .foregroundColor(.white)
+                            .font(.title)
+                    }
+                }
+            }
+            .offset(x:0,y:50)
             Button("🤞") {
                 states.PreviewingGameToggle()
+                pointstimer.initialisetimer()
+
             }
             .font(.system(size:30))
             .clipShape(Circle())
@@ -31,6 +48,9 @@ struct PreviewView: View {
     }
 }
 
+
+
+
 #Preview {
-//    PreviewView()
+    PreviewView()
 }

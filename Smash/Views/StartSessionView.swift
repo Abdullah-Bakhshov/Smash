@@ -9,9 +9,12 @@ import SwiftUI
 import Aespa
 
 struct VideoSystem: View {
+    
     private var viewModel = VideoContentViewModel.shared
     private var permissionManager = PermissionManager()
     @Bindable var states = ViewingStatesModel.shared
+    @Bindable var pointstimer = CustomTimer.shared
+
     
     var body: some View {
         ZStack {
@@ -22,15 +25,16 @@ struct VideoSystem: View {
                        maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
             Button(action: {
+                pointstimer.starttimer()
                 viewModel.start.toggle()
                 viewModel.StartandStopRecording()
                 // This can cause erros if it takes longer to append a video to the array
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     if !viewModel.start {
                         states.PreviewingGameToggle()
+                        pointstimer.endtimer()
                     }
                 }
-
             }) {
                 Image(systemName: viewModel.start ? "stop.circle" : "record.circle")
                     .resizable()
@@ -41,6 +45,10 @@ struct VideoSystem: View {
             .clipShape(Circle())
             .contentShape(Circle())
             .offset(x: 0, y: 340)
+            
+            Button(viewModel.start ? "point" : ""){
+                pointstimer.recordpoint = true
+            }
             
             Button("🤞") {
                 states.StartingGameToggle()

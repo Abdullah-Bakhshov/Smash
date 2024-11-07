@@ -13,7 +13,8 @@ import Observation
 final class VideoContentViewModel {
     
     static let shared = VideoContentViewModel()
-    
+//    @Bindable var pointstimer = CustomTimer.shared
+
     public var storage : [URL] = []
     public var history : [Date : URL] = [ : ]
     let aespaSession: AespaSession
@@ -36,7 +37,7 @@ final class VideoContentViewModel {
             .common(.quality(preset: .high))
     }
     
-    func StartandStopRecording() {
+    @objc func StartandStopRecording() {
         if start {
             aespaSession.startRecording()
         }
