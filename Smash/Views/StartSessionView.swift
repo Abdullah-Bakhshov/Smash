@@ -53,6 +53,14 @@ struct VideoSystem: View {
             .font(.system(size:20))
             .foregroundColor(.white)
             
+            Button(viewModel.start ? "highlight previous point" : ""){
+                pointstimer.highlightclip()
+            }
+            .bold()
+            .font(.system(size:20))
+            .foregroundColor(.white)
+            .offset(x: 0, y: 200)
+
             Button("🤞") {
                 states.StartingGameToggle()
             }

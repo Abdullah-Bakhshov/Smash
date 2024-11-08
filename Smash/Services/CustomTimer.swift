@@ -13,18 +13,21 @@ import SwiftUI
 @Observable
 final class CustomTimer {
     
+    var objecthighligt: [[[Int]]] = []
+    var highlightcliparray: [[Int]] = []
     var historytime: [[Int]] = []
     var historyduration: [Int] = []
     var duration: Int = 0
-    var pointstime: [Int] = []
+    var pointstime: [Int] = [0]
     var recordpoint: Bool = false
-    private var timer: Timer!
+    private var timer: Timer?
     static let shared = CustomTimer()
     private var clock: Int = 0
     
     private init() {}
     
-    func starttimer(){
+    func starttimer() {
+        timer?.invalidate()
         clock = 0
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(RecordTime), userInfo: nil, repeats: true)
     }
@@ -39,21 +42,34 @@ final class CustomTimer {
         }
     }
 
-    func endtimer(){
-        duration = clock
-        self.timer.invalidate()
+    func endtimer() {
+        timer?.invalidate()
+        timer = nil
         clock = 0
     }
     
-    func initialisetimer(){
+    func initialisetimer() {
+        objecthighligt.append(highlightcliparray)
         historytime.append(pointstime)
-        historyduration.append(duration)
+        historyduration.append(clock)
         pointstime.removeAll()
+        highlightcliparray.removeAll()
         duration = 0
+        pointstime.append(clock)
+        clock = 0
     }
     
     func pointsarray() -> [Int] {
         return pointstime
     }
+    
+    func highlightclip() {
+        let temp = Array(pointstime.suffix(2))
+        if temp.count > 1 {
+            highlightcliparray.append(temp)
+            print("\(highlightcliparray)")
+        }
+    }
 }
+
 

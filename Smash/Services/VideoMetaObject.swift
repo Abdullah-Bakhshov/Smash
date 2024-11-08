@@ -13,5 +13,5 @@ struct VideoMetaObject: Hashable {
     let date: Date
     let duration: Int
     let timearray: [Int]
-//    let videothumbnail: Image
+    let highlightarray: [[Int]]
 }

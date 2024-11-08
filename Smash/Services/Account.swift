@@ -27,13 +27,15 @@ class Account {
     func historycheck() -> Bool{
         if self.pastlength != videodata.storage.count {
             self.pastlength = videodata.storage.count
+            print("this is the object highlight \(pointstimer.objecthighligt)")
             for (index,paths) in videodata.storage.enumerated() {
                 self.historyarray.append(
                     VideoMetaObject(
                          path: paths,
                          date: videodata.datehistory[paths]!,
                          duration: pointstimer.historyduration[index],
-                         timearray: pointstimer.historytime[index])
+                         timearray: pointstimer.historytime[index],
+                         highlightarray: pointstimer.objecthighligt[index])
                 )
             }
             return true

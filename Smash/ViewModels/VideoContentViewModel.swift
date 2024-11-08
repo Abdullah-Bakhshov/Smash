@@ -57,7 +57,7 @@ final class VideoContentViewModel {
     }
     
     func URLReturn () -> URL {
-        sleep(2)
+        sleep(3)
         let url = storage.last
         return url!
     }

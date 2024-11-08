@@ -20,19 +20,7 @@ struct PreviewView: View {
             Text("Preview")
                 .foregroundColor(.white)
                 .font(.title)
-//            Use this for Nav Bar -> click the button then use toseek to get to it
-//            HStack {
-//                Text("total points \(pointstimer.pointsarray().count)")
-//                    .foregroundColor(.white)
-//                    .font(.title)
-//                VStack {
-//                    ForEach(pointstimer.pointstime, id: \.self) { point in
-//                        Text("point was scored : \(point)s")
-//                            .foregroundColor(.white)
-//                            .font(.title)
-//                    }
-//                }
-//            }
+
             .offset(x:0,y:50)
             Button("🤞") {
                 states.PreviewingGameToggle()
