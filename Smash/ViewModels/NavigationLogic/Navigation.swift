@@ -13,8 +13,8 @@ struct Base: View {
     @Bindable var states = ViewingStatesModel.shared
 
     // If user is logged in previously or not
-    private var accountLoggedIn: Bool = true
-
+    var accountLoggedIn: Bool = Account().accountLoggedIn
+    
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             

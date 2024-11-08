@@ -55,7 +55,7 @@ struct LoginView: View {
                                 .animation(.easeInOut(duration: 1), value: showPasswordField)
                             
                             Button("💯") {
-                                if Authentication(UserName: username, Password: password).check() {
+                                if Authentication().check(UserName: username, Password: password) {
                                     states.LoginToHomeToggle()
                                 }
                             }
