@@ -8,8 +8,11 @@ struct ContentView: View {
     @State private var isAnimating = false
     @State private var opac: Double = 4
     @State private var opac2: Double = 0.0
+    @State private var opac3: Double = 2.0
+    @State private var opac4: Double = 0.0
     @State private var wavegone = false
     @State private var textOffset: CGFloat = 0
+    @State private var winningorlosingtransformation: CGFloat = 0
     @State private var textscore: Bool = false
     @State private var lostpoint: Bool = false
     @State private var wonpoint: Bool = false
@@ -18,8 +21,10 @@ struct ContentView: View {
     @State private var winsize = 15
     @State private var lossesize = 15
     @State private var backgroundcolor = ["0D00A4","44FFD2"]
+    @State var pointshistory : [[Int]] = [[0,0]]
+    @State var winningorlosingsize = 30
+    @State var emojisize = 0
     
-
     var body: some View {
         ZStack {
             LinearGradient(
@@ -31,15 +36,13 @@ struct ContentView: View {
                 .font(.system(size: 120))
                 .rotationEffect(.degrees(angle), anchor: .bottomTrailing)
                 .opacity(opac)
-                .onAppear {
-                    startWaveAnimation()
-                    }
+                .onAppear { startWaveAnimation() }
+
             if yourscore != 21 && opponentscore != 21 {
                 if wavegone {
-                    NavigationStack{
-                        Text( textscore ? "\(yourscore) : \(opponentscore)" : "Good Luck 🫡")
-                            .shadow(radius: 10
-                            )
+                    VStack() {
+                        Text(textscore ? "\(yourscore) : \(opponentscore)" : "Good Luck 🫡")
+                            .shadow(radius: 10)
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -49,107 +52,101 @@ struct ContentView: View {
                                 withAnimation(.spring(duration: 0.7)) {
                                     opac2 = 1.0
                                     textOffset = -10
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                        withAnimation(.snappy) {
-                                            textscore = true
-                                        }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                        withAnimation(.easeInOut) { textscore = true }
                                     }
                                 }
                             }
-                        Button(wonpoint ? "🎉" : "Point Won!"){
-                            yourscore += 1
-                            winsize = 70
-                            wonpoint = true
-                            let temp = backgroundcolor
-                            backgroundcolor = ["95F9E3","416165"]
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                withAnimation(.snappy) {
-                                    wonpoint = false
-                                    winsize = 15
-                                    backgroundcolor = temp
+                        Button(wonpoint ? "🎉" : "Point Won!") {
+                            withAnimation {
+                                yourscore += 1
+                                pointshistory.append([yourscore, opponentscore])
+                                winsize = 70
+                                wonpoint = true
+                                let temp = backgroundcolor
+                                backgroundcolor = ["95F9E3","416165"]
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    withAnimation {
+                                        wonpoint = false
+                                        winsize = 15
+                                        backgroundcolor = temp
+                                    }
                                 }
                             }
                         }
                         .shadow(radius: 10)
                         .font(.system(size: CGFloat(winsize)))
-                        .onAppear {
-                            withAnimation(.spring(duration: 0.7)) {
-                                opac2 = 1.0
-                            }
-                        }
-                        Button(lostpoint ? "😔" : "Point Lost!"){
-                            opponentscore += 1
-                            lossesize = 70
-                            lostpoint = true
-                            let temp = backgroundcolor
-                            backgroundcolor = ["F9DBBD","DA627D"]
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                withAnimation(.snappy) {
-                                    lostpoint = false
-                                    lossesize = 15
-                                    backgroundcolor = temp
+                        Button(lostpoint ? "😔" : "Point Lost!") {
+                            withAnimation {
+                                opponentscore += 1
+                                pointshistory.append([yourscore, opponentscore])
+                                lossesize = 70
+                                lostpoint = true
+                                let temp = backgroundcolor
+                                backgroundcolor = ["F9DBBD","DA627D"]
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    withAnimation {
+                                        lostpoint = false
+                                        lossesize = 15
+                                        backgroundcolor = temp
+                                    }
                                 }
                             }
                         }
                         .shadow(radius: 10)
                         .font(.system(size: CGFloat(lossesize)))
-                        .onAppear {
-                            withAnimation(.spring(duration: 0.7)) {
-                                opac2 = 1.0
-                            }
-                        }
-                        Button(recordedpoint ? "🤳" : "Clip Last Point!"){
-                            recordedtext = 70
-                            recordedpoint = true
-                            let temp = backgroundcolor
-                            backgroundcolor = ["129490","CE1483"]
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                withAnimation(.snappy) {
-                                    recordedpoint = false
-                                    recordedtext = 15
-                                    backgroundcolor = temp
+                        Button(recordedpoint ? "🤳" : "Clip Last Point!") {
+                            withAnimation {
+                                recordedtext = 70
+                                recordedpoint = true
+                                let temp = backgroundcolor
+                                backgroundcolor = ["129490","CE1483"]
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    withAnimation {
+                                        recordedpoint = false
+                                        recordedtext = 15
+                                        backgroundcolor = temp
+                                    }
                                 }
                             }
                         }
                         .shadow(radius: 10)
                         .font(.system(size: CGFloat(recordedtext)))
-                        .onAppear {
-                            withAnimation(.spring(duration: 0.7)) {
-                                opac2 = 1.0
-                            }
-                        }
+                    }
+                    .opacity(opac3)
+                }
+            }
+            else {
+                NavigationStack {
+                    Text(yourscore == 21 ? "Insane" : "Unlucky")
+                        .font(.system(size: CGFloat(winningorlosingsize) ))
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding()
+                        .opacity(opac4)
+                        .offset(y: winningorlosingtransformation + 10)
+                    
+                    Text(yourscore == 21 ? "🎉" : "🫣")
+                        .font(.system(size: CGFloat(emojisize)))
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding()
+                        .opacity(opac4 + 30)
+                        .offset(y: winningorlosingtransformation)
+                
+                }
+                .onAppear {
+                    withAnimation(.spring(duration: 0.7)) {
+                        backgroundcolor = yourscore == 21 ? ["ECF39E", "4F772D"] : ["FDF0D5", "C1121F"]
+                        opac4 = 1.0
+                        winningorlosingtransformation = -20
+                        winningorlosingsize = 40
+                        emojisize = 60
                     }
                 }
             }
-            else if yourscore == 21 {
-                //ill make a cheacky navstack and do it that way
-                LinearGradient(
-                    gradient: Gradient(colors: [Color(hex: "A14DA0"), Color(hex: "DE0D92")]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                NavigationStack{
-                    Text("Insane!")
-                        .font(.system(size: 40))
-                        .foregroundColor(.white)
-                        .fontWeight(.bold)
-                        .padding()
-                }
-            } else {
-                LinearGradient(
-                    gradient: Gradient(colors: [Color(hex: "9E1946"), Color(hex: "710627")]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                NavigationStack{
-                    Text("Unlucky!")
-                        .font(.system(size: 40))
-                        .foregroundColor(.white)
-                        .fontWeight(.bold)
-                        .padding()
-                }
-            }
-        }.frame(width: 300, height: 300)
+        }
+        .frame(width: 300, height: 300)
     }
     
     func startWaveAnimation() {
