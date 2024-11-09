@@ -80,9 +80,9 @@ struct LoginView: View {
                 .opacity(vStackOpacity)
                 .onAppear {
                     title_text = "Get Ready"
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        title_text = "Smash"
-                    }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            title_text = "Smash"
+                        }
                     withAnimation(.easeOut(duration: 2)) {
                         vStackOpacity = 1
                     }

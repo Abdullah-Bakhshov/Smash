@@ -17,5 +17,4 @@ class Authentication {
         }
         return false
     }
-    
 }

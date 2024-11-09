@@ -82,5 +82,5 @@ class Index{
 
 
 #Preview {
-//    MatchHistoryPage()
+    MatchHistoryPage()
 }

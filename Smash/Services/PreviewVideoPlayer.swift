@@ -33,12 +33,9 @@ struct PreviewVideoPlayer: UIViewRepresentable {
                 }
             }
         }
-        
         player.play()
         return view
     }
-    
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        // Update view if needed
     }
 }

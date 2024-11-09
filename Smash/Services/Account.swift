@@ -7,16 +7,11 @@
 
 import Foundation
 import SwiftUICore
-
-
-
 class Account {
-    
-    
-    //if logged in or not
+    // if logged in or not
     var accountLoggedIn: Bool = true
-    let password: String = "123"
-    let username: String = "123"
+    private(set) var password: String = "123"
+    private(set) var username: String = "123"
     @Bindable var pointstimer = CustomTimer.shared
     @Bindable var videodata = VideoContentViewModel.shared
     var historyarray : [VideoMetaObject] = []
