@@ -12,8 +12,7 @@ import SwiftUI
 struct SmashWatchOS_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            WatchSession()
-//            WatchHomeScreen()
+            WatchBase()
         }
     }
 }

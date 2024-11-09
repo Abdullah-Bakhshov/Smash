@@ -11,7 +11,7 @@ import Observation
 @Observable
 final class WatchState {
     
-    private(set) var home: Bool = false
+    private(set) var home: Bool = true
     static let shared = WatchState()
 
     private init(){}

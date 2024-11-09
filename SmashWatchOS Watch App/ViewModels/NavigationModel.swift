@@ -10,7 +10,7 @@ struct WatchBase: View {
             WatchHomeScreen()
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     coordinator.destination(for: destination)
-                        .navigationBarBackButtonHidden(true)
+                        .navigationBarBackButtonHidden(false)
                 }
             
                 .onChange(of: state.home) { _, _ in
