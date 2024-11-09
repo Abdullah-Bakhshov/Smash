@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ContentView: View {
+struct WatchSession: View {
     
     @State private var yourscore = 0
     @State private var opponentscore = 0
@@ -22,8 +22,8 @@ struct ContentView: View {
     @State private var lossesize = 15
     @State private var backgroundcolor = ["0D00A4","44FFD2"]
     @State var pointshistory : [[Int]] = [[0,0]]
-    @State var winningorlosingsize = 30
-    @State var emojisize = 0
+    @State private var winningorlosingsize = 30
+    @State private var emojisize = 0
     
     var body: some View {
         ZStack {
@@ -170,6 +170,9 @@ struct ContentView: View {
     }
 }
 
+
+
+
 #Preview {
-    ContentView()
+    WatchSession()
 }

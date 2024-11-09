@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B91576232CDADEE0005F712C /* Aespa in Frameworks */ = {isa = PBXBuildFile; productRef = B91576222CDADEE0005F712C /* Aespa */; };
 		B91576AB2CDF00FE005F712C /* SmashWatchOS Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B91576882CDF00FB005F712C /* SmashWatchOS Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B91576BF2CDFCB04005F712C /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B91576BE2CDFCB04005F712C /* AnimateText */; };
 		B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B9A2C7802CD4333D004378EF /* AnimateText */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B91576BF2CDFCB04005F712C /* AnimateText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +235,7 @@
 			);
 			name = "SmashWatchOS Watch App";
 			packageProductDependencies = (
+				B91576BE2CDFCB04005F712C /* AnimateText */,
 			);
 			productName = "SmashWatchOS Watch App";
 			productReference = B91576882CDF00FB005F712C /* SmashWatchOS Watch App.app */;
@@ -1031,6 +1034,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */;
 			productName = Aespa;
+		};
+		B91576BE2CDFCB04005F712C /* AnimateText */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */;
+			productName = AnimateText;
 		};
 		B9A2C7802CD4333D004378EF /* AnimateText */ = {
 			isa = XCSwiftPackageProductDependency;
