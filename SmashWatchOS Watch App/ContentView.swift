@@ -38,6 +38,7 @@ struct ContentView: View {
                 if wavegone {
                     NavigationStack{
                         Text( textscore ? "\(yourscore) : \(opponentscore)" : "Good Luck 🫡")
+                            .shadow(radius: 10)
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -58,13 +59,17 @@ struct ContentView: View {
                             yourscore += 1
                             winsize = 70
                             wonpoint = true
+                            let temp = backgroundcolor
+                            backgroundcolor = ["95F9E3","416165"]
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                                 withAnimation(.snappy) {
                                     wonpoint = false
                                     winsize = 15
+                                    backgroundcolor = temp
                                 }
                             }
                         }
+                        .shadow(radius: 10)
                         .font(.system(size: CGFloat(winsize)))
                         .onAppear {
                             withAnimation(.spring(duration: 0.7)) {
@@ -75,13 +80,17 @@ struct ContentView: View {
                             opponentscore += 1
                             lossesize = 70
                             lostpoint = true
+                            let temp = backgroundcolor
+                            backgroundcolor = ["F9DBBD","DA627D"]
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                                 withAnimation(.snappy) {
                                     lostpoint = false
                                     lossesize = 15
+                                    backgroundcolor = temp
                                 }
                             }
                         }
+                        .shadow(radius: 10)
                         .font(.system(size: CGFloat(lossesize)))
                         .onAppear {
                             withAnimation(.spring(duration: 0.7)) {
@@ -92,7 +101,7 @@ struct ContentView: View {
                             recordedtext = 70
                             recordedpoint = true
                             let temp = backgroundcolor
-                            backgroundcolor = ["CE1483","129490"]
+                            backgroundcolor = ["129490","CE1483"]
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                                 withAnimation(.snappy) {
                                     recordedpoint = false
@@ -101,6 +110,7 @@ struct ContentView: View {
                                 }
                             }
                         }
+                        .shadow(radius: 10)
                         .font(.system(size: CGFloat(recordedtext)))
                         .onAppear {
                             withAnimation(.spring(duration: 0.7)) {
@@ -111,7 +121,7 @@ struct ContentView: View {
                 }
             }
             else if yourscore == 21 {
-                //ill make a cheacky stack and do it that way
+                //ill make a cheacky navstack and do it that way
                 LinearGradient(
                     gradient: Gradient(colors: [Color(hex: "A14DA0"), Color(hex: "DE0D92")]),
                     startPoint: .topLeading,
