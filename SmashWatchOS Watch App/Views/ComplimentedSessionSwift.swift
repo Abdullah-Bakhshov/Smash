@@ -38,7 +38,8 @@ struct ContentView: View {
                 if wavegone {
                     NavigationStack{
                         Text( textscore ? "\(yourscore) : \(opponentscore)" : "Good Luck 🫡")
-                            .shadow(radius: 10)
+                            .shadow(radius: 10
+                            )
                             .font(.system(size: 20))
                             .fontWeight(.bold)
                             .foregroundColor(.white)
