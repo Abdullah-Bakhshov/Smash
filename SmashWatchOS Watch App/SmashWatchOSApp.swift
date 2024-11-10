@@ -9,7 +9,7 @@ import SwiftUI
 
 
 @main 
-struct SmashWatchOS_Watch_AppApp: App {
+struct SmashWatchOS: App {
     var body: some Scene {
         WindowGroup {
             WatchBase()

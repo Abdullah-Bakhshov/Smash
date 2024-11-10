@@ -11,7 +11,6 @@ struct Base: View {
     
     @Bindable private var coordinator = NavigationCoordinator.shared
     @Bindable var states = ViewingStatesModel.shared
-
     // If user is logged in previously or not
     var accountLoggedIn: Bool = Account().accountLoggedIn
     
@@ -27,15 +26,15 @@ struct Base: View {
                     coordinator.destination(for: destination)
                         .navigationBarBackButtonHidden(true)
                 }
-                
+            
             // We check if we are going to home page from previous login or if we need to login
                 .onChange(of: states.showloginLayer) { _, _ in
                     coordinator.push(accountLoggedIn ? .login : .home)
                 }
             // From Login page to home page, Login Successful
                 .onChange(of: states.logintohome) { _, _ in
-                        coordinator.popToRoot()
-                        coordinator.push(.home)
+                    coordinator.popToRoot()
+                    coordinator.push(.home)
                 }
             // We go from Login page to Registeration page to make a account
                 .onChange(of: states.logintoregistration) { _, _ in
@@ -81,14 +80,14 @@ struct Base: View {
                         coordinator.pop()
                     }
                 }
-        
+            
                 .onChange(of: states.watchhisorygame){_, _ in
                     if states.watchhisorygame{
                         coordinator.push(.watchhistorygame)
                     } else {
                         coordinator.pop()
                     }
-            }
+                }
         }
     }
 }

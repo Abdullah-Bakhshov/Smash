@@ -14,7 +14,7 @@ struct VideoSystem: View {
     private var permissionManager = PermissionManager()
     @Bindable var states = ViewingStatesModel.shared
     @Bindable var pointstimer = CustomTimer.shared
-
+    @Bindable var sendtowatch = WatchSingleton.shared
     
     var body: some View {
         ZStack {
@@ -27,6 +27,9 @@ struct VideoSystem: View {
             Button(action: {
                 pointstimer.starttimer()
                 viewModel.start.toggle()
+                if viewModel.start {
+                    sendtowatch.returnsendtowatch()
+                }
                 viewModel.StartandStopRecording()
                 // This can cause erros if it takes longer to append a video to the array
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -45,22 +48,22 @@ struct VideoSystem: View {
             .clipShape(Circle())
             .contentShape(Circle())
             .offset(x: 0, y: 340)
-            
-            Button(viewModel.start ? "point" : ""){
-                pointstimer.recordpoint = true
+            HStack(alignment: .bottom, spacing: 150){
+                Button(viewModel.start ? "Point" : ""){
+                    pointstimer.recordpoint = true
+                }
+                .font(.system(size:30))
+                .foregroundColor(.white)
+                .bold()
+                
+                Button(viewModel.start ? "Clip" : ""){
+                    pointstimer.highlightclip()
+                }
+                .font(.system(size:30))
+                .foregroundColor(.white)
+                .bold()
             }
-            .bold()
-            .font(.system(size:20))
-            .foregroundColor(.white)
-            
-            Button(viewModel.start ? "highlight previous point" : ""){
-                pointstimer.highlightclip()
-            }
-            .bold()
-            .font(.system(size:20))
-            .foregroundColor(.white)
-            .offset(x: 0, y: 200)
-
+            .offset(x: -7, y: 340)
             Button("🤞") {
                 states.StartingGameToggle()
             }

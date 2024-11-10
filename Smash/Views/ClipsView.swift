@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ClipsPage: View {
-
+    
     @Bindable var states = ViewingStatesModel.shared
     var historydata = Account()
     @State private var waiting: Bool = false

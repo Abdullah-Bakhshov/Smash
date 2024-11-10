@@ -11,7 +11,7 @@ import Observation
 
 @Observable
 final class WatchNavigationCoordinator {
-        
+    
     // MARK: - Properties
     static let shared = WatchNavigationCoordinator()
     

@@ -12,7 +12,7 @@ struct BackgroundVideoView: UIViewRepresentable {
     let login: Int
     
     @Bindable var states = ViewingStatesModel.shared
-
+    
     
     // refactor and make this more general
     func statecheck() -> String {
@@ -27,7 +27,7 @@ struct BackgroundVideoView: UIViewRepresentable {
             return "null"
         }
     }
-
+    
     func makeUIView(context: Context) -> UIView {
         
         let view = UIView(frame: .zero)
@@ -55,7 +55,7 @@ struct BackgroundVideoView: UIViewRepresentable {
         }
         return view
     }
-
+    
     func updateUIView(_ uiView: UIView, context: Context) {
     }
 }

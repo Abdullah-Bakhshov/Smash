@@ -1,10 +1,18 @@
+//
+//  LoginView.swift
+//  SmashWatchOS Watch App
+//
+//  Created by Abdullah B on 04/11/2024.
+//
+
+
 import SwiftUI
 import AnimateText
 
 struct LoginView: View {
     
     @Bindable var states = ViewingStatesModel.shared
-
+    
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var isRegistered: Bool = false
@@ -80,9 +88,9 @@ struct LoginView: View {
                 .opacity(vStackOpacity)
                 .onAppear {
                     title_text = "Get Ready"
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            title_text = "Smash"
-                        }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        title_text = "Smash"
+                    }
                     withAnimation(.easeOut(duration: 2)) {
                         vStackOpacity = 1
                     }

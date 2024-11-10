@@ -11,7 +11,7 @@ import Observation
 
 @Observable
 final class NavigationCoordinator {
-        
+    
     // MARK: - Properties
     static let shared = NavigationCoordinator()
     

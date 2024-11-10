@@ -31,11 +31,11 @@ class Account {
             for (index,paths) in videodata.storage.enumerated() {
                 self.historyarray.append(
                     VideoMetaObject(
-                         path: paths,
-                         date: videodata.datehistory[paths]!,
-                         duration: pointstimer.historyduration[index],
-                         timearray: pointstimer.historytime[index],
-                         highlightarray: pointstimer.objecthighligt[index])
+                        path: paths,
+                        date: videodata.datehistory[paths]!,
+                        duration: pointstimer.historyduration[index],
+                        timearray: pointstimer.historytime[index],
+                        highlightarray: pointstimer.objecthighligt[index])
                 )
             }
             return true

@@ -1,6 +1,6 @@
 //
 //  WatchHomeScreen.swift
-//  SmashWatchOS Watch App
+//  SmashHomeScreen Watch App
 //
 //  Created by Abdullah B on 09/11/2024.
 //
@@ -9,13 +9,12 @@ import SwiftUI
 import AnimateText
 
 struct WatchHomeScreen: View {
-    
     @State var type: ATUnitType = .letters
     @State private var title_text: String = ""
     @State var userInfo: Double? = 0
-
+    
     var body: some View {
-        ZStack{
+        ZStack(){
             LinearGradient(
                 gradient: Gradient(colors: [Color(hex: "ffb600"), Color(hex: "ff4800")]),
                 startPoint: .topLeading,
@@ -25,7 +24,7 @@ struct WatchHomeScreen: View {
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .bold()
-                .fixedSize()
+                .offset(x: 0, y: -5)
         }
         .onAppear {
             title_text = "Get Ready"

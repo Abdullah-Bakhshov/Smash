@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PreviewView: View {
     
+    @Bindable var towatch = WatchSingleton.shared
     @Bindable var pointstimer = CustomTimer.shared
     @Bindable var states = ViewingStatesModel.shared
     var path: URL = VideoContentViewModel.shared.URLReturn()
@@ -20,12 +21,13 @@ struct PreviewView: View {
             Text("Preview")
                 .foregroundColor(.white)
                 .font(.title)
-
-            .offset(x:0,y:50)
+            
+                .offset(x:0,y:50)
             Button("🤞") {
+                towatch.returnsendtowatch()
                 states.PreviewingGameToggle()
                 pointstimer.initialisetimer()
-
+                
             }
             .font(.system(size:30))
             .clipShape(Circle())

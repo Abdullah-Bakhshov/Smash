@@ -11,7 +11,7 @@ import Observation
 @Observable final class ViewingStatesModel {
     
     static let shared = ViewingStatesModel()
-
+    
     private(set) var showloginLayer: Bool = false
     private(set) var logintohome: Bool = false
     private(set) var logintoregistration : Bool = false
@@ -35,7 +35,7 @@ import Observation
         startingagame = false
         previewinggame = false
         watchhisorygame = false
-
+        
     }
     
     func LoggedInToggle(){
@@ -55,7 +55,7 @@ import Observation
     }
     
     func AccountBackToHomeToggle(back : Int){
-         accounttostartsession = (back == 1) ? true : false
+        accounttostartsession = (back == 1) ? true : false
     }
     
     func LogoutToggle(){

@@ -3,6 +3,9 @@ import SwiftUI
 struct WatchBase: View {
     @Bindable private var coordinator = WatchNavigationCoordinator.shared
     @Bindable private var state = WatchState.shared
+    @StateObject private var sessionManager = SessionManager.shared
+    
+    
     
     var body: some View {
         NavigationStack(path: $coordinator.path) {
@@ -10,7 +13,7 @@ struct WatchBase: View {
             WatchHomeScreen()
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     coordinator.destination(for: destination)
-                        .navigationBarBackButtonHidden(false)
+                        .navigationBarBackButtonHidden(true)
                 }
             
                 .onChange(of: state.home) { _, _ in

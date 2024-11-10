@@ -41,7 +41,7 @@ final class CustomTimer {
             recordpoint = false
         }
     }
-
+    
     func endtimer() {
         timer?.invalidate()
         timer = nil

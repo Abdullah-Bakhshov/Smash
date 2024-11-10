@@ -15,7 +15,7 @@ struct MatchHistoryPage: View {
     @Bindable var states = ViewingStatesModel.shared
     var historydata = Account()
     @State private var waiter : Bool = false
-
+    
     
     var body: some View {
         ZStack{
