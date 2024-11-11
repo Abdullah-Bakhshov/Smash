@@ -23,7 +23,6 @@ final class CustomTimer {
     static let shared = CustomTimer()
     private(set) var clock: Int = 0
     
-    
     private init() {}
     
     func starttimer() {

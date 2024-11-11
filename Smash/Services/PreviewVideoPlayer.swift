@@ -16,7 +16,7 @@ struct PreviewVideoPlayer: UIViewRepresentable {
     init(path: URL, highlight: [Int] = [0, 0], timeatpoint: Binding<Int>? = nil) {
         self.path = path
         self.highlight = highlight
-        _timeatpoint = timeatpoint ?? .constant(0)
+        _timeatpoint = timeatpoint ?? .constant(highlight[0])
     }
     
     func makeCoordinator() -> Coordinator {
@@ -31,7 +31,7 @@ struct PreviewVideoPlayer: UIViewRepresentable {
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
         context.coordinator.player = player
-        if timeatpoint > 0 && highlight[1] == 0 {
+        if timeatpoint > 0 && highlight[1] == 0 && highlight[0] == 0{
             player.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
         }
         

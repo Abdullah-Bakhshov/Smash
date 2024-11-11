@@ -31,7 +31,6 @@ class PermissionManager {
         get async {
             let status = AVCaptureDevice.authorizationStatus(for: .audio)
             var permissionformicrophone = status == .authorized
-            
             if status == .notDetermined {
                 permissionformicrophone = await AVCaptureDevice.requestAccess(for: .audio)
             }
