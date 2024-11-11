@@ -11,7 +11,7 @@ import SwiftUI
 struct SmashApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Base()
         }
     }
 }
