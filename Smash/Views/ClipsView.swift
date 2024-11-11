@@ -61,9 +61,8 @@ struct ClipRowView: View {
 struct VideoView: View {
     var h: [Int]
     var p: URL
-    @State var i = 0
     var body: some View {
-        PreviewVideoPlayer(path: p, highlight: h, timeatpoint: $i)
+        PreviewVideoPlayer(path: p, highlight: h)
             .ignoresSafeArea(.all)
     }
 }

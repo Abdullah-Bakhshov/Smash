@@ -13,6 +13,12 @@ struct PreviewVideoPlayer: UIViewRepresentable {
     var highlight: [Int] = [0, 0]
     @Binding var timeatpoint: Int
     
+    init(path: URL, highlight: [Int] = [0, 0], timeatpoint: Binding<Int>? = nil) {
+        self.path = path
+        self.highlight = highlight
+        _timeatpoint = timeatpoint ?? .constant(0)
+    }
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
