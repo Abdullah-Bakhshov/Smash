@@ -15,6 +15,7 @@ struct VideoSystem: View {
     @Bindable var states = ViewingStatesModel.shared
     @Bindable var pointstimer = CustomTimer.shared
     @Bindable var sendtowatch = WatchSingleton.shared
+//    var gameclock = CustomTimer.shared.clock
     
     var body: some View {
         ZStack {
@@ -24,20 +25,12 @@ struct VideoSystem: View {
                        minHeight: 0,
                        maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
+            Text("\(Int(pointstimer.clock / 60)) : \(pointstimer.clock % 60)")
+                .offset(x:150,y:-350)
+
+            
             Button(action: {
-                pointstimer.starttimer()
-                viewModel.start.toggle()
-                if viewModel.start {
-                    sendtowatch.returnsendtowatch()
-                }
-                viewModel.StartandStopRecording()
-                // This can cause erros if it takes longer to append a video to the array
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    if !viewModel.start {
-                        states.PreviewingGameToggle()
-                        pointstimer.endtimer()
-                    }
-                }
+                buttonaction()
             }) {
                 Image(systemName: viewModel.start ? "stop.circle" : "record.circle")
                     .resizable()
@@ -75,7 +68,26 @@ struct VideoSystem: View {
         }
         .ignoresSafeArea(.all)
     }
+    
+    func buttonaction(){
+        pointstimer.starttimer()
+        viewModel.start.toggle()
+        if viewModel.start {
+            sendtowatch.returnsendtowatch()
+        }
+        if !viewModel.start {
+            pointstimer.endtimer()
+        }
+        viewModel.StartandStopRecording()
+        // This can cause erros if it takes longer to append a video to the array
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if !viewModel.start {
+                states.PreviewingGameToggle()
+            }
+        }
+    }
 }
+
 
 #Preview {
     VideoSystem()

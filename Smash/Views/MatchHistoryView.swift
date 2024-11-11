@@ -40,7 +40,7 @@ struct MatchHistoryPage: View {
                                     Text("Match played at: \(videodata.date)")
                                         .font(.headline)
                                         .foregroundColor(.white)
-                                    Text("Duration: \(videodata.duration)")
+                                    Text("Duration: \(Int(videodata.duration / 60)) : \(videodata.duration % 60)")
                                         .font(.subheadline)
                                         .foregroundColor(.white.opacity(0.8))
                                 }
@@ -62,9 +62,14 @@ struct MatchHistoryPage: View {
         }
     }
     
-    func returnpath()->URL{
+    func returnpath() -> URL {
         _ = historydata.historycheck()
         return historydata.historyarray[index.idx].path
+    }
+    
+    func returntimearray() -> [Int] {
+        _ = historydata.historycheck()
+        return historydata.historyarray[index.idx].timearray
     }
 }
 

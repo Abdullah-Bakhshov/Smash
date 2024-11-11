@@ -11,6 +11,11 @@ import AVFoundation
 struct PreviewVideoPlayer: UIViewRepresentable {
     let path: URL
     var highlight: [Int] = [0, 0]
+    @Binding var timeatpoint: Int
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
     
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
@@ -19,6 +24,10 @@ struct PreviewVideoPlayer: UIViewRepresentable {
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
+        context.coordinator.player = player
+        if timeatpoint > 0 {
+            player.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
+        }
         
         if highlight[0] != 0 || highlight[1] != 0 {
             let startTime = CMTime(seconds: Double(highlight[0]), preferredTimescale: 600)
@@ -26,16 +35,29 @@ struct PreviewVideoPlayer: UIViewRepresentable {
             
             player.seek(to: startTime)
             
-            // Add periodic time observer to monitor playback position
+            // loop
             player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600), queue: .main) { time in
                 if time >= endTime {
                     player.seek(to: startTime)
                 }
             }
         }
+        
         player.play()
         return view
     }
+    
     func updateUIView(_ uiView: UIViewType, context: Context) {
+        context.coordinator.player?.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
+    }
+    
+    class Coordinator: NSObject {
+        var parent: PreviewVideoPlayer
+        var player: AVPlayer?
+        
+        init(_ parent: PreviewVideoPlayer) {
+            self.parent = parent
+        }
     }
 }
+

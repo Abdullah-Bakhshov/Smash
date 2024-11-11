@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     var messageset:Set<String> = ["historyscoredata","clipdata","pointdata"]
     private var pointstimer = CustomTimer.shared
     private var viewModel = VideoContentViewModel.shared
+    var states = ViewingStatesModel.shared
     private var isSessionActivated = false
     private lazy var session: WCSession = {
         let session = WCSession.default
@@ -144,9 +145,6 @@ extension ViewController: WCSessionDelegate {
     
     
     
-    //WCSessionDelegate Methods
-    
-    // Handle messages that require a reply
     func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
         print("Received message with reply handler: \(message)")
         handleMessage(message: message)
@@ -163,12 +161,22 @@ extension ViewController: WCSessionDelegate {
         print("Processing message: \(message)")
         DispatchQueue.main.async {
             if message.keys.contains("historyscoredata") {
-                let historyScoreData: [[Int]] = (message["historyscoredata"] as? [[Int]]) ?? [[Int]]()
+                let historyScoreData: [[Int]] = message["historyscoredata"] as! [[Int]]
                 print("History Score Data: \(historyScoreData)")
             } else if message.keys.contains("clipdata") {
                 self.pointstimer.highlightclip()
             } else if message.keys.contains("pointdata") {
                 self.pointstimer.recordpoint = true
+            }else if message.keys.contains("endgamedata"){
+                self.viewModel.start.toggle()
+                self.viewModel.StartandStopRecording()
+                // This can cause erros if it takes longer to append a video to the array
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    if !self.viewModel.start {
+                        self.states.PreviewingGameToggle()
+                        self.pointstimer.endtimer()
+                    }
+                }
             } else {
                 print("Unknown message type")
             }

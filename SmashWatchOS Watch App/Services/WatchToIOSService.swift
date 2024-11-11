@@ -26,7 +26,7 @@ class SessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    //WCSessionDelegate Methods
+    // WCSessionDelegate Methods
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DispatchQueue.main.async {
@@ -64,7 +64,7 @@ class SessionManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
-    //Send Message Methods
+    // Send Message Methods
     
     func sendMessage(_ message: [String: Any], replyHandler: (([String: Any]) -> Void)? = nil, errorHandler: ((Error) -> Void)? = nil) {
         guard WCSession.default.isReachable else {
@@ -102,7 +102,7 @@ class SessionManager: NSObject, ObservableObject, WCSessionDelegate {
     
     func sendingscoredata() {
         if historyscoredata.count > 0 {
-            let message: [String: Any] = ["historyscoredata": "historyscoredata"]
+            let message: [String: Any] = ["historyscoredata": historyscoredata]
             WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
         }
     }
@@ -117,4 +117,8 @@ class SessionManager: NSObject, ObservableObject, WCSessionDelegate {
         WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
     }
     
+    func sendingendgamedata() {
+        let message: [String: Any] = ["endgamedata": "true"]
+        WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
+    }
 }

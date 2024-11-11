@@ -14,25 +14,37 @@ struct ClipsPage: View {
     @State private var waiting: Bool = false
     
     var body: some View {
-        TabView {
-            if waiting {
-                ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
-                    HistoryRowView(rowIndex: rowIndex, historyData: historydata)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .ignoresSafeArea(.all)
-                }
+        ZStack{
+            LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea(.all)
+            VStack {
+                Text("Cmon you can't look at this page without any clips 👀")
+                    .foregroundStyle(.white)
+                    .fontWeight(.bold)
+                    .font(.title2)
+                    .multilineTextAlignment(.center)
+                    .padding()
             }
-        }
-        .background(LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        .ignoresSafeArea(.all)
-        .onAppear {
-            waiting = historydata.historycheck()
+            TabView {
+                if waiting {
+                    ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
+                        ClipRowView(rowIndex: rowIndex, historyData: historydata)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .ignoresSafeArea(.all)
+                    }
+                }
+                
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .ignoresSafeArea(.all)
+            .onAppear {
+                waiting = historydata.historycheck()
+            }
         }
     }
 }
 
-struct HistoryRowView: View {
+struct ClipRowView: View {
     var rowIndex: Int
     var historyData: Account
     var body: some View {
@@ -49,8 +61,9 @@ struct HistoryRowView: View {
 struct VideoView: View {
     var h: [Int]
     var p: URL
+    @State var i = 0
     var body: some View {
-        PreviewVideoPlayer(path: p, highlight: h)
+        PreviewVideoPlayer(path: p, highlight: h, timeatpoint: $i)
             .ignoresSafeArea(.all)
     }
 }

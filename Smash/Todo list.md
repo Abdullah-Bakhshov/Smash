@@ -18,10 +18,10 @@ Bigger Implementations:
 - Add video to start session and be able to record video and save video, going to do this now. DONE✅
 
 
-- Implement a timer and a way to add a point on the timer and make the video better and a way to open and see it on the app.
-- Add the watch OS -> UI and WCSession implementation shouldnt be too dificult, add heart sensor idk how yet
+- Implement a timer and a way to add a point on the timer and make the video better and a way to open and see it on the app.DONE✅
+- Add the watch OS -> UI and WCSession implementation shouldnt be too dificult, add heart sensor idk how yet. DONE✅
 - Store Highlights in clips -> Serialisation to store it onto disk (locally for the time being then maybe to the cloud)
-- Save previous match history and show it in history tab
+- Save previous match history and show it in history tab.DONE✅
 
 
 Further down the line stuff:
@@ -33,3 +33,5 @@ Further down the line stuff:
 
 -> Use firebase or alternative for the time being and then implement my own thing later if I want
 
+APP BASELINE IS COMPLETE DONE✅ 
+- Can do further down the line stuff and debug and make the code way better

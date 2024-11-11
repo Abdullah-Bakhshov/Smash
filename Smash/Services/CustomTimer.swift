@@ -17,12 +17,12 @@ final class CustomTimer {
     var highlightcliparray: [[Int]] = []
     var historytime: [[Int]] = []
     var historyduration: [Int] = []
-    var duration: Int = 0
     var pointstime: [Int] = [0]
     var recordpoint: Bool = false
     private var timer: Timer?
     static let shared = CustomTimer()
-    private var clock: Int = 0
+    private(set) var clock: Int = 0
+    
     
     private init() {}
     
@@ -49,13 +49,14 @@ final class CustomTimer {
     }
     
     func initialisetimer() {
+        pointstime.append(clock)
+        historyduration.append(clock)
         objecthighligt.append(highlightcliparray)
         historytime.append(pointstime)
-        historyduration.append(clock)
         pointstime.removeAll()
         highlightcliparray.removeAll()
-        duration = 0
         pointstime.append(clock)
+        timer?.invalidate()
         clock = 0
     }
     

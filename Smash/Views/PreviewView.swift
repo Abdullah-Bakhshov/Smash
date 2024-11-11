@@ -13,10 +13,11 @@ struct PreviewView: View {
     @Bindable var pointstimer = CustomTimer.shared
     @Bindable var states = ViewingStatesModel.shared
     var path: URL = VideoContentViewModel.shared.URLReturn()
+    @State var initialvalue = 0
     
     var body: some View {
         ZStack {
-            PreviewVideoPlayer(path: path)
+            PreviewVideoPlayer(path: path, timeatpoint: $initialvalue)
             Color.black.opacity(0.5)
             Text("Preview")
                 .foregroundColor(.white)

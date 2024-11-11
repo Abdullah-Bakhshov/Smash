@@ -154,6 +154,9 @@ struct WatchSession: View {
                     .opacity(opac4 + 30)
                     .offset(y: winningorlosingtransformation)
                     .onAppear {
+                        SessionManager.shared.historyscoredata = pointshistory
+                        SessionManager.shared.sendingscoredata()
+                        SessionManager.shared.sendingendgamedata()
                         withAnimation(.spring(duration: 0.7)) {
                             backgroundcolor = yourscore == 21 ? ["ECF39E", "4F772D"] : ["FDF0D5", "C1121F"]
                             opac4 = 1.0
@@ -161,8 +164,6 @@ struct WatchSession: View {
                             winningorlosingsize = 40
                             emojisize = 60
                             endgametext = yourscore == 21 ? "Insane" : "Unlucky"
-                            SessionManager.shared.historyscoredata = pointshistory
-                            SessionManager.shared.sendingscoredata()
                         }
                     }
             }
