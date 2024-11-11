@@ -15,8 +15,8 @@ class SessionManager: NSObject, ObservableObject, WCSessionDelegate {
     static let shared = SessionManager()
     @Bindable private var state = WatchState.shared
     @Published var isConnected = false
-//    @State var historyscoredata: [[Int]] = []
-//    @State var cliphighlight: Bool = false
+    @State var historyscoredata: [[Int]] = []
+    @State var cliphighlight: Bool = false
     
     private override init() {
         super.init()
@@ -99,22 +99,22 @@ class SessionManager: NSObject, ObservableObject, WCSessionDelegate {
         handleMessage(message: applicationContext)
     }
     
-//    
-//    func sendingscoredata() {
-//        if historyscoredata.count > 0 {
-//            let message: [String: Any] = ["historyscoredata": historyscoredata]
-//            WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
-//        }
-//    }
-//    
-//    func sendingclipdata() {
-//        let message: [String: Any] = ["clipdata": true]
-//        WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
-//    }
-//    
-//    func sendingpointdata() {
-//        let message: [String: Any] = ["pointdata": true]
-//        WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
-//    }
+    
+    func sendingscoredata() {
+        if historyscoredata.count > 0 {
+            let message: [String: Any] = ["historyscoredata": "historyscoredata"]
+            WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
+        }
+    }
+    
+    func sendingclipdata() {
+        let message: [String: Any] = ["clipdata": "true"]
+        WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
+    }
+    
+    func sendingpointdata() {
+        let message: [String: Any] = ["pointdata": "true"]
+        WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: nil)
+    }
     
 }

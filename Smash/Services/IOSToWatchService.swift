@@ -11,7 +11,7 @@ import WatchConnectivity
 import Foundation
 
 class ViewController: UIViewController {
-    
+    var messageset:Set<String> = ["historyscoredata","clipdata","pointdata"]
     private var pointstimer = CustomTimer.shared
     private var viewModel = VideoContentViewModel.shared
     private var isSessionActivated = false
@@ -144,40 +144,35 @@ extension ViewController: WCSessionDelegate {
     
     
     
-//    //WCSessionDelegate Methods
-//    
-//    // Handle messages that require a reply
-//    func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
-//        print("Received message with reply handler: \(message)")
-//        handleMessage(message: message)
-//        replyHandler(["status": "received"])
-//    }
-//    
-//    // Handle messages that don't require a reply
-//    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-//        print("Received message without reply handler: \(message)")
-//        handleMessage(message: message)
-//    }
-//    
-//    private func handleMessage(message: [String: Any]) {
-//        print("Processing message: \(message)")
-//        DispatchQueue.main.async {
-//            if let messageType = message["type"] as? String {
-//                switch messageType {
-//                case "historyscoredata":
-//                    let historyScoreData: [[Int]] = (message["historyscoredata"] as? [[Int]]) ?? [[Int]]()
-//                    print("History Score Data: \(historyScoreData)")
-//                case "clipdata":
-//                    self.pointstimer.highlightclip()
-//                case "pointdata":
-//                    self.pointstimer.recordpoint = true
-//                default:
-//                    print("Unknown message type")
-//                }
-//            } else {
-//                print("Message type is missing or invalid")
-//            }
-//        }
-//    }
+    //WCSessionDelegate Methods
+    
+    // Handle messages that require a reply
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
+        print("Received message with reply handler: \(message)")
+        handleMessage(message: message)
+        replyHandler(["status": "received"])
+    }
+    
+    // Handle messages that don't require a reply
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        print("Received message without reply handler: \(message)")
+        handleMessage(message: message)
+    }
+    
+    private func handleMessage(message: [String: Any]) {
+        print("Processing message: \(message)")
+        DispatchQueue.main.async {
+            if message.keys.contains("historyscoredata") {
+                let historyScoreData: [[Int]] = (message["historyscoredata"] as? [[Int]]) ?? [[Int]]()
+                print("History Score Data: \(historyScoreData)")
+            } else if message.keys.contains("clipdata") {
+                self.pointstimer.highlightclip()
+            } else if message.keys.contains("pointdata") {
+                self.pointstimer.recordpoint = true
+            } else {
+                print("Unknown message type")
+            }
+        }
+    }
 }
 

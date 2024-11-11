@@ -74,6 +74,7 @@ struct WatchSession: View {
                             withAnimation {
                                 yourscore += 1
                                 pointshistory.append([yourscore, opponentscore])
+                                SessionManager.shared.sendingpointdata()
                                 winsize = 70
                                 wonpoint = true
                                 let temp = backgroundcolor
@@ -94,6 +95,7 @@ struct WatchSession: View {
                             withAnimation {
                                 opponentscore += 1
                                 pointshistory.append([yourscore, opponentscore])
+                                SessionManager.shared.sendingpointdata()
                                 lossesize = 70
                                 lostpoint = true
                                 let temp = backgroundcolor
@@ -111,7 +113,7 @@ struct WatchSession: View {
                         .shadow(radius: 10)
                         .font(.system(size: CGFloat(lossesize)))
                         Button(recordedpoint ? "🤳" : "Clip Last Point!") {
-                            //                            SessionManager.shared.sendingclipdata()
+                            SessionManager.shared.sendingclipdata()
                             withAnimation {
                                 recordedtext = 70
                                 recordedpoint = true
@@ -159,8 +161,8 @@ struct WatchSession: View {
                             winningorlosingsize = 40
                             emojisize = 60
                             endgametext = yourscore == 21 ? "Insane" : "Unlucky"
-                            //                        SessionManager.shared.historyscoredata = pointshistory
-                            //                        SessionManager.shared.sendingscoredata()
+                            SessionManager.shared.historyscoredata = pointshistory
+                            SessionManager.shared.sendingscoredata()
                         }
                     }
             }
