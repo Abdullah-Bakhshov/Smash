@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B90DF1142CE1D7F700E2B587 /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B90DF1132CE1D7F700E2B587 /* AnimateText */; };
 		B91576232CDADEE0005F712C /* Aespa in Frameworks */ = {isa = PBXBuildFile; productRef = B91576222CDADEE0005F712C /* Aespa */; };
 		B91576AB2CDF00FE005F712C /* SmashWatchOS Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B91576882CDF00FB005F712C /* SmashWatchOS Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		B91576BF2CDFCB04005F712C /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B91576BE2CDFCB04005F712C /* AnimateText */; };
 		B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B9A2C7802CD4333D004378EF /* AnimateText */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +85,16 @@
 		B9BD40AD2CD15C66000C0885 /* SmashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B90DF1152CE1D98700E2B587 /* Exceptions for "Smash" folder in "Smash" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B9BD40922CD15C64000C0885 /* Smash */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B91576892CDF00FC005F712C /* SmashWatchOS Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -103,6 +113,9 @@
 		};
 		B9BD40952CD15C64000C0885 /* Smash */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B90DF1152CE1D98700E2B587 /* Exceptions for "Smash" folder in "Smash" target */,
+			);
 			path = Smash;
 			sourceTree = "<group>";
 		};
@@ -123,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B91576BF2CDFCB04005F712C /* AnimateText in Frameworks */,
+				B90DF1142CE1D7F700E2B587 /* AnimateText in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +235,7 @@
 			);
 			name = "SmashWatchOS Watch App";
 			packageProductDependencies = (
-				B91576BE2CDFCB04005F712C /* AnimateText */,
+				B90DF1132CE1D7F700E2B587 /* AnimateText */,
 			);
 			productName = "SmashWatchOS Watch App";
 			productReference = B91576882CDF00FB005F712C /* SmashWatchOS Watch App.app */;
@@ -1017,15 +1030,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B90DF1132CE1D7F700E2B587 /* AnimateText */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */;
+			productName = AnimateText;
+		};
 		B91576222CDADEE0005F712C /* Aespa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */;
 			productName = Aespa;
-		};
-		B91576BE2CDFCB04005F712C /* AnimateText */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */;
-			productName = AnimateText;
 		};
 		B9A2C7802CD4333D004378EF /* AnimateText */ = {
 			isa = XCSwiftPackageProductDependency;
