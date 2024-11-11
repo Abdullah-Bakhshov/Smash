@@ -31,7 +31,7 @@ struct PreviewVideoPlayer: UIViewRepresentable {
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
         context.coordinator.player = player
-        if timeatpoint > 0 {
+        if timeatpoint > 0 && highlight[1] == 0 {
             player.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
         }
         
