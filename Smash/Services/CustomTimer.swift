@@ -42,6 +42,7 @@ final class CustomTimer {
     }
     
     func endtimer() {
+        historyduration.append(clock)
         timer?.invalidate()
         timer = nil
         clock = 0
@@ -49,7 +50,7 @@ final class CustomTimer {
     
     func initialisetimer() {
         pointstime.append(clock)
-        historyduration.append(clock)
+//        historyduration.append(clock)
         objecthighligt.append(highlightcliparray)
         historytime.append(pointstime)
         pointstime.removeAll()

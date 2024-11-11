@@ -70,18 +70,19 @@ struct VideoSystem: View {
     }
     
     func buttonaction(){
-        pointstimer.starttimer()
         viewModel.start.toggle()
         if viewModel.start {
+            pointstimer.starttimer()
             sendtowatch.returnsendtowatch()
         }
         if !viewModel.start {
-            pointstimer.endtimer()
+//            pointstimer.recordpoint = true
         }
         viewModel.StartandStopRecording()
         // This can cause erros if it takes longer to append a video to the array
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if !viewModel.start {
+                pointstimer.endtimer()
                 states.PreviewingGameToggle()
             }
         }
