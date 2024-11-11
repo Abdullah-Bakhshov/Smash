@@ -85,16 +85,6 @@
 		B9BD40AD2CD15C66000C0885 /* SmashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B9F511B12CDAB838006C8273 /* Exceptions for "Smash" folder in "Smash" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = B9BD40922CD15C64000C0885 /* Smash */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B91576892CDF00FC005F712C /* SmashWatchOS Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -113,9 +103,6 @@
 		};
 		B9BD40952CD15C64000C0885 /* Smash */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				B9F511B12CDAB838006C8273 /* Exceptions for "Smash" folder in "Smash" target */,
-			);
 			path = Smash;
 			sourceTree = "<group>";
 		};
