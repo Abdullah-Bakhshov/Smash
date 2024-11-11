@@ -1,6 +1,15 @@
 {
-  "originHash" : "a4581ee454a8ab059fb63232813927362131091938e5d9229b798e0fe3a57fe8",
+  "originHash" : "793c4cf7b6fa23b538cf96bcba3483b2a6755e15abe1e84e0f3f7409fe5993db",
   "pins" : [
+    {
+      "identity" : "aespa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/enebin/Aespa.git",
+      "state" : {
+        "revision" : "66a9face7d4ab96f184650b0e006bcd8bce8f4c2",
+        "version" : "0.5.3"
+      }
+    },
     {
       "identity" : "animatetext",
       "kind" : "remoteSourceControl",
