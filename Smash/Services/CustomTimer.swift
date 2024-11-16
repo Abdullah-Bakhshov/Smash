@@ -13,7 +13,7 @@ import SwiftUI
 @Observable
 final class CustomTimer {
     
-    var objecthighligt: [[[Int]]] = []
+    var objecthighlight: [[[Int]]] = []
     var highlightcliparray: [[Int]] = []
     var historytime: [[Int]] = []
     var historyduration: [Int] = []
@@ -43,15 +43,14 @@ final class CustomTimer {
     
     func endtimer() {
         historyduration.append(clock)
+        pointstime.append(clock)
         timer?.invalidate()
         timer = nil
         clock = 0
     }
     
     func initialisetimer() {
-        pointstime.append(clock)
-//        historyduration.append(clock)
-        objecthighligt.append(highlightcliparray)
+        objecthighlight.append(highlightcliparray)
         historytime.append(pointstime)
         pointstime.removeAll()
         highlightcliparray.removeAll()

@@ -15,7 +15,6 @@ struct VideoSystem: View {
     @Bindable var states = ViewingStatesModel.shared
     @Bindable var pointstimer = CustomTimer.shared
     @Bindable var sendtowatch = WatchSingleton.shared
-//    var gameclock = CustomTimer.shared.clock
     
     var body: some View {
         ZStack {

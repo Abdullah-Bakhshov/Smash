@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "originHash" : "793c4cf7b6fa23b538cf96bcba3483b2a6755e15abe1e84e0f3f7409fe5993db",
-=======
-  "originHash" : "a754b55556ad950db77991165329279b6296e2d3d7797c294f8dfad5497d1b08",
->>>>>>> refactor/convert-to-mvvm
   "pins" : [
     {
       "identity" : "aespa",
