@@ -74,11 +74,8 @@ struct VideoSystem: View {
             pointstimer.starttimer()
             sendtowatch.returnsendtowatch()
         }
-        if !viewModel.start {
-//            pointstimer.recordpoint = true
-        }
         viewModel.StartandStopRecording()
-        // This can cause erros if it takes longer to append a video to the array
+        // This can cause errors if it takes longer to append a video to the array
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if !viewModel.start {
                 pointstimer.endtimer()

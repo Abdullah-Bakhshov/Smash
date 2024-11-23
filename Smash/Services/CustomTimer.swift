@@ -28,7 +28,11 @@ final class CustomTimer {
     func starttimer() {
         timer?.invalidate()
         clock = 0
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(RecordTime), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1,
+                                          target: self,
+                                          selector: #selector(RecordTime),
+                                          userInfo: nil,
+                                          repeats: true)
     }
     
     @objc private func RecordTime() {

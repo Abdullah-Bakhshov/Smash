@@ -46,24 +46,27 @@ struct MatchHistoryVideoView: View {
         }
     }
     
-//    func timetrack() {
-//        timer.initialisetimer()
-//        timer.starttimer()
-//        while timer.clock != timearray[timearray.count - 1] {
-//            if timer.clock > timearray[index + 1] {
-//                index += 1
-//                print("Im being accessed")
-//            }
-//        }
-//        if timer.clock == timearray[timearray.count - 1] {
-//            timer.endtimer()
-//            timer.initialisetimer()
-//        }
-//    }
+    func timetrack() {
+        timer.initialisetimer()
+        timer.starttimer()
+        while timer.clock != timearray[timearray.count - 1] {
+            if timer.clock > timearray[index + 1] {
+                index += 1
+                print("Im being accessed")
+            }
+        }
+        if timer.clock == timearray[timearray.count - 1] {
+            timer.endtimer()
+            timer.initialisetimer()
+        }
+    }
 }
 
 #Preview {
     MatchHistoryVideoView()
 }
+
+
+
 
 

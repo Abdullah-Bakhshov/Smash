@@ -23,12 +23,12 @@ class Account {
         self.pastlength = 0
         self.index = 0
     }
-    // this works
+    // checks if account has recent video and if not we loop and we add the last video
     func historycheck() -> Bool{
         if self.pastlength != videodata.storage.count {
             self.pastlength = videodata.storage.count
             print("this is the object highlight \(pointstimer.objecthighlight)")
-            for (index,paths) in videodata.storage.enumerated() {
+            for (index, paths) in videodata.storage.enumerated() {
                 self.historyarray.append(
                     VideoMetaObject(
                         path: paths,

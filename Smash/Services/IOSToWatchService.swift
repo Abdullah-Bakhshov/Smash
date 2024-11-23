@@ -11,6 +11,7 @@ import WatchConnectivity
 import Foundation
 
 class ViewController: UIViewController {
+    
     var messageset:Set<String> = ["historyscoredata","clipdata","pointdata"]
     private var pointstimer = CustomTimer.shared
     private var viewModel = VideoContentViewModel.shared

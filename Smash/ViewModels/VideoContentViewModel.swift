@@ -39,25 +39,34 @@ final class VideoContentViewModel {
     @objc func StartandStopRecording() {
         if start {
             aespaSession.startRecording()
+        } else {
+            StoppingRecord{}
         }
-        else {
-            aespaSession.stopRecording { result in
-                switch result {
-                case .success(let file):
-                    print(file.path!)
-                    self.storage.append(file.path!)
-                    self.datehistory[file.path!] = file.creationDate
-                    self.thumbnailhistory[file.path!] = file.thumbnailImage
-                    print(self.storage)
-                case .failure(let error):
-                    print(error)
-                }
+    }
+    
+    func StoppingRecord(completion: @escaping () -> Void) {
+        
+        aespaSession.stopRecording { result in
+            switch result {
+            
+            case .success(let file):
+                print(file.path!)
+                self.storage.append(file.path!)
+                self.datehistory[file.path!] = file.creationDate
+                self.thumbnailhistory[file.path!] = file.thumbnailImage
+                print(self.storage)
+                completion()
+                
+            case .failure(let error):
+                print(error)
+                completion()
+                
             }
         }
     }
     
     func URLReturn () -> URL {
-        sleep(3)
+//        sleep(3)
         let url = storage.last
         return url!
     }

@@ -42,7 +42,7 @@ struct BackgroundVideoView: UIViewRepresentable {
         player.play()
         
         
-        //Video Loop
+        // Video Loop
         NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: .main) { _ in
             if login > 1 {
                 player.seek(to: .zero)
@@ -53,6 +53,7 @@ struct BackgroundVideoView: UIViewRepresentable {
                 }
             }
         }
+        
         return view
     }
     

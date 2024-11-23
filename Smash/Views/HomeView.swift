@@ -35,11 +35,10 @@ struct StartSessionPage: View {
                 Button("Start a Session") {
                     // gets permision
                     Task {
-                        if await permissionManager.permisionforvideo{
+                        if await permissionManager.permisionforvideo {
                             states.StartingGameToggle()
                         }
                     }
-                    
                 }.foregroundColor(.white)
             }
         }

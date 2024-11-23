@@ -24,6 +24,7 @@ struct PreviewVideoPlayer: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> UIView {
+        
         let view = UIView(frame: .zero)
         let player = AVPlayer(url: path)
         let playerLayer = AVPlayerLayer(player: player)
