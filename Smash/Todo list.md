@@ -8,9 +8,9 @@
 
 Bugs and errors that need fixing:
 
-- Need to make the login page faster however everything is good for the time being, add the navigation transition and remove transition logic from there will fix it.
+- Need to make the login page faster however everything is good for the time being, add the navigation transition and remove transition logic from there will fix it. DONE✅
 - When you write a password after username pops up then put the username to empty the password doesnt clear
-- Animations need to be added when tab pages open , implement navigationtransition and can use that.
+- Animations need to be added when tab pages open , implement navigationtransition and can use that. DONE✅
 
 
 Bigger Implementations:

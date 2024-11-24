@@ -37,6 +37,11 @@ struct PreviewView: View {
             .offset(x:-150,y:-350)
             .shadow(color: .black, radius: 5, x: 0, y: 10)
         }.ignoresSafeArea(.all)
+            .onAppear {
+                Task {
+                    await ClientForAPI().sendvideoforml(path: path)
+                }
+            }
     }
 }
 

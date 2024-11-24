@@ -21,13 +21,13 @@ final class VideoContentViewModel {
     var preview: some View {
         aespaSession.interactivePreview()
     }
-
+    
     private init() {
         let option = AespaOption(albumName: "Badminton clips")
         self.aespaSession = Aespa.session(with: option)
         SetUp()
     }
-
+    
     func SetUp() {
         aespaSession
             .common(.focus(mode: .continuousAutoFocus))
@@ -45,10 +45,8 @@ final class VideoContentViewModel {
     }
     
     func StoppingRecord(completion: @escaping () -> Void) {
-        
         aespaSession.stopRecording { result in
             switch result {
-            
             case .success(let file):
                 print(file.path!)
                 self.storage.append(file.path!)
@@ -60,13 +58,11 @@ final class VideoContentViewModel {
             case .failure(let error):
                 print(error)
                 completion()
-                
             }
         }
     }
     
     func URLReturn () -> URL {
-//        sleep(3)
         let url = storage.last
         return url!
     }

@@ -26,11 +26,11 @@ struct VideoSystem: View {
                 .edgesIgnoringSafeArea(.all)
             Text("\(Int(pointstimer.clock / 60)) : \(pointstimer.clock % 60)")
                 .offset(x:150,y:-350)
-
+            
             
             Button(action: {
                 buttonaction()
-            }) {
+            } ) {
                 Image(systemName: viewModel.start ? "stop.circle" : "record.circle")
                     .resizable()
                     .frame(width: 60, height: 60)
