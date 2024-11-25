@@ -13,6 +13,7 @@ struct ClipsPage: View {
     var historydata = Account()
     @State private var waiting: Bool = false
     
+    
     var body: some View {
         ZStack{
             LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
@@ -25,6 +26,8 @@ struct ClipsPage: View {
                     .multilineTextAlignment(.center)
                     .padding()
             }
+            
+            // locally stored clips
             TabView {
                 if waiting {
                     ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
@@ -33,28 +36,34 @@ struct ClipsPage: View {
                             .ignoresSafeArea(.all)
                     }
                 }
-                
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .ignoresSafeArea(.all)
             .onAppear {
+                // we will do a get request to aws over here
                 waiting = historydata.historycheck()
             }
         }
     }
 }
-
+// we add the POST to aws here
 struct ClipRowView: View {
     var rowIndex: Int
     var historyData: Account
+
     var body: some View {
         let highlightClipArray = historyData.historyarray[rowIndex].highlightarray
         ForEach(highlightClipArray.indices, id: \.self) { columnIndex in
-            VideoView(h: highlightClipArray[columnIndex], p: historyData.historyarray[rowIndex].path)
+            let highlight = highlightClipArray[columnIndex]
+            VideoView(h: highlight, p: historyData.historyarray[rowIndex].path)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea(.all)
+                .onAppear {
+                    Task {
+                        await HighlightClip().cropandexport(highlight: highlight, videoURL: historyData.historyarray[rowIndex].path)
+                    }
+                }
         }
-        
     }
 }
 
@@ -67,6 +76,16 @@ struct VideoView: View {
     }
 }
 
+
+
+/*/
+ figure out a way to shorten the clip so we can get a highlight only done this now
+ 
+ if I am going to use aws what i can do is i can make a array of highlight urls and do a for loop and use a
+ get request for each video when the app is initialised and then use a post to upload a video and append the
+ array for urls and
+ 
+ */
 
 
 #Preview {

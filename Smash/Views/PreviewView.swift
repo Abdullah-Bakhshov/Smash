@@ -18,13 +18,15 @@ struct PreviewView: View {
     
     var body: some View {
         ZStack {
+            
             PreviewVideoPlayer(path: path, timeatpoint: $initialvalue)
             Color.black.opacity(0.5)
+            
             Text("Preview")
                 .foregroundColor(.white)
                 .font(.title)
-            
                 .offset(x:0,y:50)
+            
             Button("🤞") {
                 towatch.returnsendtowatch()
                 states.PreviewingGameToggle()
@@ -36,12 +38,13 @@ struct PreviewView: View {
             .frame(width: 50, height: 50)
             .offset(x:-150,y:-350)
             .shadow(color: .black, radius: 5, x: 0, y: 10)
-        }.ignoresSafeArea(.all)
-            .onAppear {
-                Task {
-                    await ClientForAPI().sendvideo(path: path, route: "https://cd91-2a00-23c5-a94-7301-7d80-4265-b6cb-fc8f.ngrok-free.app/uploading_to_ml_model", httpmethod: "POST")
-                }
+        }
+        .ignoresSafeArea(.all)
+        .onAppear {
+            Task {
+                await ClientForAPI().sendvideo(path: path, route: "https://cd91-2a00-23c5-a94-7301-7d80-4265-b6cb-fc8f.ngrok-free.app/uploading_to_ml_model", httpmethod: "POST")
             }
+        }
     }
 }
 
