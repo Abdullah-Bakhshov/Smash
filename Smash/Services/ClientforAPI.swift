@@ -12,17 +12,17 @@ struct ClientForAPI {
     
     init() {}
     
-    func sendvideoforml(path: URL) async {
+    func sendvideo(path: URL, route: String, httpmethod: String) async {
         
         // setting the key for the what the boundary will be
         let boundary = "Boundary-\(UUID().uuidString)"
         
         // where we are making the request to, the URI
-        var request = URLRequest(url: URL(string: "https://cd91-2a00-23c5-a94-7301-7d80-4265-b6cb-fc8f.ngrok-free.app/uploading_to_ml_model")!)
+        var request = URLRequest(url: URL(string: "\(route)")!)
         
         
         // type of request we are making , as we are uploading a video file we are making a post request
-        request.httpMethod = "POST"
+        request.httpMethod = httpmethod
         
         // sending multipart/form-data across and specifiing what the boundary is so it knows when the
         // file is completed

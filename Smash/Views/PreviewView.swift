@@ -39,7 +39,7 @@ struct PreviewView: View {
         }.ignoresSafeArea(.all)
             .onAppear {
                 Task {
-                    await ClientForAPI().sendvideoforml(path: path)
+                    await ClientForAPI().sendvideo(path: path, route: "https://cd91-2a00-23c5-a94-7301-7d80-4265-b6cb-fc8f.ngrok-free.app/uploading_to_ml_model", httpmethod: "POST")
                 }
             }
     }
