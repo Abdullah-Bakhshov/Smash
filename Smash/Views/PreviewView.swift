@@ -40,11 +40,14 @@ struct PreviewView: View {
             .shadow(color: .black, radius: 5, x: 0, y: 10)
         }
         .ignoresSafeArea(.all)
-//        .onAppear {
-//            Task {
-//                await ClientForAPI().sendvideo(path: path, route: "https://cd91-2a00-23c5-a94-7301-7d80-4265-b6cb-fc8f.ngrok-free.app/uploading_to_ml_model", httpmethod: "POST")
-//            }
-//        }
+        .onAppear {
+            Task {
+//                await ClientForAPI().sendvideo(path: path, route: "link to REST", httpmethod: "POST")
+                for highlight in pointstimer.highlightcliparray {
+                    await HighlightClip().cropandexport(highlight: highlight, videoURL: path)
+                }
+            }
+        }
     }
 }
 

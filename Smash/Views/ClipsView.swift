@@ -25,28 +25,27 @@ struct ClipsPage: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                VStack {
-                    Button("fyp"){
-                        states.AWSClipsToggle()
-                    }
-                    .foregroundColor(.white)
-                    .font(.title2)
-                    .bold()
-                    .padding()
-                    
-                    // Locally stored clips
-                    TabView {
-                        if waiting {
-                            ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
-                                ClipRowView(rowIndex: rowIndex, historyData: historydata)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .ignoresSafeArea(.all)
-                            }
+                Button("fyp"){
+                    states.AWSClipsToggle()
+                }
+                .foregroundColor(.white)
+                .font(.title2)
+                .bold()
+                .padding()
+                .zIndex(1)
+                .offset(y: -400)
+                
+                TabView {
+                    if waiting {
+                        ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
+                            ClipRowView(rowIndex: rowIndex, historyData: historydata)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .ignoresSafeArea(.all)
                         }
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                    .ignoresSafeArea(.all)
                 }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .ignoresSafeArea(.all)
             }
         }
         .onAppear {
@@ -86,11 +85,6 @@ struct ClipRowView: View {
             VideoView(h: highlight, p: historyData.historyarray[rowIndex].path)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea(.all)
-                .onAppear {
-                    Task {
-                        await HighlightClip().cropandexport(highlight: highlight, videoURL: historyData.historyarray[rowIndex].path)
-                    }
-                }
         }
     }
 }

@@ -24,7 +24,7 @@ struct PreSignedURLView: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea(.all)
             
             Button("🤞") {
                 states.AWSClipsToggle()
@@ -32,14 +32,13 @@ struct PreSignedURLView: View {
             .font(.system(size: 30))
             .clipShape(Circle())
             .frame(width: 50, height: 50)
-            .background(Color.white)
             .clipShape(Circle())
             .shadow(color: .black, radius: 5, x: 0, y: 10)
-            .zIndex(1) // Ensure button is always on top
-            .position(x: 70, y: 70) // Adjust position as needed
+            .zIndex(1)
+            .position(x: 70, y: 70)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea(.all)
         .onAppear {
             Task {
                 await clipsURLs = ClipsPage().fetchAWSClips()
@@ -64,10 +63,9 @@ struct VideoPlayerView: View {
                 loopVideo(player: player)
             }
             .onDisappear {
-                // Pause the player when the view disappears
                 player?.pause()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure video fills the screen
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea(.all)
     }
     
