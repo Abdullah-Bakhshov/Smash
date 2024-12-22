@@ -12,28 +12,27 @@ struct ClipsPage: View {
     var historydata = Account()
     @State private var waiting: Bool = false
     @State private var clipsURLs: [URL] = []  // Store pre-signed URLs here
-
+    
     var body: some View {
         NavigationView {
             ZStack {
                 LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea(.all)
+                Text("Cmon you can't look at this page without any clips 👀")
+                    .foregroundStyle(.white)
+                    .fontWeight(.bold)
+                    .font(.title2)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
                 VStack {
-                        Text("Cmon you can't look at this page without any clips 👀")
-                            .foregroundStyle(.white)
-                            .fontWeight(.bold)
-                            .font(.title2)
-                            .multilineTextAlignment(.center)
-                            .padding()
-
-                    // Button to view clips stored on AWS
-                    NavigationLink(destination: PreSignedURLView(clipsURLs: clipsURLs)) {
-                        Text("View Clips from AWS")
-                            .foregroundColor(.white)
-                            .font(.title2)
-                            .bold()
-                            .padding()
+                    Button("fyp"){
+                        states.AWSClipsToggle()
                     }
+                    .foregroundColor(.white)
+                    .font(.title2)
+                    .bold()
+                    .padding()
                     
                     // Locally stored clips
                     TabView {
@@ -42,12 +41,6 @@ struct ClipsPage: View {
                                 ClipRowView(rowIndex: rowIndex, historyData: historydata)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .ignoresSafeArea(.all)
-                                    .onAppear {
-                                        // Fetch pre-signed URLs for AWS clips
-                                        Task {
-                                            await fetchAWSClips()
-                                        }
-                                    }
                             }
                         }
                     }
@@ -57,13 +50,12 @@ struct ClipsPage: View {
             }
         }
         .onAppear {
-            // Trigger fetching history or AWS clips when the page appears
             waiting = historydata.historycheck()
         }
     }
-
+    
     // Fetch pre-signed URLs for AWS stored clips
-    func fetchAWSClips() async {
+    func fetchAWSClips() async -> [URL] {
         let s3Requests = S3Requests()
         let bucketName = "smash-app-public-clips"
         
@@ -78,6 +70,7 @@ struct ClipsPage: View {
             }
             
             self.clipsURLs = urls
+            return urls
         }
     }
 }
@@ -85,7 +78,7 @@ struct ClipsPage: View {
 struct ClipRowView: View {
     var rowIndex: Int
     var historyData: Account
-
+    
     var body: some View {
         let highlightClipArray = historyData.historyarray[rowIndex].highlightarray
         ForEach(highlightClipArray.indices, id: \.self) { columnIndex in

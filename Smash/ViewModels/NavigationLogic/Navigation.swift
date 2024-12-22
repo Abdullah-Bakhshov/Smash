@@ -88,6 +88,14 @@ struct Base: View {
                         coordinator.pop()
                     }
                 }
+            
+                .onChange(of: states.AWSClips){_, _ in
+                    if states.AWSClips{
+                        coordinator.push(.AWSClips)
+                    } else {
+                        coordinator.pop()
+                    }
+                }
         }
     }
 }

@@ -22,6 +22,8 @@ import Observation
     private(set) var startingagame : Bool = false
     private(set) var previewinggame : Bool = false
     private(set) var watchhisorygame : Bool = false
+    private(set) var AWSClips : Bool = false
+
     
     private init(){}
     
@@ -35,6 +37,7 @@ import Observation
         startingagame = false
         previewinggame = false
         watchhisorygame = false
+        AWSClips = false
         
     }
     
@@ -76,5 +79,9 @@ import Observation
     
     func WatchHistoryGameToggle(){
         watchhisorygame.toggle()
+    }
+    
+    func AWSClipsToggle(){
+        AWSClips.toggle()
     }
 }

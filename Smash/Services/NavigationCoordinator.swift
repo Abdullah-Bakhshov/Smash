@@ -43,6 +43,7 @@ final class NavigationCoordinator {
         case .startsession: VideoSystem()
         case .previewview: PreviewView()
         case .watchhistorygame: MatchHistoryVideoView()
+        case .AWSClips: PreSignedURLView()
         }
     }
 }
@@ -55,4 +56,5 @@ enum NavigationDestination: Hashable {
     case startsession
     case previewview
     case watchhistorygame
+    case AWSClips
 }

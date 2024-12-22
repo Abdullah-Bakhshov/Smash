@@ -9,26 +9,45 @@ import SwiftUI
 import AVKit
 
 struct PreSignedURLView: View {
-    var clipsURLs: [URL]
-    
+    @State var clipsURLs: [URL] = []
+    @Bindable var states = ViewingStatesModel.shared
+
     @State private var currentIndex: Int = 0 // Track the current index of the video
     
     var body: some View {
-        VStack {
+        ZStack {
             TabView(selection: $currentIndex) {
                 ForEach(clipsURLs.indices, id: \.self) { index in
                     VideoPlayerView(url: clipsURLs[index])
                         .tag(index) // Tag for each video
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never)) // Enable infinite scrolling
-            .frame(maxWidth: .infinity, maxHeight: .infinity) // Full screen view
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .edgesIgnoringSafeArea(.all)
+            
+            Button("🤞") {
+                states.AWSClipsToggle()
+            }
+            .font(.system(size: 30))
+            .clipShape(Circle())
+            .frame(width: 50, height: 50)
+            .background(Color.white)
+            .clipShape(Circle())
+            .shadow(color: .black, radius: 5, x: 0, y: 10)
+            .zIndex(1) // Ensure button is always on top
+            .position(x: 70, y: 70) // Adjust position as needed
         }
-        .navigationTitle("AWS Clips")
-        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure video fills the screen
-        .edgesIgnoringSafeArea(.all) // Allow the video to take up the entire screen
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .edgesIgnoringSafeArea(.all)
+        .onAppear {
+            Task {
+                await clipsURLs = ClipsPage().fetchAWSClips()
+            }
+        }
     }
 }
+
 
 struct VideoPlayerView: View {
     var url: URL
