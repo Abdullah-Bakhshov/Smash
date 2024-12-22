@@ -30,7 +30,7 @@ struct HighlightClip {
         do {
             try manager.createDirectory(at: outputURL, withIntermediateDirectories: true, attributes: nil)
             outputURL = outputURL.appendingPathComponent("\(UUID().uuidString).\(mediaType)")
-        }catch let error {
+        } catch let error {
             print(error)
         }
         
@@ -49,7 +49,12 @@ struct HighlightClip {
         exportSession!.timeRange = timeRange
         try? await exportSession!.export(to: outputURL, as: .mp4)
         Task {
-            await ClientForAPI().sendvideo(path: outputURL, route: "https://cd91-2a00-23c5-a94-7301-7d80-4265-b6cb-fc8f.ngrok-free.app/uploading_to_ml_model", httpmethod: "POST")
+            let s3Requests = S3Requests()
+            let bucketName = "smash-app-public-clips"
+            let key = "\(UUID().uuidString).mp4"
+            
+            await s3Requests.uploadFile(to: bucketName, key: key, fileURL: outputURL)
+             
         }
     }
 }

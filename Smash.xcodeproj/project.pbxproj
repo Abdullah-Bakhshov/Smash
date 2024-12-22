@@ -10,7 +10,10 @@
 		B90DF1142CE1D7F700E2B587 /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B90DF1132CE1D7F700E2B587 /* AnimateText */; };
 		B91576232CDADEE0005F712C /* Aespa in Frameworks */ = {isa = PBXBuildFile; productRef = B91576222CDADEE0005F712C /* Aespa */; };
 		B91576AB2CDF00FE005F712C /* SmashWatchOS Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B91576882CDF00FB005F712C /* SmashWatchOS Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B92769672D1262F300AD462B /* AWSCore in Frameworks */ = {isa = PBXBuildFile; productRef = B92769662D1262F300AD462B /* AWSCore */; };
+		B92769692D1262F300AD462B /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = B92769682D1262F300AD462B /* AWSS3 */; };
 		B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */ = {isa = PBXBuildFile; productRef = B9A2C7802CD4333D004378EF /* AnimateText */; };
+		B9CB31CF2D186A9C00CBAB4E /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B9CB31CE2D186A9000CBAB4E /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +86,7 @@
 		B9BD40932CD15C64000C0885 /* Smash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9BD40A32CD15C66000C0885 /* SmashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9BD40AD2CD15C66000C0885 /* SmashUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmashUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9CB31CE2D186A9000CBAB4E /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -158,7 +162,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B92769672D1262F300AD462B /* AWSCore in Frameworks */,
 				B9A2C7812CD4333D004378EF /* AnimateText in Frameworks */,
+				B92769692D1262F300AD462B /* AWSS3 in Frameworks */,
 				B91576232CDADEE0005F712C /* Aespa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +197,7 @@
 		B9BD408A2CD15C64000C0885 = {
 			isa = PBXGroup;
 			children = (
+				B9CB31CE2D186A9000CBAB4E /* .gitignore */,
 				B9BD40952CD15C64000C0885 /* Smash */,
 				B9BD40A62CD15C66000C0885 /* SmashTests */,
 				B9BD40B02CD15C66000C0885 /* SmashUITests */,
@@ -309,6 +316,8 @@
 			packageProductDependencies = (
 				B9A2C7802CD4333D004378EF /* AnimateText */,
 				B91576222CDADEE0005F712C /* Aespa */,
+				B92769662D1262F300AD462B /* AWSCore */,
+				B92769682D1262F300AD462B /* AWSS3 */,
 			);
 			productName = Smash;
 			productReference = B9BD40932CD15C64000C0885 /* Smash.app */;
@@ -406,6 +415,7 @@
 			packageReferences = (
 				B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */,
 				B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */,
+				B92769652D1262F300AD462B /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B9BD40942CD15C64000C0885 /* Products */;
@@ -448,6 +458,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9CB31CF2D186A9C00CBAB4E /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1019,6 +1030,14 @@
 				minimumVersion = 0.5.3;
 			};
 		};
+		B92769652D1262F300AD462B /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aws-amplify/aws-sdk-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.38.0;
+			};
+		};
 		B9A2C7692CD42F07004378EF /* XCRemoteSwiftPackageReference "AnimateText" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jasudev/AnimateText.git";
@@ -1039,6 +1058,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B91576212CDADE56005F712C /* XCRemoteSwiftPackageReference "Aespa" */;
 			productName = Aespa;
+		};
+		B92769662D1262F300AD462B /* AWSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B92769652D1262F300AD462B /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSCore;
+		};
+		B92769682D1262F300AD462B /* AWSS3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B92769652D1262F300AD462B /* XCRemoteSwiftPackageReference "aws-sdk-ios-spm" */;
+			productName = AWSS3;
 		};
 		B9A2C7802CD4333D004378EF /* AnimateText */ = {
 			isa = XCSwiftPackageProductDependency;

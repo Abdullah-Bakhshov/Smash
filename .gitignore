@@ -1,0 +1,7 @@
+Smash/Services/AWSConfig.swift
+
+# AWS related files
+**/AWSConfig.*
+**/aws.config
+.aws/
+**/credentials

@@ -8,45 +8,80 @@
 import SwiftUI
 
 struct ClipsPage: View {
-    
     @Bindable var states = ViewingStatesModel.shared
     var historydata = Account()
     @State private var waiting: Bool = false
-    
-    
+    @State private var clipsURLs: [URL] = []  // Store pre-signed URLs here
+
     var body: some View {
-        ZStack{
-            LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea(.all)
-            VStack {
-                Text("Cmon you can't look at this page without any clips 👀")
-                    .foregroundStyle(.white)
-                    .fontWeight(.bold)
-                    .font(.title2)
-                    .multilineTextAlignment(.center)
-                    .padding()
-            }
-            
-            // locally stored clips
-            TabView {
-                if waiting {
-                    ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
-                        ClipRowView(rowIndex: rowIndex, historyData: historydata)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .ignoresSafeArea(.all)
+        NavigationView {
+            ZStack {
+                LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea(.all)
+                VStack {
+                        Text("Cmon you can't look at this page without any clips 👀")
+                            .foregroundStyle(.white)
+                            .fontWeight(.bold)
+                            .font(.title2)
+                            .multilineTextAlignment(.center)
+                            .padding()
+
+                    // Button to view clips stored on AWS
+                    NavigationLink(destination: PreSignedURLView(clipsURLs: clipsURLs)) {
+                        Text("View Clips from AWS")
+                            .foregroundColor(.white)
+                            .font(.title2)
+                            .bold()
+                            .padding()
                     }
+                    
+                    // Locally stored clips
+                    TabView {
+                        if waiting {
+                            ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
+                                ClipRowView(rowIndex: rowIndex, historyData: historydata)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .ignoresSafeArea(.all)
+                                    .onAppear {
+                                        // Fetch pre-signed URLs for AWS clips
+                                        Task {
+                                            await fetchAWSClips()
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .ignoresSafeArea(.all)
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .ignoresSafeArea(.all)
-            .onAppear {
-                // we will do a get request to aws over here
-                waiting = historydata.historycheck()
+        }
+        .onAppear {
+            // Trigger fetching history or AWS clips when the page appears
+            waiting = historydata.historycheck()
+        }
+    }
+
+    // Fetch pre-signed URLs for AWS stored clips
+    func fetchAWSClips() async {
+        let s3Requests = S3Requests()
+        let bucketName = "smash-app-public-clips"
+        
+        do {
+            let fileKeys = await s3Requests.listFiles(from: bucketName)
+            var urls: [URL] = []
+            
+            for key in fileKeys {
+                if let url = await s3Requests.generatePreSignedURL(bucket: bucketName, key: key) {
+                    urls.append(url)
+                }
             }
+            
+            self.clipsURLs = urls
         }
     }
 }
-// we add the POST to aws here
+
 struct ClipRowView: View {
     var rowIndex: Int
     var historyData: Account
@@ -75,17 +110,6 @@ struct VideoView: View {
             .ignoresSafeArea(.all)
     }
 }
-
-
-
-/*/
- figure out a way to shorten the clip so we can get a highlight only done this now
- 
- if I am going to use aws what i can do is i can make a array of highlight urls and do a for loop and use a
- get request for each video when the app is initialised and then use a post to upload a video and append the
- array for urls and
- 
- */
 
 
 #Preview {

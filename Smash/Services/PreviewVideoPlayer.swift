@@ -24,9 +24,8 @@ struct PreviewVideoPlayer: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> UIView {
-        
         let view = UIView(frame: .zero)
-        let player = AVPlayer(url: path)
+        let player = AVPlayer(url: path)  // Use the pre-signed URL here
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = UIScreen.main.bounds
@@ -42,7 +41,6 @@ struct PreviewVideoPlayer: UIViewRepresentable {
             
             player.seek(to: startTime)
             
-            // loop
             player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600), queue: .main) { time in
                 if time >= endTime {
                     player.seek(to: startTime)
@@ -67,4 +65,3 @@ struct PreviewVideoPlayer: UIViewRepresentable {
         }
     }
 }
-

@@ -63,6 +63,9 @@ final class VideoContentViewModel {
     }
     
     func URLReturn () -> URL {
+        if storage.isEmpty {
+            return URLReturn()
+        }
         let url = storage.last
         return url!
     }

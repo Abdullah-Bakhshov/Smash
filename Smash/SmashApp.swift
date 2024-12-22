@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct SmashApp: App {
+    
+    init() {
+        AWSConfig.setup()
+    }
+    
     var body: some Scene {
         WindowGroup {
             Base()
