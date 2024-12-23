@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomePage: View {
-    @State private var selectedTab = 1
+    @State var selectedTab = 1
     var body: some View {
         ZStack {
             switch selectedTab {
@@ -33,7 +33,7 @@ struct HomePage: View {
         .animation(.easeInOut(duration: 0.1), value: selectedTab)
         .gesture(DragGesture()
             .onEnded { value in
-                let threshold: CGFloat = 50
+                let threshold: CGFloat = 30
                 if value.translation.width < -threshold {
                     if selectedTab < 2 {
                         changeTab(to: selectedTab + 1)

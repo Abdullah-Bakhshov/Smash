@@ -91,9 +91,11 @@ struct Base: View {
             
                 .onChange(of: states.AWSClips){_, _ in
                     if states.AWSClips{
+                        coordinator.pop()
                         coordinator.push(.AWSClips)
                     } else {
                         coordinator.pop()
+                        coordinator.push(.clips)
                     }
                 }
         }

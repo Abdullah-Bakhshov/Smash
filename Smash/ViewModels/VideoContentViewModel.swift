@@ -34,6 +34,7 @@ final class VideoContentViewModel {
             .common(.changeMonitoring(enabled: true))
             .common(.orientation(orientation: .portrait))
             .common(.quality(preset: .high))
+            .video(.unmute)
     }
     
     @objc func StartandStopRecording() {

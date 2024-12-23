@@ -92,8 +92,17 @@ struct ClipRowView: View {
 struct VideoView: View {
     var h: [Int]
     var p: URL
+    
+    @State private var isVisible: Bool = true
+    
     var body: some View {
         PreviewVideoPlayer(path: p, highlight: h)
+            .onAppear {
+                isVisible = true
+            }
+            .onDisappear {
+                isVisible = false
+            }
             .ignoresSafeArea(.all)
     }
 }

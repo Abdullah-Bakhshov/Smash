@@ -26,16 +26,15 @@ struct PreSignedURLView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea(.all)
             
-            Button("🤞") {
+            Button("My Clips"){
                 states.AWSClipsToggle()
             }
-            .font(.system(size: 30))
-            .clipShape(Circle())
-            .frame(width: 50, height: 50)
-            .clipShape(Circle())
-            .shadow(color: .black, radius: 5, x: 0, y: 10)
+            .foregroundColor(.white)
+            .font(.title2)
+            .bold()
+            .padding()
             .zIndex(1)
-            .position(x: 70, y: 70)
+            .offset(y: -400)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea(.all)

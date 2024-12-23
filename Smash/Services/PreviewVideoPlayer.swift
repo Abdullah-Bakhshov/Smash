@@ -25,13 +25,22 @@ struct PreviewVideoPlayer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
-        let player = AVPlayer(url: path)  // Use the pre-signed URL here
+        let player = AVPlayer(url: path)
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = UIScreen.main.bounds
         view.layer.addSublayer(playerLayer)
         context.coordinator.player = player
-        if timeatpoint > 0 && highlight[1] == 0 && highlight[0] == 0{
+        setupPlayer(player: player)
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        context.coordinator.player?.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
+    }
+    
+    private func setupPlayer(player: AVPlayer) {
+        if timeatpoint > 0 && highlight[1] == 0 && highlight[0] == 0 {
             player.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
         }
         
@@ -40,20 +49,13 @@ struct PreviewVideoPlayer: UIViewRepresentable {
             let endTime = CMTime(seconds: Double(highlight[1]), preferredTimescale: 600)
             
             player.seek(to: startTime)
-            
             player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.1, preferredTimescale: 600), queue: .main) { time in
                 if time >= endTime {
                     player.seek(to: startTime)
                 }
             }
         }
-        
         player.play()
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        context.coordinator.player?.seek(to: CMTime(seconds: Double(timeatpoint), preferredTimescale: 600))
     }
     
     class Coordinator: NSObject {
@@ -62,6 +64,10 @@ struct PreviewVideoPlayer: UIViewRepresentable {
         
         init(_ parent: PreviewVideoPlayer) {
             self.parent = parent
+        }
+        
+        deinit {
+            player?.pause()
         }
     }
 }

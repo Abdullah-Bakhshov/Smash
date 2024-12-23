@@ -38,6 +38,7 @@ final class NavigationCoordinator {
         switch destination {
         case .login: LoginView()
         case .home: HomePage()
+        case .clips: HomePage(selectedTab: 2)
         case .register: RegistrationPage()
         case .account: AccountSettingsPage()
         case .startsession: VideoSystem()
@@ -57,4 +58,5 @@ enum NavigationDestination: Hashable {
     case previewview
     case watchhistorygame
     case AWSClips
+    case clips
 }
