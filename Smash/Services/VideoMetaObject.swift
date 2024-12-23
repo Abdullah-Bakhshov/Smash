@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct VideoMetaObject: Hashable {
+struct VideoMetaObject: Hashable, Codable {
     let path: URL
     let date: Date
     let duration: Int

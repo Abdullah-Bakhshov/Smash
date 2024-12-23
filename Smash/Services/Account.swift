@@ -7,36 +7,85 @@
 
 import Foundation
 import SwiftUICore
+
 class Account {
-    // if logged in or not
+
+    private(set) var password: String {
+        get {
+            UserDefaults.standard.string(forKey: "password") ?? "123"
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "password")
+        }
+    }
+    
+    private(set) var username: String {
+        get {
+            UserDefaults.standard.string(forKey: "username") ?? "123"
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "username")
+        }
+    }
+    
+    var historyarray: [VideoMetaObject] {
+        get {
+            if let data = UserDefaults.standard.data(forKey: "historyarray"),
+               let decoded = try? JSONDecoder().decode([VideoMetaObject].self, from: data) {
+                return decoded
+            }
+            return []
+        }
+        set {
+            if let encoded = try? JSONEncoder().encode(newValue) {
+                UserDefaults.standard.set(encoded, forKey: "historyarray")
+            }
+        }
+    }
+    
     var accountLoggedIn: Bool = true
-    private(set) var password: String = "123"
-    private(set) var username: String = "123"
     @Bindable var pointstimer = CustomTimer.shared
     @Bindable var videodata = VideoContentViewModel.shared
-    var historyarray : [VideoMetaObject] = []
-    var pastlength : Int
-    var index : Int
-    
+    var pastlength: Int
+    var index: Int
     
     init() {
         self.pastlength = 0
         self.index = 0
     }
-    // checks if account has recent video and if not we loop and we add the last video
-    func historycheck() -> Bool{
+    
+    
+    func removeVideo(at index: Int) {
+        guard index < historyarray.count else { return }
+        var updatedArray = historyarray
+        updatedArray.remove(at: index)
+        historyarray = updatedArray
+    }
+    
+    func removeInvalidPaths() {
+        var updatedArray = historyarray
+        updatedArray.removeAll { !FileManager.default.fileExists(atPath: $0.path.path) }
+        historyarray = updatedArray
+    }
+    
+    // History check
+    func historycheck() -> Bool {
         if self.pastlength != videodata.storage.count {
             self.pastlength = videodata.storage.count
             print("this is the object highlight \(pointstimer.objecthighlight)")
+            
             for (index, paths) in videodata.storage.enumerated() {
-                self.historyarray.append(
-                    VideoMetaObject(
-                        path: paths,
-                        date: videodata.datehistory[paths]!,
-                        duration: pointstimer.historyduration[index],
-                        timearray: pointstimer.historytime[index],
-                        highlightarray: pointstimer.objecthighlight[index])
+                let newMetaObject = VideoMetaObject(
+                    path: paths,
+                    date: videodata.datehistory[paths]!,
+                    duration: pointstimer.historyduration[index],
+                    timearray: pointstimer.historytime[index],
+                    highlightarray: pointstimer.objecthighlight[index]
                 )
+                
+                if !self.historyarray.contains(where: { $0.path == newMetaObject.path }) {
+                    self.historyarray.append(newMetaObject)
+                }
             }
             return true
         } else {

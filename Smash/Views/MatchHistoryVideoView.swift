@@ -31,7 +31,6 @@ struct MatchHistoryVideoView: View {
         .onAppear() {
             timearray = matchpath.returntimearray()
             print(timearray)
-//            timetrack() // happening on main thread causing it to freeze
         }
         .ignoresSafeArea(.all)
         .onTapGesture(count: 1) {

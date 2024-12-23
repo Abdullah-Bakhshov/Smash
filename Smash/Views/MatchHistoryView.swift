@@ -7,59 +7,78 @@
 
 import SwiftUI
 
-
-
 struct MatchHistoryPage: View {
     
     @Bindable var index = Index.shared
     @Bindable var states = ViewingStatesModel.shared
     var historydata = Account()
-    @State private var waiter : Bool = false
-    
+    @State private var waiter: Bool = false
     
     var body: some View {
-        ZStack{
+        ZStack {
             BackgroundVideoView(login: 3)
                 .edgesIgnoringSafeArea(.all)
-            ScrollView{
-                VStack{
+            ScrollView {
+                VStack {
                     Spacer(minLength: 250)
                     Text("Match History")
                         .foregroundColor(.white)
                         .bold()
-                        .font(.system(size:20))
+                        .font(.system(size: 20))
                         .padding()
-                    if waiter{
+                    if waiter {
+                        // Clean invalid paths before rendering
                         ForEach(historydata.historyarray.indices, id: \.self) { count in
                             let videodata = historydata.historyarray[count]
-                            Button(action: {
-                                index.setter(current: count)
-                                states.WatchHistoryGameToggle()
-                            }) {
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text("Match played at: \(videodata.date)")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    Text("Duration: \(Int(videodata.duration / 60)) : \(videodata.duration % 60)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.white.opacity(0.8))
+                            if FileManager.default.fileExists(atPath: videodata.path.path) {
+                                HStack {
+                                    Button(action: {
+                                        index.setter(current: count)
+                                        states.WatchHistoryGameToggle()
+                                    }) {
+                                        VStack(alignment: .leading, spacing: 5) {
+                                            Text("Match played at: \(videodata.date)")
+                                                .font(.headline)
+                                                .foregroundColor(.white)
+                                            Text("Duration: \(Int(videodata.duration / 60)) : \(videodata.duration % 60)")
+                                                .font(.subheadline)
+                                                .foregroundColor(.white.opacity(0.8))
+                                        }
+                                        .padding()
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .background(Color.white.opacity(0.3))
+                                        .cornerRadius(10)
+                                        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                                    }
+                                    .opacity(0.8)
+                                    .padding(.horizontal)
+                                    Spacer()
+                                    Button(action: {
+                                        deleteVideo(at: count)
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                    .padding()
                                 }
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.white.opacity(0.3))
-                                .cornerRadius(10)
-                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                             }
-                            .opacity(0.8)
-                            .padding(.horizontal)
                         }
                     }
                 }
             }
         }
-        .onAppear{
-            waiter = historydata.historycheck() // this is accessed
+        .onAppear {
+            waiter = historydata.historycheck()
+            cleanInvalidPaths() // Ensure paths are valid before displaying
         }
+    }
+
+    func cleanInvalidPaths() {
+        historydata.removeInvalidPaths()
+    }
+    
+    func deleteVideo(at index: Int) {
+        historydata.removeVideo(at: index)
     }
     
     func returnpath() -> URL {
