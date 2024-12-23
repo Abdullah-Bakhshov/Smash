@@ -25,7 +25,7 @@ struct ClipsPage: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                Button("fyp"){
+                Button("clips"){
                     states.AWSClipsToggle()
                 }
                 .foregroundColor(.white)
