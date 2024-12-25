@@ -29,12 +29,12 @@ final class VideoContentViewModel {
     }
     
     func SetUp() {
+        aespaSession.video(.unmute)
         aespaSession
             .common(.focus(mode: .continuousAutoFocus))
             .common(.changeMonitoring(enabled: true))
             .common(.orientation(orientation: .portrait))
             .common(.quality(preset: .high))
-            .video(.unmute)
     }
     
     @objc func StartandStopRecording() {
