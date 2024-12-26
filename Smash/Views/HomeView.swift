@@ -18,14 +18,19 @@ struct StartSessionPage: View {
             BackgroundVideoView(login: 2)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Button("🐼"){
+                Button("🙅‍♂️") {
                     states.AccountsettingToggle()
                 }
-                .font(.system(size:30))
+                .font(.system(size: 25))
+                .frame(width: 40, height: 40)
+                .background(Color.white)
                 .clipShape(Circle())
-                .frame(width: 50, height: 50)
-                .offset(x:150,y:-350)
-                .shadow(color: .black, radius: 5, x: 0, y: 10)
+                .overlay(
+                    Circle()
+                        .stroke(Color.gray, lineWidth: 3)
+                )
+                .shadow(color: .black.opacity(0.4), radius: 5, x: 0, y: 5)
+                .offset(x: 150, y: -350)
                 
                 Text("Home")
                     .bold()

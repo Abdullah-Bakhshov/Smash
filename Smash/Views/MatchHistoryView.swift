@@ -57,9 +57,15 @@ struct MatchHistoryPage: View {
                                         deleteVideo(at: count)
                                     }) {
                                         Image(systemName: "trash")
-                                            .foregroundColor(.red)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 24, height: 24)
+                                            .foregroundColor(.white)
+                                            .padding(20)
+                                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.red))
+                                            .shadow(color: Color.black.opacity(0.2), radius: 6, x: 3, y: 3)
                                     }
-                                    .padding()
+                                    .padding(.horizontal)
                                 }
                             }
                         }
@@ -69,7 +75,7 @@ struct MatchHistoryPage: View {
         }
         .onAppear {
             waiter = historydata.historycheck()
-            cleanInvalidPaths() // Ensure paths are valid before displaying
+            cleanInvalidPaths()
         }
     }
 
