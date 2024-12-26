@@ -10,21 +10,19 @@ import AWSS3
 import Foundation
 
 struct S3Requests {
-    
     init() {
-        // Ensure AWSConfig is set up
         AWSConfig.setup()
     }
-    
+
     // Function to upload file to S3
     func uploadFile(to bucket: String, key: String, fileURL: URL) async {
         let transferUtility = AWSS3TransferUtility.default()
-        
+
         let expression = AWSS3TransferUtilityUploadExpression()
         expression.progressBlock = { task, progress in
             print("Upload progress: \(progress.fractionCompleted)")
         }
-        
+
         do {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
                 transferUtility.uploadFile(
@@ -47,7 +45,7 @@ struct S3Requests {
             print("Error: \(error.localizedDescription)")
         }
     }
-    
+
     // Generate pre-signed URL for a given object in S3
     func generatePreSignedURL(bucket: String, key: String, expirationTime: TimeInterval = 3600) async -> URL? {
         let request = AWSS3GetPreSignedURLRequest()
@@ -55,9 +53,9 @@ struct S3Requests {
         request.key = key
         request.httpMethod = .GET
         request.expires = Date().addingTimeInterval(expirationTime)
-        
+
         let builder = AWSS3PreSignedURLBuilder.default()
-        
+
         do {
             let preSignedURL: URL = try await withCheckedThrowingContinuation { continuation in
                 builder.getPreSignedURL(request).continueWith { task in
@@ -81,7 +79,7 @@ struct S3Requests {
     // List files in the S3 bucket
     func listFiles(from bucket: String) async -> [String] {
         var fileKeys: [String] = []
-        
+
         guard let configuration = AWSConfig.getServiceConfiguration() else {
             print("Error: AWSServiceConfiguration is not set up.")
             return fileKeys
@@ -89,10 +87,10 @@ struct S3Requests {
 
         AWSServiceManager.default().defaultServiceConfiguration = configuration
         let s3 = AWSS3.default()
-        
+
         let listRequest = AWSS3ListObjectsRequest()
         listRequest?.bucket = bucket
-        
+
         do {
             let task = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[String], Error>) in
                 s3.listObjects(listRequest!).continueWith { task in
@@ -114,4 +112,33 @@ struct S3Requests {
             return []
         }
     }
+
+    // Function to delete a file from S3
+    func deleteFile(from bucket: String, key: String) async -> Bool {
+        let s3 = AWSS3.default()
+        let deleteRequest = AWSS3DeleteObjectRequest()
+        deleteRequest?.bucket = bucket
+        deleteRequest?.key = key
+
+        do {
+            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                s3.deleteObject(deleteRequest!).continueWith { task in
+                    if let error = task.error {
+                        print("Error deleting file: \(error.localizedDescription)")
+                        continuation.resume(throwing: error)
+                    } else {
+                        print("File deleted successfully")
+                        continuation.resume()
+                    }
+                    return nil
+                }
+            }
+            return true
+        } catch {
+            print("Error deleting file from S3: \(error.localizedDescription)")
+            return false
+        }
+    }
+
 }
+

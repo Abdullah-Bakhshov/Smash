@@ -13,12 +13,20 @@ struct PreSignedURLView: View {
     @Bindable var states = ViewingStatesModel.shared
 
     @State private var currentIndex: Int = 0
-    
+    @State private var selectedClipURL: URL? = nil
+    @State private var showDeleteConfirmation: Bool = false
+    @State private var clipToDeleteIndex: Int? = nil
+
     var body: some View {
         ZStack {
             TabView(selection: $currentIndex) {
                 ForEach(clipsURLs.indices, id: \.self) { index in
                     FullScreenVideoPlayerView(url: clipsURLs[index])
+                        .onLongPressGesture {
+                            selectedClipURL = clipsURLs[index]
+                            clipToDeleteIndex = index
+                            showDeleteConfirmation = true // Show the confirmation dialog
+                        }
                         .ignoresSafeArea(.all)
                         .tag(index)
                 }
@@ -43,6 +51,29 @@ struct PreSignedURLView: View {
             Task {
                 await clipsURLs = ClipsPage().fetchAWSClips()
             }
+        }
+        .confirmationDialog("Are you sure you want to delete this clip?", isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
+            Button("Delete", role: .destructive) {
+                deleteClip(at: clipToDeleteIndex)
+            }
+            Button("Cancel", role: .cancel) {
+                showDeleteConfirmation = false // Dismiss the confirmation dialog
+            }
+        }
+    }
+
+    private func deleteClip(at index: Int?) {
+        guard let index = index, let selectedURL = selectedClipURL else { return }
+
+        Task {
+            let success = await S3Requests().deleteFile(from: "smash-app-public-clips", key: selectedURL.lastPathComponent)
+            if success {
+                clipsURLs.remove(at: index)
+                print("Clip deleted successfully")
+            } else {
+                print("Failed to delete clip")
+            }
+            showDeleteConfirmation = false // Dismiss the confirmation dialog after deletion
         }
     }
 }
