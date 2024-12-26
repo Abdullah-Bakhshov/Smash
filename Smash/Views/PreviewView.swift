@@ -19,7 +19,7 @@ struct PreviewView: View {
     var body: some View {
         ZStack {
             
-            PreviewVideoPlayer(path: path, timeatpoint: $initialvalue)
+            PreviewVideoPlayer(path: path)
             Color.black.opacity(0.5)
             
             Text("Preview")

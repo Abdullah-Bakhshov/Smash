@@ -9,8 +9,11 @@ import SwiftUI
 
 struct HomePage: View {
     @State var selectedTab = 1
+    var clipspage = ClipsPage()
+    
     var body: some View {
         ZStack {
+            // The view changes based on the selected tab
             switch selectedTab {
             case 0:
                 MatchHistoryPage()
@@ -21,13 +24,18 @@ struct HomePage: View {
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: selectedTab == 1 ? 0 : 10)
             case 2:
-                ClipsPage()
+                clipspage
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: selectedTab == 2 ? 0 : 10)
             default:
                 MatchHistoryPage()
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: 0)
+            }
+            
+            // Hide tab view and buttons when on Clips page (selectedTab == 2)
+            if selectedTab != 2 {
+                overlayTabButtons
             }
         }
         .animation(.easeInOut(duration: 0.1), value: selectedTab)
@@ -45,46 +53,50 @@ struct HomePage: View {
                 }
             }
         )
-        .overlay(
-            VStack {
+    }
+
+    private var overlayTabButtons: some View {
+        VStack {
+            Spacer()
+            HStack {
                 Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        changeTab(to: 0)
-                    }) {
-                        Text("🏛️")
-                            .padding()
-                            .foregroundColor(selectedTab == 0 ? .blue : .gray)
-                    }
-                    Spacer()
-                    Button(action: {
-                        changeTab(to: 1)
-                    }) {
-                        Text("🏸")
-                            .padding()
-                            .foregroundColor(selectedTab == 1 ? .blue : .gray)
-                    }
-                    Spacer()
-                    Button(action: {
-                        changeTab(to: 2)
-                    }) {
-                        Text("📸")
-                            .padding()
-                            .foregroundColor(selectedTab == 2 ? .blue : .gray)
-                    }
-                    Spacer()
+                Button(action: {
+                    changeTab(to: 0)
+                }) {
+                    Text("🏛️")
+                        .padding()
+                        .foregroundColor(selectedTab == 0 ? .blue : .gray)
                 }
+                Spacer()
+                Button(action: {
+                    changeTab(to: 1)
+                }) {
+                    Text("🏸")
+                        .padding()
+                        .foregroundColor(selectedTab == 1 ? .blue : .gray)
+                }
+                Spacer()
+                Button(action: {
+                    changeTab(to: 2)
+                }) {
+                    Text("📸")
+                        .padding()
+                        .foregroundColor(selectedTab == 2 ? .blue : .gray)
+                }
+                Spacer()
             }
-        )
+        }
     }
 
     private func changeTab(to index: Int) {
         selectedTab = index
     }
 }
+
 struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
     }
 }
+
+

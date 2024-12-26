@@ -1,4 +1,3 @@
-//
 //  Clips.swift
 //  Smash
 //
@@ -11,13 +10,16 @@ struct ClipsPage: View {
     @Bindable var states = ViewingStatesModel.shared
     var historydata = Account()
     @State private var waiting: Bool = false
-    @State private var clipsURLs: [URL] = []  // Store pre-signed URLs here
+    @State private var clipsURLs: [URL] = []
+    @State private var currentClipIndex: Int? = 0
+    @State private var activeVideoViewKeys: Set<Int> = []
     
     var body: some View {
         NavigationView {
             ZStack {
                 LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea(.all)
+                
                 Text("Cmon you can't look at this page without any clips 👀")
                     .foregroundStyle(.white)
                     .fontWeight(.bold)
@@ -25,35 +27,93 @@ struct ClipsPage: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                Button("clips"){
-                    states.AWSClipsToggle()
-                }
-                .foregroundColor(.white)
-                .font(.title2)
-                .bold()
-                .padding()
-                .zIndex(1)
-                .offset(y: -400)
-                
-                TabView {
-                    if waiting {
-                        ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
-                            ClipRowView(rowIndex: rowIndex, historyData: historydata)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .ignoresSafeArea(.all)
+                HStack {
+                    Button("clips") {
+                        goToBlankPageAndToggle {
+                            states.AWSClipsToggle()
                         }
                     }
+                    .foregroundColor(.white)
+                    .font(.title2)
+                    .bold()
+                    .padding()
+                    .offset(y: -400)
+                    
+                    Button("home") {
+                        goToBlankPageAndToggle {
+                            states.ClipstoHomeToggle()
+                        }
+                    }
+                    .foregroundColor(.white)
+                    .font(.title2)
+                    .bold()
+                    .padding()
+                    .offset(y: -400)
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .ignoresSafeArea(.all)
+                .zIndex(1)
+
+                if waiting {
+                    TabView(selection: $currentClipIndex) {
+                        ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
+                            let highlightClipArray = historydata.historyarray[rowIndex].highlightarray
+                            ForEach(highlightClipArray.indices, id: \.self) { columnIndex in
+                                let videoKey = rowIndex * 1000 + columnIndex
+                                let highlight = highlightClipArray[columnIndex]
+                                
+                                VideoView(
+                                    h: highlight,
+                                    p: historydata.historyarray[rowIndex].path,
+                                    isActive: Binding(
+                                        get: { currentClipIndex == videoKey },
+                                        set: { newValue in
+                                            // Set isActive to false when changing clip
+                                            if newValue == false {
+                                                activeVideoViewKeys.remove(videoKey)
+                                            } else {
+                                                activeVideoViewKeys.insert(videoKey)
+                                            }
+                                        }
+                                    ),
+                                    destroyAction: {
+                                        activeVideoViewKeys.remove(videoKey)
+                                    }
+                                )
+                                .id(videoKey)
+                                .onAppear {
+                                    activeVideoViewKeys.insert(videoKey)
+                                }
+                                .onDisappear {
+                                    if currentClipIndex != videoKey {
+                                        activeVideoViewKeys.remove(videoKey)
+                                    }
+                                }
+                                .tag(videoKey)
+                            }
+                        }
+                        
+                        // Blank page
+                        Color.black
+                            .tag(999)
+                            .transition(.opacity)
+                            .zIndex(0)
+                            .ignoresSafeArea(.all)
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                    .ignoresSafeArea(.all)
+                }
             }
         }
         .onAppear {
+            activeVideoViewKeys.removeAll()
             waiting = historydata.historycheck()
+        }
+        .onDisappear {
+            // Ensure the active video state is cleared when the view disappears
+            currentClipIndex = nil
+            activeVideoViewKeys.removeAll()
         }
     }
     
-    // Fetch pre-signed URLs for AWS stored clips
     func fetchAWSClips() async -> [URL] {
         let s3Requests = S3Requests()
         let bucketName = "smash-app-public-clips"
@@ -72,42 +132,34 @@ struct ClipsPage: View {
             return urls
         }
     }
-}
-
-struct ClipRowView: View {
-    var rowIndex: Int
-    var historyData: Account
     
-    var body: some View {
-        let highlightClipArray = historyData.historyarray[rowIndex].highlightarray
-        ForEach(highlightClipArray.indices, id: \.self) { columnIndex in
-            let highlight = highlightClipArray[columnIndex]
-            VideoView(h: highlight, p: historyData.historyarray[rowIndex].path)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea(.all)
+    private func goToBlankPageAndToggle(action: @escaping () -> Void) {
+        // Set the currentClipIndex to the blank page (999)
+        currentClipIndex = 999
+        
+        // Wait for a moment (1 second here) before performing the toggle
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            action()
         }
     }
 }
 
+
 struct VideoView: View {
     var h: [Int]
     var p: URL
-    
-    @State private var isVisible: Bool = true
+    @Binding var isActive: Bool
+    var destroyAction: () -> Void
     
     var body: some View {
-        PreviewVideoPlayer(path: p, highlight: h)
+        PreviewVideoPlayer(path: p, highlight: h, isPlaying: $isActive)
             .onAppear {
-                isVisible = true
+                isActive = true
             }
             .onDisappear {
-                isVisible = false
+                isActive = false
+                destroyAction()
             }
             .ignoresSafeArea(.all)
     }
-}
-
-
-#Preview {
-    ClipsPage()
 }
