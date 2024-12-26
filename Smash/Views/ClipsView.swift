@@ -11,22 +11,22 @@ struct ClipsPage: View {
     var historydata = Account()
     @State private var waiting: Bool = false
     @State private var clipsURLs: [URL] = []
-    @State private var currentClipIndex: Int? = 0
+    @State private var currentClipIndex: Int? = nil
     @State private var activeVideoViewKeys: Set<Int> = []
-    
+
     var body: some View {
         NavigationView {
             ZStack {
                 LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea(.all)
-                
+
                 Text("Cmon you can't look at this page without any clips 👀")
                     .foregroundStyle(.white)
                     .fontWeight(.bold)
                     .font(.title2)
                     .multilineTextAlignment(.center)
                     .padding()
-                
+
                 HStack {
                     Button("clips") {
                         goToBlankPageAndToggle {
@@ -38,7 +38,7 @@ struct ClipsPage: View {
                     .bold()
                     .padding()
                     .offset(y: -400)
-                    
+
                     Button("home") {
                         goToBlankPageAndToggle {
                             states.ClipstoHomeToggle()
@@ -52,21 +52,20 @@ struct ClipsPage: View {
                 }
                 .zIndex(1)
 
-                if waiting {
+                if waiting && !historydata.historyarray.isEmpty {
                     TabView(selection: $currentClipIndex) {
                         ForEach(historydata.historyarray.indices, id: \.self) { rowIndex in
                             let highlightClipArray = historydata.historyarray[rowIndex].highlightarray
                             ForEach(highlightClipArray.indices, id: \.self) { columnIndex in
                                 let videoKey = rowIndex * 1000 + columnIndex
                                 let highlight = highlightClipArray[columnIndex]
-                                
+
                                 VideoView(
                                     h: highlight,
                                     p: historydata.historyarray[rowIndex].path,
                                     isActive: Binding(
                                         get: { currentClipIndex == videoKey },
                                         set: { newValue in
-                                            // Set isActive to false when changing clip
                                             if newValue == false {
                                                 activeVideoViewKeys.remove(videoKey)
                                             } else {
@@ -91,7 +90,6 @@ struct ClipsPage: View {
                             }
                         }
                         
-                        // Blank page
                         Color.black
                             .tag(999)
                             .transition(.opacity)
@@ -100,6 +98,13 @@ struct ClipsPage: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .ignoresSafeArea(.all)
+                } else {
+                    Text("Cmon you can't look at this page without any clips 👀")
+                        .foregroundStyle(.white)
+                        .fontWeight(.bold)
+                        .font(.title2)
+                        .multilineTextAlignment(.center)
+                        .padding()
                 }
             }
         }
@@ -108,12 +113,11 @@ struct ClipsPage: View {
             waiting = historydata.historycheck()
         }
         .onDisappear {
-            // Ensure the active video state is cleared when the view disappears
             currentClipIndex = nil
             activeVideoViewKeys.removeAll()
         }
     }
-    
+
     func fetchAWSClips() async -> [URL] {
         let s3Requests = S3Requests()
         let bucketName = "smash-app-public-clips"
@@ -134,16 +138,13 @@ struct ClipsPage: View {
     }
     
     private func goToBlankPageAndToggle(action: @escaping () -> Void) {
-        // Set the currentClipIndex to the blank page (999)
         currentClipIndex = 999
         
-        // Wait for a moment (1 second here) before performing the toggle
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             action()
         }
     }
 }
-
 
 struct VideoView: View {
     var h: [Int]
