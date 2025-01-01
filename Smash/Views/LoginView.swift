@@ -26,7 +26,7 @@ struct LoginView: View {
     var body: some View {
         ZStack {
             LinearGradient(
-                gradient: Gradient(colors: [.purple, .blue, .green]),
+                gradient: Gradient(colors: [.yellow, .red]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing)
             .ignoresSafeArea(.all)
@@ -64,7 +64,7 @@ struct LoginView: View {
                                 .animation(.easeInOut(duration: 1), value: showPasswordField)
                             
                             Button(loginbutton) {
-                                if Authentication().check(UserName: username, Password: password) {
+                                if Authentication().check(username: username, password: password) {
                                     states.LoginToHomeToggle()
                                 } else {
                                     withAnimation(.easeIn(duration: 0.1)) {

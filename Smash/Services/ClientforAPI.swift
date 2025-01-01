@@ -42,7 +42,7 @@ struct ClientForAPI {
         
         // setting this as the end of the boundary
         let closingBoundaryData = "\r\n--\(boundary)--\r\n".data(using: .utf8)!
-
+        
         do {
             
             // Boundary-6E0C8D7F-92DE-4CC5-B4EE-4FE5F83467E6
@@ -65,9 +65,9 @@ struct ClientForAPI {
             print("Error reading file: \(error.localizedDescription)")
             return
         }
-
+        
         request.httpBody = body
-
+        
         // sending the data
         do {
             let (_, response) = try await URLSession.shared.data(for: request)
@@ -79,15 +79,12 @@ struct ClientForAPI {
     
     func getAccount(username: String) async -> [String] {
         
-        // We chaneg this every time we reopen the server
+        // We chaneg this when we make ec2 instance
         var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_retrieving")!)
-        
         request.httpMethod = "PUT"
-        
         request.httpBody = username.data(using: .utf8)
         
         do {
-            
             let (value, _) = try await URLSession.shared.data(for: request)
             let output = String(decoding: value, as: UTF8.self)
             if output == "" {
@@ -104,6 +101,19 @@ struct ClientForAPI {
         
     }
     
-    
-    
+    func makeAccount(username: String, password: String) async {
+        
+        var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_storing")!)
+        request.httpMethod = "POST"
+        request.httpBody = "\(username),\(password)".data(using: .utf8)
+        
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+            print("Response: \(response)")
+            
+        } catch {
+            print("Error sending request: \(error.localizedDescription)")
+            
+        }
+    }
 }
