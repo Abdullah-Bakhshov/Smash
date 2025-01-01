@@ -163,7 +163,7 @@ struct ClientForAPI {
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(clipID)".data(using: .utf8)
         
         do {
-            let (_, response) = try await URLSession.shared.data(for: request)
+            let (response, _) = try await URLSession.shared.data(for: request)
             print("Response: \(response)")
             
         } catch {
