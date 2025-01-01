@@ -20,18 +20,18 @@ Bigger Implementations:
 
 - Implement a timer and a way to add a point on the timer and make the video better and a way to open and see it on the app.DONE✅
 - Add the watch OS -> UI and WCSession implementation shouldnt be too dificult, add heart sensor idk how yet. DONE✅
-- Store Highlights in clips -> Serialisation to store it onto disk (locally for the time being then maybe to the cloud)
-- Save previous match history and show it in history tab.DONE✅
+- Store Highlights in clips -> Serialisation to store it onto disk (locally for the time being then maybe to the cloud) DONE✅
+- Save previous match history and show it in history tab. DONE✅
 
 
 Further down the line stuff:
 
-- Add account system 
+- Add account system DONE✅
 - Have double authentication 
 - Have online sessions
 
 
--> Use firebase or alternative for the time being and then implement my own thing later if I want
+-> Use firebase or alternative for the time being and then implement my own thing later if I want -> used AWS and MySQL Docker container for scalability
 
 APP BASELINE IS COMPLETE DONE✅ 
 - Can do further down the line stuff and debug and make the code way better

@@ -58,12 +58,11 @@ struct RegistrationPage: View {
             Button("Back"){
                 states.MadeAccountToggle()
             }
-            .padding()
             .foregroundStyle(.white)
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(LinearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
+        .background(LinearGradient(colors: [.blue, .red], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
     }
 }
 

@@ -98,16 +98,6 @@ struct Base: View {
                         coordinator.push(.clips)
                     }
                 }
-            
-                .onChange(of: states.clipstohome){_, _ in
-                    if states.clipstohome {
-                        coordinator.popToRoot()
-                        coordinator.push(.homeone)
-                    } else {
-                        coordinator.popToRoot()
-                        coordinator.push(.home)
-                    }
-                }
         }
     }
 }

@@ -32,7 +32,6 @@ struct ClipsPage: View {
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                HStack {
                     Button("clips") {
                         states.AWSClipsToggle()
                     }
@@ -41,24 +40,15 @@ struct ClipsPage: View {
                     .bold()
                     .padding()
                     .offset(y: -400)
-                    
-                    Button("home") {
-                        states.ClipstoHomeToggle()
-                    }
-                    .foregroundColor(.white)
-                    .font(.title2)
-                    .bold()
-                    .padding()
-                    .offset(y: -400)
-                }
-                .zIndex(1)
+                    .zIndex(1)
+
                 TabView(selection: $currentIndex) {
                     ForEach(clipsURLs.indices, id: \.self) { index in
                         FullScreenVideoPlayerView(url: clipsURLs[index])
                             .onLongPressGesture {
                                 selectedClipURL = clipsURLs[index]
                                 clipToDeleteIndex = index
-                                showDeleteConfirmation = true // Show the confirmation dialog
+                                showDeleteConfirmation = true
                             }
                             .ignoresSafeArea(.all)
                             .tag(index)

@@ -13,12 +13,11 @@ struct HomePage: View {
     
     var body: some View {
         ZStack {
-            // The view changes based on the selected tab
             switch selectedTab {
             case 0:
                 MatchHistoryPage()
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
-                    .blur(radius: selectedTab == 0 ? 0 : 10) // No blur when selected
+                    .blur(radius: selectedTab == 0 ? 0 : 10)
             case 1:
                 StartSessionPage()
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
@@ -32,11 +31,7 @@ struct HomePage: View {
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: 0)
             }
-            
-            // Hide tab view and buttons when on Clips page (selectedTab == 2)
-            if selectedTab != 2 {
                 overlayTabButtons
-            }
         }
         .animation(.easeInOut(duration: 0.1), value: selectedTab)
         .gesture(DragGesture()
