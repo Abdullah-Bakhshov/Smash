@@ -77,17 +77,22 @@ struct ClientForAPI {
         }
     }
     
-    func getAccount() async -> [String] {
+    func getAccount(username: String) async -> [String] {
         
         // We chaneg this every time we reopen the server
         var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_retrieving")!)
         
-        request.httpMethod = "GET"
+        request.httpMethod = "PUT"
+        
+        request.httpBody = username.data(using: .utf8)
         
         do {
             
             let (value, _) = try await URLSession.shared.data(for: request)
             let output = String(decoding: value, as: UTF8.self)
+            if output == "" {
+                return ["",""]
+            }
             let outputArray = output.components(separatedBy: ",")
             print("This is the username: \(outputArray[0]), This is the password: \(outputArray[1])")
             return outputArray

@@ -12,13 +12,6 @@ class Authentication {
     
     let acountdetail: Account = Account()
     
-    var userinfo: [String] {
-        get async {
-            return await ClientForAPI().getAccount()
-        }
-    }
-    
-    
     init(){}
     
     func check(UserName: String, Password: String) -> Bool {
@@ -27,7 +20,7 @@ class Authentication {
         let semaphore = DispatchSemaphore(value: 0)
         Task {
             // Waiting for the username and info
-            let info = await userinfo
+            let info = await ClientForAPI().getAccount(username: UserName)
             // Check
             if UserName == info[0] && Password == info[1] {
                 isValid = true
