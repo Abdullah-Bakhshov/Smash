@@ -21,6 +21,7 @@ struct LoginView: View {
     @State var userInfo: Double? = 0
     @State private var vStackOpacity: Double = 0
     @State private var showPasswordField: Bool = false
+    @State private var loginbutton: String = "💯"
     
     var body: some View {
         ZStack {
@@ -62,9 +63,18 @@ struct LoginView: View {
                                 .opacity(showPasswordField ? 1 : 0)
                                 .animation(.easeInOut(duration: 1), value: showPasswordField)
                             
-                            Button("💯") {
+                            Button(loginbutton) {
                                 if Authentication().check(UserName: username, Password: password) {
                                     states.LoginToHomeToggle()
+                                } else {
+                                    withAnimation(.easeIn(duration: 0.1)) {
+                                        loginbutton = "❌"
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        withAnimation(.easeInOut(duration: 0.3)) {
+                                            loginbutton = "💯"
+                                        }
+                                    }
                                 }
                             }
                             .font(.system(size: 30))
