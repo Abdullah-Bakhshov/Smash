@@ -9,24 +9,6 @@ import Foundation
 import SwiftUICore
 
 class Account {
-
-    private(set) var password: String {
-        get {
-            UserDefaults.standard.string(forKey: "password") ?? "123"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "password")
-        }
-    }
-    
-    private(set) var username: String {
-        get {
-            UserDefaults.standard.string(forKey: "username") ?? "123"
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "username")
-        }
-    }
     
     var historyarray: [VideoMetaObject] {
         get {

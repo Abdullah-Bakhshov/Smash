@@ -57,7 +57,7 @@ struct PreSignedURLView: View {
                 deleteClip(at: clipToDeleteIndex)
             }
             Button("Cancel", role: .cancel) {
-                showDeleteConfirmation = false // Dismiss the confirmation dialog
+                showDeleteConfirmation = false
             }
         }
     }
@@ -73,7 +73,7 @@ struct PreSignedURLView: View {
             } else {
                 print("Failed to delete clip")
             }
-            showDeleteConfirmation = false // Dismiss the confirmation dialog after deletion
+            showDeleteConfirmation = false
         }
     }
 }
@@ -125,4 +125,9 @@ struct VideoPlayerLayerView: UIViewRepresentable {
         guard let playerLayer = uiView.layer.sublayers?.first as? AVPlayerLayer else { return }
         playerLayer.player = player
     }
+}
+
+
+#Preview {
+    PreSignedURLView()
 }

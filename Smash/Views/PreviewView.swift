@@ -27,12 +27,19 @@ struct PreviewView: View {
                 .font(.title)
                 .offset(x: 0, y: 50)
             
-            Button("Upload Clips") {
+            Button("Upload Clips To Explore and Personal") {
                 startUpload()
             }
             .foregroundColor(.white)
             .font(.caption)
             .offset(x: 0)
+            
+            Button("Upload Clipt to Personal") {
+                startUploadPersonal()
+            }
+            .foregroundColor(.white)
+            .font(.caption)
+            .offset(x: 0, y: -50)
             
             Button("🤞") {
                 towatch.returnsendtowatch()
@@ -50,6 +57,17 @@ struct PreviewView: View {
 
     
     func startUpload() {
+        guard !isUploading else { return }
+        isUploading = true
+        Task {
+            for highlight in pointstimer.highlightcliparray {
+                await HighlightClip().cropandexport(highlight: highlight, videoURL: path, explore: true)
+            }
+            isUploading = false
+        }
+    }
+    
+    func startUploadPersonal() {
         guard !isUploading else { return }
         isUploading = true
         Task {

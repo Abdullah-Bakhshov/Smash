@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import SwiftUICore
 
 
 class Authentication {
     
     let acountdetail: Account = Account()
+    @Bindable var accountinfo = GlobalAccountinfo.shared
     
     init(){}
     
@@ -24,6 +26,7 @@ class Authentication {
             // Check
             if username == info[0] && password == info[1] {
                 isValid = true
+                accountinfo.username = username
             }
             // Post signal, increments the value
             semaphore.signal()

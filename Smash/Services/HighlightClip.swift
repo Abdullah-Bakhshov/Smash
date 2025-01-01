@@ -15,7 +15,7 @@ struct HighlightClip {
     
     
     
-    func cropandexport(highlight: [Int], videoURL: URL) async {
+    func cropandexport(highlight: [Int], videoURL: URL, explore: Bool = false) async {
         
         let manager = FileManager.default
         
@@ -49,12 +49,19 @@ struct HighlightClip {
         exportSession!.timeRange = timeRange
         try? await exportSession!.export(to: outputURL, as: .mp4)
         Task {
-            let s3Requests = S3Requests()
-            let bucketName = "smash-app-public-clips"
-            let key = "\(UUID().uuidString).mp4"
             
+            let s3Requests = S3Requests()
+            let key = "\(UUID().uuidString).mp4"
+            await ClientForAPI().addingToAccountClips(clipID: key)
+            
+            if explore {
+                let bucketName = "smash-app-public-clips"
+                await s3Requests.uploadFile(to: bucketName, key: key, fileURL: outputURL)
+            }
+            
+            let bucketName = "smash-personal-clips-bucket"
             await s3Requests.uploadFile(to: bucketName, key: key, fileURL: outputURL)
-             
+            
         }
     }
 }
