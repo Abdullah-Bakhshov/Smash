@@ -94,6 +94,9 @@ struct LoginView: View {
                     withAnimation(.easeOut(duration: 2)) {
                         vStackOpacity = 1
                     }
+                    Task {
+                        await ClientForAPI().getAccount()
+                    }
                 }
             }
         }

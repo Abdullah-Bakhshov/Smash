@@ -9,10 +9,9 @@ import SwiftUI
 import AVFoundation
 
 struct BackgroundVideoView: UIViewRepresentable {
+    
     let login: Int
-    
     @Bindable var states = ViewingStatesModel.shared
-    
     
     // refactor and make this more general
     func statecheck() -> String {
