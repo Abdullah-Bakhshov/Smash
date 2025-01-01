@@ -12,7 +12,7 @@ struct RegistrationPage: View {
     @Bindable var states = ViewingStatesModel.shared
     @State private var username: String = ""
     @State private var password: String = ""
-    @State private var makeaccountbutton: String = "Make Account !"
+    @State private var makeaccountbutton: String = "Make Account"
     
     var body: some View {
         VStack{
@@ -48,12 +48,19 @@ struct RegistrationPage: View {
                 } else {
                     makeaccountbutton = "account already in use"
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        makeaccountbutton = "Make Account !"
+                        makeaccountbutton = "Make Account"
                     }
                 }
             }
             .padding()
             .foregroundStyle(.white)
+            
+            Button("Back"){
+                states.MadeAccountToggle()
+            }
+            .padding()
+            .foregroundStyle(.white)
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(LinearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom), ignoresSafeAreaEdges: .all)
