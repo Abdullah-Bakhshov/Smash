@@ -15,6 +15,7 @@ struct PublicAccountsPage: View {
     @State private var bio: String = "Skibidi"
     @State private var clicked: Bool = false
     @State private var showprofile: Bool = false
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         NavigationStack {
@@ -86,6 +87,7 @@ struct PublicAccountsPage: View {
                                             ClipView(clipURL: clip)
                                         }
                                     )
+                                    .navigationBarBackButtonHidden(false)
                                 }
                             }
                             .padding()
@@ -102,6 +104,21 @@ struct PublicAccountsPage: View {
                     Task {
                         clips = await ClipsPage().fetchAWSClipsWithKeys(username: publicAccountsUsername)
                         showprofile = await ClientForAPI().checkingIfProfilePublic(username: publicAccountsUsername)
+                    }
+                }
+            }
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.white)
+                            Text("Back")
+                                .foregroundColor(.white)
+                        }
                     }
                 }
             }

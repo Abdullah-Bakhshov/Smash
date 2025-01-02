@@ -81,6 +81,7 @@ struct PreSignedURLView: View {
 struct FullScreenVideoPlayerView: View {
     var url: URL
     @State private var player: AVPlayer?
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VideoPlayerLayerView(player: player)
@@ -95,6 +96,21 @@ struct FullScreenVideoPlayerView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea(.all)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .foregroundColor(.white)
+                            Text("Back")
+                                .foregroundColor(.white)
+                        }
+                    }
+                }
+            }
     }
     
     private func loopVideo(player: AVPlayer?) {

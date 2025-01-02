@@ -13,12 +13,11 @@ struct Friend: Identifiable {
 }
 
 struct FriendsSearchSheet: View {
-
     @State private var searchText = ""
     @Binding var isSheetPresented: Bool
     @State private var searchResults: [Friend] = []
     @State private var followingFriends: [Friend] = []
-    @State private var isViewingFollowing = false
+    @State private var isViewingFollowing = true
 
     func loadFollowingAccounts() {
         Task {
@@ -55,7 +54,7 @@ struct FriendsSearchSheet: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(spacing: 0) {
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -119,6 +118,7 @@ struct FriendsSearchSheet: View {
     }
 }
 
+
 struct FriendRow: View {
     let friend: Friend
     let showAddButton: Bool
@@ -161,6 +161,7 @@ struct FriendRow: View {
             }
             .padding(.horizontal)
         }
+        .navigationBarBackButtonHidden(true)
     }
 
     private func addFriend(_ friend: Friend) {
