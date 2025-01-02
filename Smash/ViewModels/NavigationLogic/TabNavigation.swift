@@ -10,6 +10,7 @@ import SwiftUI
 struct HomePage: View {
     @State var selectedTab = 1
     var clipspage = ClipsPage()
+    @State private var isSheetPresented = false
     
     var body: some View {
         ZStack {
@@ -19,7 +20,7 @@ struct HomePage: View {
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: selectedTab == 0 ? 0 : 10)
             case 1:
-                StartSessionPage()
+                StartSessionPage(isSheetPresented: $isSheetPresented)
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: selectedTab == 1 ? 0 : 10)
             case 2:
@@ -31,25 +32,22 @@ struct HomePage: View {
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: 0)
             }
-                overlayTabButtons
+            overlayTabButtons
         }
         .animation(.easeInOut(duration: 0.1), value: selectedTab)
-        .gesture(DragGesture()
-            .onEnded { value in
-                let threshold: CGFloat = 30
-                if value.translation.width < -threshold {
-                    if selectedTab < 2 {
-                        changeTab(to: selectedTab + 1)
-                    }
-                } else if value.translation.width > threshold {
-                    if selectedTab > 0 {
-                        changeTab(to: selectedTab - 1)
-                    }
+        .gesture(
+            DragGesture()
+                .onEnded { value in
+                    handleSwipeGesture(value)
                 }
-            }
         )
+        .sheet(isPresented: $isSheetPresented) {
+            FriendsSearchSheet(isSheetPresented: $isSheetPresented)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
     }
-
+    
     private var overlayTabButtons: some View {
         VStack {
             Spacer()
@@ -82,16 +80,27 @@ struct HomePage: View {
             }
         }
     }
-
+    
     private func changeTab(to index: Int) {
         selectedTab = index
     }
-}
-
-struct HomePage_Previews: PreviewProvider {
-    static var previews: some View {
-        HomePage()
+    
+    private func handleSwipeGesture(_ value: DragGesture.Value) {
+        let horizontalThreshold: CGFloat = 30
+        let verticalThreshold: CGFloat = 50
+        
+        if abs(value.translation.width) > abs(value.translation.height) {
+            if value.translation.width < -horizontalThreshold {
+                if selectedTab < 2 {
+                    changeTab(to: selectedTab + 1)
+                }
+            } else if value.translation.width > horizontalThreshold {
+                if selectedTab > 0 {
+                    changeTab(to: selectedTab - 1)
+                }
+            }
+        } else if value.translation.height < -verticalThreshold {
+            isSheetPresented = true
+        }
     }
 }
-
-

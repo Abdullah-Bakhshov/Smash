@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct ClipsPage: View {
+    
     @Bindable var states = ViewingStatesModel.shared
     var historydata = Account()
     @State private var waiting: Bool = false
@@ -16,13 +17,12 @@ struct ClipsPage: View {
     @State private var selectedClipURL: URL? = nil
     @State private var showDeleteConfirmation: Bool = false
     @State private var clipToDeleteIndex: Int? = nil
-    
-    
+    @State private var emptyClips: Bool = false
     
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(colors: [.blue, .green], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [.white, .black], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea(.all)
                 
                 Text("Cmon you can't look at this page without any clips 👀")
@@ -41,27 +41,31 @@ struct ClipsPage: View {
                     .padding()
                     .offset(y: -400)
                     .zIndex(1)
-
-                TabView(selection: $currentIndex) {
-                    ForEach(clipsURLs.indices, id: \.self) { index in
-                        FullScreenVideoPlayerView(url: clipsURLs[index])
-                            .onLongPressGesture {
-                                selectedClipURL = clipsURLs[index]
-                                clipToDeleteIndex = index
-                                showDeleteConfirmation = true
-                            }
-                            .ignoresSafeArea(.all)
-                            .tag(index)
+                if emptyClips{
+                    TabView(selection: $currentIndex) {
+                        ForEach(clipsURLs.indices, id: \.self) { index in
+                            FullScreenVideoPlayerView(url: clipsURLs[index])
+                                .onLongPressGesture {
+                                    selectedClipURL = clipsURLs[index]
+                                    clipToDeleteIndex = index
+                                    showDeleteConfirmation = true
+                                }
+                                .ignoresSafeArea(.all)
+                                .tag(index)
+                        }
                     }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .ignoresSafeArea(.all)
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea(.all)
             }
         }
         .onAppear {
             Task {
-                await fetchAWSClipsWithKeys()
+                let _ = await fetchAWSClipsWithKeys()
+                if !clipsURLs.isEmpty {
+                    emptyClips = true
+                }
             }
         }
         
@@ -92,12 +96,12 @@ struct ClipsPage: View {
         }
     }
     
-    func fetchAWSClipsWithKeys() async -> [URL] {
+    func fetchAWSClipsWithKeys(username: String = GlobalAccountinfo.shared.username) async -> [URL] {
         let s3Requests = S3Requests()
         let bucketName = "smash-personal-clips-bucket"
         
         do {
-            let fileKeys = await ClientForAPI().gettingAccountClips()
+            let fileKeys = await ClientForAPI().gettingAccountClips(username: username)
             var urls: [URL] = []
             
             for key in fileKeys {
@@ -131,7 +135,4 @@ struct ClipsPage: View {
             return urls
         }
     }
-    
-    
-    
 }

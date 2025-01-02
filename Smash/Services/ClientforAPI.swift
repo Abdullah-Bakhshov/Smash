@@ -79,8 +79,7 @@ struct ClientForAPI {
     
     func getAccount(username: String) async -> [String] {
         
-        // We change this when we make ec2 instance
-        var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_retrieving")!)
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_retrieving")!)
         request.httpMethod = "PUT"
         request.httpBody = username.data(using: .utf8)
         
@@ -98,12 +97,11 @@ struct ClientForAPI {
             print("Error seding request: \(error.localizedDescription)")
             return [""]
         }
-        
     }
     
     func makeAccount(username: String, password: String) async {
         
-        var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_storing")!)
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_storing")!)
         request.httpMethod = "POST"
         request.httpBody = "\(username),\(password)".data(using: .utf8)
         
@@ -119,7 +117,7 @@ struct ClientForAPI {
     
     func addingToAccountClips(clipID: String) async {
         
-        var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_storingclips")!)
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_storingclips")!)
         request.httpMethod = "POST"
         print("this is from the addingcliptoaccount username: \(GlobalAccountinfo.shared.username)")
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(clipID)".data(using: .utf8)
@@ -135,11 +133,11 @@ struct ClientForAPI {
         }
     }
     
-    func gettingAccountClips() async -> [String]{
-        
-        var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_retrievingclips")!)
+    func gettingAccountClips(username: String) async -> [String]{
+                
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_retrievingclips")!)
         request.httpMethod = "PUT"
-        request.httpBody = GlobalAccountinfo.shared.username.data(using: .utf8)
+        request.httpBody = username.data(using: .utf8)
         
         do {
             let (value, _) = try await URLSession.shared.data(for: request)
@@ -158,7 +156,7 @@ struct ClientForAPI {
     
     func deletingAccountClips(clipID: String) async {
         
-        var request = URLRequest(url: URL(string: "https://97f5-2a00-23c5-a94-7301-932-45e4-dfa7-8c31.ngrok-free.app/user_meta_deletingclips")!)
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_deletingclips")!)
         request.httpMethod = "DELETE"
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(clipID)".data(using: .utf8)
         
@@ -171,6 +169,57 @@ struct ClientForAPI {
             
         }
 
+    }
+    
+    func followingAccount(targetusername: String) async {
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_following")!)
+        request.httpMethod = "POST"
+        request.httpBody = "\(GlobalAccountinfo.shared.username),\(targetusername)".data(using: .utf8)
+        
+        do {
+            let (response, _) = try await URLSession.shared.data(for: request)
+            print("Response: \(response)")
+            
+        } catch {
+            print("Error sending request: \(error.localizedDescription)")
+            
+        }
+    }
+    
+    func gettingFollowingAccounts() async -> [String] {
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_retrievingfollowing")!)
+        request.httpMethod = "PUT"
+        request.httpBody = GlobalAccountinfo.shared.username.data(using: .utf8)
+        
+        do {
+            let (value, _) = try await URLSession.shared.data(for: request)
+            let output = String(decoding: value, as: UTF8.self)
+            if output == "" {
+                return [""]
+            }
+            let outputArray = output.components(separatedBy: ",")
+            return outputArray
+            
+        } catch {
+            print("Error seding request: \(error.localizedDescription)")
+            return [""]
+        }
+    }
+    
+    func unfollowingAccount(username: String) async {
+        
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_unfollowing")!)
+        request.httpMethod = "PUT"
+        request.httpBody = "\(GlobalAccountinfo.shared.username),\(username)".data(using: .utf8)
+        
+        do {
+            let ( _, response) = try await URLSession.shared.data(for: request)
+            print("Response: \(response)")
+            
+        } catch {
+            print("Error sending request: \(error.localizedDescription)")
+            
+        }
     }
 }
 
