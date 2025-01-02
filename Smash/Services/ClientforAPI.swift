@@ -9,7 +9,7 @@ import Foundation
 import Observation
 
 struct ClientForAPI {
-    
+        
     init() {}
     
     func sendvideo(path: URL, route: String, httpmethod: String) async {
@@ -219,6 +219,45 @@ struct ClientForAPI {
         } catch {
             print("Error sending request: \(error.localizedDescription)")
             
+        }
+    }
+    
+    func checkingIfProfilePublic(username: String) async -> Bool {
+        
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_checkpublic")!)
+        request.httpMethod = "PUT"
+        request.httpBody = username.data(using: .utf8)
+        
+        do {
+            let (value, _) = try await URLSession.shared.data(for: request)
+            let output = String(decoding: value, as: UTF8.self)
+            if output == "1"{
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            print("Error seding request: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    func togglingProfilePublic(status: Bool) async {
+        
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_togglepublic")!)
+        request.httpMethod = "PUT"
+        if status {
+            request.httpBody = "\(GlobalAccountinfo.shared.username),0".data(using: .utf8)
+        } else {
+            request.httpBody = "\(GlobalAccountinfo.shared.username),1".data(using: .utf8)
+        }
+        do {
+            let ( _, response) = try await URLSession.shared.data(for: request)
+            print("Response: \(response)")
+            
+        } catch {
+            print("Error sending request: \(error.localizedDescription)")
+
         }
     }
 }

@@ -14,6 +14,7 @@ struct PublicAccountsPage: View {
     @State private var profileImage: UIImage? = nil
     @State private var bio: String = "Skibidi"
     @State private var clicked: Bool = false
+    @State private var showprofile: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -75,23 +76,32 @@ struct PublicAccountsPage: View {
                             )
                             .padding(.horizontal)
                     }
-                    ScrollView {
-                        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 16) {
-                            ForEach(clips, id: \.self) { clip in
-                                NavigationLink(
-                                    destination: FullScreenVideoPlayerView(url: clip),
-                                    label: {
-                                        ClipView(clipURL: clip)
-                                    }
-                                )
+                    if showprofile {
+                        ScrollView {
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 16) {
+                                ForEach(clips, id: \.self) { clip in
+                                    NavigationLink(
+                                        destination: FullScreenVideoPlayerView(url: clip),
+                                        label: {
+                                            ClipView(clipURL: clip)
+                                        }
+                                    )
+                                }
                             }
+                            .padding()
                         }
-                        .padding()
+                    } else {
+                        Text("This profile is private")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
                     }
                 }
                 .onAppear {
                     Task {
                         clips = await ClipsPage().fetchAWSClipsWithKeys(username: publicAccountsUsername)
+                        showprofile = await ClientForAPI().checkingIfProfilePublic(username: publicAccountsUsername)
                     }
                 }
             }
