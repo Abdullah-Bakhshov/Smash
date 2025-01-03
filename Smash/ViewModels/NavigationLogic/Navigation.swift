@@ -98,6 +98,14 @@ struct Base: View {
                         coordinator.push(.clips)
                     }
                 }
+            
+                .onChange(of: states.stats){_, _ in
+                    if states.stats{
+                        coordinator.push(.stats)
+                    } else {
+                        coordinator.pop()
+                    }
+                }
         }
     }
 }

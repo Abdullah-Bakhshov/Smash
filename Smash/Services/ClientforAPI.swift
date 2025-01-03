@@ -257,10 +257,28 @@ struct ClientForAPI {
             
         } catch {
             print("Error sending request: \(error.localizedDescription)")
+        }
+    }
+    
+    func getUserStats() async -> [String] {
+        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_stats")!)
+        request.httpMethod = "POST"
+        request.httpBody = GlobalAccountinfo.shared.username.data(using: .utf8)
+        
+        do {
+            let (value, _) = try await URLSession.shared.data(for: request)
+            let output = String(decoding: value, as: UTF8.self)
 
+            let outputArray = output.components(separatedBy: ",")
+            return outputArray
+            
+        } catch {
+            print("Error seding request: \(error.localizedDescription)")
+            return ["0","0","0","0","0"]
         }
     }
 }
+
 
 
 @Observable

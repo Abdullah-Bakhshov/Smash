@@ -45,6 +45,7 @@ final class NavigationCoordinator {
         case .previewview: PreviewView()
         case .watchhistorygame: MatchHistoryVideoView()
         case .AWSClips: PreSignedURLView()
+        case .stats: StatsView()
         }
     }
 }
@@ -59,4 +60,5 @@ enum NavigationDestination: Hashable {
     case watchhistorygame
     case AWSClips
     case clips
+    case stats
 }

@@ -11,26 +11,40 @@ struct StartSessionPage: View {
     
     @Bindable var states = ViewingStatesModel.shared
     var permissionManager = PermissionManager()
-    @Binding var isSheetPresented: Bool
     
     var body: some View {
         ZStack{
             BackgroundVideoView(login: 2)
                 .edgesIgnoringSafeArea(.all)
+            
             VStack{
-                Button("🙅‍♂️") {
+                Button(action: {
                     states.AccountsettingToggle()
+                }) {
+                    Text("🙅‍♂️")
+                        .font(.system(size: 25))
+                        .frame(width: 50, height: 50)
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.2), Color.orange]), startPoint: .top, endPoint: .bottom)
+                        )
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
                 }
-                .font(.system(size: 25))
-                .frame(width: 40, height: 40)
-                .background(Color.white)
-                .clipShape(Circle())
-                .overlay(
-                    Circle()
-                        .stroke(Color.gray, lineWidth: 3)
-                )
-                .shadow(color: .black.opacity(0.4), radius: 5, x: 0, y: 5)
-                .offset(x: 150, y: -350)
+                .offset(x: 150, y: -320)
+
+                Button(action: {
+                    states.StatsToggle()
+                }) {
+                    Text("〽️")
+                        .font(.system(size: 25))
+                        .frame(width: 50, height: 50)
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.2), Color.orange]), startPoint: .top, endPoint: .bottom)
+                        )
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+                }
+                .offset(x: 150, y: -300)
                 
                 Text("Home")
                     .bold()
@@ -47,4 +61,8 @@ struct StartSessionPage: View {
             }
         }
     }
+}
+
+#Preview {
+    StartSessionPage()
 }

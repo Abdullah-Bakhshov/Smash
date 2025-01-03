@@ -20,7 +20,7 @@ struct HomePage: View {
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: selectedTab == 0 ? 0 : 10)
             case 1:
-                StartSessionPage(isSheetPresented: $isSheetPresented)
+                StartSessionPage()
                     .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                     .blur(radius: selectedTab == 1 ? 0 : 10)
             case 2:
