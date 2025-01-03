@@ -8,167 +8,179 @@
 import SwiftUI
 
 struct StatsView: View {
-    
     @Bindable var states = ViewingStatesModel.shared
     @State private var opac: Double = 4
-    @State private var opac1: Double = 2
-    @State private var opac2: Double = 2
+    @State private var messageOpacity: Double = 2
+    @State private var headerOpacity: Double = 0
     @State private var angle = -120.0
     @State private var isAnimating = false
-    @State private var wavegone = false
-    @State private var showRectangles = false
-    @State private var rectanglesVisible = [Bool](repeating: false, count: 5)
-    @State private var rectangleTexts = [
-        ("loading...", "Total hours played"),
-        ("loading...", "Games won"),
-        ("loading...", "Longest rally"),
-        ("loading...", "Average match score"),
-        ("loading...", "Average session")
+    @State private var showStats = false
+    @State private var statsOpacity = [Bool](repeating: false, count: 5)
+    @State private var statsData = [
+        ("loading...", "Total hours played", "clock.fill"),
+        ("loading...", "Games won", "trophy.fill"),
+        ("loading...", "Longest rally", "flame.fill"),
+        ("loading...", "Average match score", "chart.bar.fill"),
+        ("loading...", "Average session", "timer.square")
     ]
     
+    private let gradient = LinearGradient(
+        colors: [.blue, .cyan],
+        startPoint: .bottom,
+        endPoint: .top
+    )
     
     var body: some View {
         ZStack {
-            LinearGradient(colors: [.blue, .cyan], startPoint: .bottom, endPoint: .top)
-                .ignoresSafeArea(.all)
+            gradient
+                .ignoresSafeArea()
             
-            VStack {
-                Text("Hey, here's your summary for today 😁")
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .opacity(opac1)
-                    .onAppear {
-                        withAnimation(.easeIn(duration: 2.5)) {
-                            opac1 = 1.0
+            VStack(spacing: 30) {
+                if showStats {
+                    HStack {
+                        Button(action: { states.StatsToggle() }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 24, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .background(Color.white.opacity(0.2))
+                                .clipShape(Circle())
                         }
+                        Spacer()
                     }
-                
-                Spacer()
-            }
-            
-            if showRectangles {
-                Button("🤞") {
-                    states.StatsToggle()
-                }
-                .font(.system(size: 30))
-                .clipShape(Circle())
-                .frame(width: 50, height: 50)
-                .opacity(opac2)
-                .offset(x: -150, y: -360)
-                .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 10)
-                .onAppear {
-                    withAnimation(.easeIn(duration: 2.5)) {
-                        opac2 = 1.0
-                    }
-                }
-                
-                VStack(spacing: 20) {
-                    ForEach(0..<rectanglesVisible.count, id: \.self) { index in
-                        createRectangle(for: index)
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.3) {
-                                    rectanglesVisible[index] = true
-                                }
-                            }
-                    }
-                }
-            }
-            
-            Text("👋")
-                .font(.system(size: 200))
-                .rotationEffect(.degrees(angle), anchor: .bottomTrailing)
-                .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 10)
-                .opacity(opac)
-                .onAppear {
-                    startWaveAnimation()
-                    resetvariables()
-                }
-        }
-        .onAppear{
-            Task {
-                let temp = await ClientForAPI().getUserStats()
-                for (index, result) in temp.enumerated() {
-                    rectangleTexts[index].0 = result
-                }
-            }
-        }
-    }
-    
-    private func createRectangle(for index: Int) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white.opacity(0.4))
-                .frame(width: 350, height: 110)
-                .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(rectangleTexts[index].1)
-                        .font(.footnote)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 40)
-                    Text(rectangleTexts[index].0)
-                        .bold()
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 50)
+                    .padding(.horizontal)
+                    .padding(.top, 60)
+                    .opacity(headerOpacity)
                     
+                    Text("Your Stats")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .opacity(headerOpacity)
+                    
+                    statsSection
                 }
                 Spacer()
             }
-            .padding()
+            
+            if !showStats {
+                VStack() {
+                    Text("Hey, This is how you're doing so far!")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                        .opacity(messageOpacity)
+                        .padding()
+                                        
+                    Text("👋")
+                        .font(.system(size: 200))
+                        .rotationEffect(.degrees(angle), anchor: .bottomTrailing)
+                        .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 10)
+                        .opacity(opac)
+                    
+
+                }
+            }
         }
-        .opacity(rectanglesVisible[index] ? 1.0 : 0.0)
-        .animation(.easeInOut(duration: 0.5).delay(Double(index) * 0.1), value: rectanglesVisible[index])
+        .onAppear {
+            startWaveAnimation()
+            fetchStats()
+        }
     }
     
-    func startWaveAnimation() {
+    private var statsSection: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 20) {
+                ForEach(0..<statsData.count, id: \.self) { index in
+                    StatCard(
+                        icon: statsData[index].2,
+                        title: statsData[index].1,
+                        value: statsData[index].0
+                    )
+                    .opacity(statsOpacity[index] ? 1 : 0)
+                    .offset(y: statsOpacity[index] ? 0 : 50)
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+    
+    private func startWaveAnimation() {
         withAnimation(
             Animation.easeInOut(duration: 2)
                 .repeatForever(autoreverses: true)
         ) {
             isAnimating.toggle()
         }
+        
         Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
             let time = Date().timeIntervalSinceReferenceDate
             angle = 15 * sin(time * 8)
+            
             if opac > 0 {
                 opac -= 0.02
             } else {
-                opac1 -= 0.02
-                if opac1 <= 0 {
+                messageOpacity -= 0.02
+                if messageOpacity <= 0 {
                     timer.invalidate()
-                    wavegone = true
-                    opac = 0
-                    opac1 = 0
-                    fadeInRectangles()
+                    showStats = true
+                    withAnimation(.easeIn(duration: 0.5)) {
+                        headerOpacity = 1
+                    }
+                    animateStatsIn()
                 }
             }
         }
     }
     
-    func fadeInRectangles() {
-        showRectangles = true
-        for index in rectanglesVisible.indices {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.5) {
-                rectanglesVisible[index] = true
+    private func animateStatsIn() {
+        for index in statsOpacity.indices {
+            withAnimation(.spring(duration: 0.6).delay(Double(index) * 0.1)) {
+                statsOpacity[index] = true
             }
         }
     }
     
-    func resetvariables() {
-        angle = -120.0
-        isAnimating = false
-        opac = 4
-        wavegone = false
-        showRectangles = false
-        rectanglesVisible = [Bool](repeating: false, count: rectanglesVisible.count)
+    private func fetchStats() {
+        Task {
+            let stats = await ClientForAPI().getUserStats()
+            for (index, stat) in stats.enumerated() {
+                statsData[index].0 = stat
+            }
+        }
     }
 }
 
-#Preview {
-    StatsView()
+struct StatCard: View {
+    let icon: String
+    let title: String
+    let value: String
+    
+    var body: some View {
+        HStack(spacing: 20) {
+            Image(systemName: icon)
+                .font(.system(size: 24))
+                .foregroundColor(.white)
+                .frame(width: 50, height: 50)
+                .background(Color.white.opacity(0.2))
+                .clipShape(Circle())
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.white.opacity(0.8))
+                Text(value)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
+            }
+            Spacer()
+        }
+        .padding()
+        .background(Color.white.opacity(0.15))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+        )
+    }
 }
