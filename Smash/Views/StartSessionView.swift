@@ -76,7 +76,7 @@ struct VideoSystem: View {
         }
         viewModel.StartandStopRecording()
         // This can cause errors if it takes longer to append a video to the array
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             if !viewModel.start {
                 pointstimer.endtimer()
                 states.PreviewingGameToggle()
