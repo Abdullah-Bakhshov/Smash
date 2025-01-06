@@ -10,6 +10,9 @@ import Observation
 
 struct ClientForAPI {
         
+    private let rooturl: String = "https://79d8-2a00-23c5-a94-7301-3c97-63a-3a77-8b5c.ngrok-free.app"
+    
+    
     init() {}
     
     func sendvideo(path: URL, route: String, httpmethod: String) async {
@@ -79,7 +82,7 @@ struct ClientForAPI {
     
     func getAccount(username: String) async -> [String] {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_retrieving")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_retrieving")!)
         request.httpMethod = "PUT"
         request.httpBody = username.data(using: .utf8)
         
@@ -101,7 +104,7 @@ struct ClientForAPI {
     
     func makeAccount(username: String, password: String) async {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_storing")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_storing")!)
         request.httpMethod = "POST"
         request.httpBody = "\(username),\(password)".data(using: .utf8)
         
@@ -117,7 +120,7 @@ struct ClientForAPI {
     
     func addingToAccountClips(clipID: String) async {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_storingclips")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_storingclips")!)
         request.httpMethod = "POST"
         print("this is from the addingcliptoaccount username: \(GlobalAccountinfo.shared.username)")
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(clipID)".data(using: .utf8)
@@ -135,7 +138,7 @@ struct ClientForAPI {
     
     func gettingAccountClips(username: String) async -> [String]{
                 
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_retrievingclips")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_retrievingclips")!)
         request.httpMethod = "PUT"
         request.httpBody = username.data(using: .utf8)
         
@@ -156,7 +159,7 @@ struct ClientForAPI {
     
     func deletingAccountClips(clipID: String) async {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_deletingclips")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_deletingclips")!)
         request.httpMethod = "DELETE"
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(clipID)".data(using: .utf8)
         
@@ -172,7 +175,7 @@ struct ClientForAPI {
     }
     
     func followingAccount(targetusername: String) async {
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_following")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_following")!)
         request.httpMethod = "POST"
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(targetusername)".data(using: .utf8)
         
@@ -187,7 +190,7 @@ struct ClientForAPI {
     }
     
     func gettingFollowingAccounts() async -> [String] {
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_retrievingfollowing")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_retrievingfollowing")!)
         request.httpMethod = "PUT"
         request.httpBody = GlobalAccountinfo.shared.username.data(using: .utf8)
         
@@ -208,7 +211,7 @@ struct ClientForAPI {
     
     func unfollowingAccount(username: String) async {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_unfollowing")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_unfollowing")!)
         request.httpMethod = "PUT"
         request.httpBody = "\(GlobalAccountinfo.shared.username),\(username)".data(using: .utf8)
         
@@ -224,7 +227,7 @@ struct ClientForAPI {
     
     func checkingIfProfilePublic(username: String) async -> Bool {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_checkpublic")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_checkpublic")!)
         request.httpMethod = "PUT"
         request.httpBody = username.data(using: .utf8)
         
@@ -244,7 +247,7 @@ struct ClientForAPI {
     
     func togglingProfilePublic(status: Bool) async {
         
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_togglepublic")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_togglepublic")!)
         request.httpMethod = "PUT"
         if status {
             request.httpBody = "\(GlobalAccountinfo.shared.username),0".data(using: .utf8)
@@ -261,7 +264,7 @@ struct ClientForAPI {
     }
     
     func getUserStats() async -> [String] {
-        var request = URLRequest(url: URL(string: "https://48d1-2a00-23c5-a94-7301-a55e-ae9e-b07e-8af7.ngrok-free.app/user_meta_stats")!)
+        var request = URLRequest(url: URL(string: "\(rooturl)/user_meta_stats")!)
         request.httpMethod = "POST"
         request.httpBody = GlobalAccountinfo.shared.username.data(using: .utf8)
         

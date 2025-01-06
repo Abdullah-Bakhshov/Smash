@@ -75,7 +75,11 @@ struct AccountSettingsPage: View {
     
     private var footer: some View {
         VStack(spacing: 16) {
-            Button(action: { states.reset() }) {
+            Button(action: {
+//                let account = Account()
+//                account.setAccountLoggedIn(username: "")
+                states.reset()
+            }) {
                 Text("Logout")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.red)

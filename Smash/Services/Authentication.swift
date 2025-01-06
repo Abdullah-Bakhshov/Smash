@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUICore
+import CryptoKit
 
 
 class Authentication {
@@ -52,5 +53,11 @@ class Authentication {
         // if 0 we are waiting till the value is above 0 to then decrement it back to 0
         semaphore.wait()
         return isValid
+    }
+
+    func hashPassword(_ password: String) -> String {
+        let passwordData = Data(password.utf8)
+        let hash = SHA256.hash(data: passwordData)
+        return hash.map { String(format: "%02x", $0) }.joined()
     }
 }

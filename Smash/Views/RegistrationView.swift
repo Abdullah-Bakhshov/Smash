@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CryptoKit
 
 struct RegistrationPage: View {
     
@@ -41,6 +42,7 @@ struct RegistrationPage: View {
             
             Button(makeaccountbutton){
                 if !Authentication().userNameInUse(username: username) {
+                    password = Authentication().hashPassword(password)
                     Task {
                         await ClientForAPI().makeAccount(username: username, password: password)
                     }
